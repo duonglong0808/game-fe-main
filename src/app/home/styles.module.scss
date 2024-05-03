@@ -1,0 +1,92 @@
+.game-type {
+  width: 100%;
+  background-image: url('https://ku11d.net/web/images/bg_index.jpg');
+  padding: 45px 0 72px;
+}
+
+.game-type__wrapper:hover {
+  width: 1200px;
+}
+
+.game__item {
+  height: 180px;
+  position: relative;
+}
+
+.game__item-1 {
+  width: 250px;
+  background: url('/icon_indexImg.png') no-repeat -745px -456px;
+
+  &:hover {
+    background-position: left -166px !important;
+    animation: fakeIn linear 0.3s;
+    width: 430px;
+    transition: width 0.3s linear;
+  }
+}
+
+.game__item-2 {
+  width: 160px;
+  background: url('/icon_indexImg.png') no-repeat -184px 8px;
+
+  &:hover {
+    background-position: -10px -409px !important;
+    animation: fakeIn linear 0.3s;
+    width: 332px;
+    transition: width 0.3s linear;
+  }
+}
+
+.game__item-3 {
+  width: 265px;
+  background: url('/icon_indexImg.png') no-repeat -1000px -456px;
+
+  &:hover {
+    background-position: 100% -172px !important;
+    animation: fakeIn linear 0.3s;
+    width: 440px;
+    transition: width 0.3s linear;
+  }
+}
+
+.game__item-4 {
+  width: 145px;
+  background: url('/icon_indexImg.png') no-repeat -355px 5px;
+
+  &:hover {
+    background-position: -358px -439px !important;
+    animation: fakeIn linear 0.3s;
+    width: 370px;
+    transition: width 0.3s linear;
+  }
+}
+
+.game__item-5 {
+  width: 165px;
+  background: url('/icon_indexImg.png') no-repeat -506px 8px;
+
+  &:hover {
+    background-position: -506px -202px !important;
+    animation: fakeIn linear 0.3s;
+    width: 380px;
+    transition: width 0.3s linear;
+  }
+}
+.game__item span {
+  color: #333;
+  font-weight: normal;
+  font-size: 15px;
+  position: absolute;
+  bottom: -30px;
+  left: 0;
+  right: 0;
+}
+
+@keyframes fakeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}

@@ -1,0 +1,245 @@
+.sliders {
+  height: 450px;
+  position: relative;
+}
+
+.slider-item {
+  display: none;
+  object-fit: cover;
+  height: 100%;
+  width: 100%;
+}
+
+.slider-active {
+  display: block;
+  animation: fakeIn 1.2s ease;
+}
+
+.slider-image {
+  position: absolute;
+  bottom: 60px;
+  left: 0;
+  right: 0;
+  cursor: pointer;
+}
+
+.slider-image__item {
+  margin-right: 12px;
+  opacity: 0.5;
+  width: 40px;
+  height: 40px;
+}
+
+.slider-image__item--active {
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  opacity: 1;
+  width: 44px;
+  height: 44px;
+}
+
+.slider-bottom {
+  background-color: rgba(0, 0, 0, 0.7);
+  position: absolute;
+  height: 50px;
+  bottom: 0px;
+  width: 100%;
+  overflow: hidden;
+}
+
+.box-notification {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  color: #9f9d9d;
+  padding-right: 20px;
+  min-width: 140px;
+}
+
+.box-notification__icon {
+  margin-right: 12px;
+  color: #a7a5a5;
+}
+
+.box-notification__text {
+  position: relative;
+
+  &::after {
+    content: '';
+    position: absolute;
+    width: 1px;
+    top: 4px;
+    bottom: 4px;
+    right: -8px;
+    background-color: #a7a5a5;
+  }
+}
+
+.marquee-container {
+  width: 100%;
+  overflow: hidden;
+}
+
+.marquee {
+  display: inline-block;
+  white-space: nowrap;
+  animation: marquee 60s linear infinite;
+}
+
+.slider-jackpot__list {
+  animation: moveUpDown 10s ease-in-out infinite alternate;
+  /* Sử dụng animation */
+  animation-delay: 2s;
+  /* Delay 2s trước khi chạy animation */
+  transform: translateY(26%);
+  /* Đặt giá trị ban đầu */
+}
+
+.slider-jackpot__item {
+  display: flex;
+  height: 50px;
+  justify-content: space-around;
+  align-items: center;
+  position: relative;
+  width: fit-content;
+}
+
+.slider-jackpot__item--bac {
+  &::after {
+    content: '';
+    transform: skew(20deg);
+    -webkit-transform: skew(20deg);
+    position: absolute;
+    z-index: -1;
+    left: -67px;
+    right: -75px;
+    top: 0;
+    bottom: 0;
+    background: linear-gradient(to right, #052d66 0%, #0f4999 50%, #3373cc 100%);
+  }
+
+  & .slider-jackpot__number {
+    -webkit-text-stroke-color: var(--background-color-2);
+  }
+}
+
+.slider-jackpot__item--cd {
+  &::after {
+    content: '';
+    transform: skew(20deg);
+    -webkit-transform: skew(20deg);
+    position: absolute;
+    z-index: -1;
+    left: -67px;
+    right: -75px;
+    top: 0;
+    bottom: 0;
+    background: linear-gradient(to right, rgba(204, 51, 51, 1) 0%, rgba(153, 15, 15, 1) 75%, rgba(125, 185, 232, 0) 100%);
+  }
+
+  & .slider-jackpot__number {
+    -webkit-text-stroke-color: #c73131;
+  }
+}
+
+.slider-jackpot__number {
+  margin: 0 2px;
+  font-weight: 800;
+  -webkit-text-stroke-width: 1px;
+  // display: block;
+  // border: 1px solid black; /* Thiết lập viền cho mỗi ký tự */
+  // padding: 4px; /* Thêm khoảng cách giữa các ký tự và viền */
+}
+
+.box-supports {
+  position: fixed;
+  right: 0;
+  top: 105px;
+  // bottom: 50px;
+  width: 80px;
+  height: 400px;
+}
+
+.box-supports__item {
+  position: relative;
+  cursor: pointer;
+  color: #fff;
+  font-size: 14px;
+  line-height: 1em;
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 80px;
+
+  &::after {
+    content: '';
+    background-color: rgba(255, 255, 255, 0.3);
+    position: absolute;
+    bottom: -1px;
+    left: 4px;
+    right: 4px;
+    height: 1px;
+    margin: auto;
+  }
+}
+
+.box-support__item--text {
+  position: absolute;
+  bottom: 2px;
+  left: 0;
+  right: 0;
+  z-index: 1;
+}
+
+.box-support__item--bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #08153891;
+  opacity: 0.5;
+}
+
+@keyframes marquee {
+  0% {
+    transform: translateX(40%);
+  }
+
+  100% {
+    transform: translateX(-100%);
+  }
+}
+
+@keyframes fakeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes moveUpDown {
+  0% {
+    transform: translateY(26%);
+  }
+
+  30% {
+    transform: translateY(-26%);
+    /* Di chuyển sau 2s */
+  }
+
+  70% {
+    transform: translateY(-26%);
+    /* Di chuyển sau 2s */
+  }
+
+  100% {
+    transform: translateY(26%);
+    /* Trở lại giá trị ban đầu sau 4s */
+  }
+}

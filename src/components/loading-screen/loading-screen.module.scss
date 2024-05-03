@@ -1,0 +1,57 @@
+.loading_screen {
+  width: 100vw;
+  height: 100vh;
+  background: url(../../../public/loading/img_loading.jpg) no-repeat center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  &__deader {
+    width: 60vw;
+    height: 30vh;
+    margin-bottom: -30vh;
+    object-fit: cover;
+  }
+  &__girls {
+    position: relative;
+    height: 100vh;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    // background: url(../../../public/loading/img_loading_girl.png) no-repeat center;
+    &-image {
+      width: 80vw;
+      object-fit: contain;
+    }
+    &__progress {
+      position: absolute;
+      bottom: 5vh;
+      // left: 0;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      p {
+        font-size: 14px;
+        font-weight: bold;
+        text-align: center;
+        background: -webkit-linear-gradient(#f1dbae, #dfb256);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+    }
+  }
+}
+
+@media only screen and (max-width: 500px) {
+  .loading_screen {
+    padding-top: 20vh;
+    &__deader {
+      width: 200vw;
+      margin-bottom: 0;
+    }
+    &__girls-image {
+      width: 120%;
+    }
+  }
+}

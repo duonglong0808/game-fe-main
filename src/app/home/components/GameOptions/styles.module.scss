@@ -1,0 +1,69 @@
+.wrapper {
+  height: 100%;
+}
+
+.game-option__wrapper:hover {
+  background-color: var(--background-color-1);
+}
+
+.game-option {
+  display: block;
+  position: relative;
+  cursor: pointer;
+
+  &:hover .game-option--title {
+    color: var(--text-primary);
+    font-size: 1.1rem;
+  }
+
+  &:hover .game-option--background {
+    opacity: 1;
+  }
+}
+
+.game-option--scale:hover {
+  scale: 1.1;
+}
+
+.game-option--background {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  opacity: 0.5; // Điều chỉnh độ mờ
+  background-size: cover;
+  background-position: center;
+}
+
+.game-option__logo {
+  position: absolute;
+  min-height: 60px;
+}
+
+.game-option--icons {
+  // position: absolute;
+  // top: 60%;
+  // left: 0;
+  // right: 0;
+  min-height: 60px;
+}
+
+.game-option__icon {
+  margin-right: 12px;
+  object-fit: contain;
+}
+
+.game-option--title {
+  // position: absolute;
+  // bottom: 30px;
+  // left: 0;
+  // right: 0;
+  color: #000;
+  text-align: center;
+  margin-top: 8px;
+}
+
+.game-option--title-disable {
+  margin-top: 8px;
+  color: #aaa;
+}

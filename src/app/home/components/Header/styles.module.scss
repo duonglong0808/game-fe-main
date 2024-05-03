@@ -1,0 +1,260 @@
+.margin-left-right {
+  margin: 0 auto;
+}
+
+.header-top {
+  height: 40px;
+  min-width: 1000px;
+  width: 100%;
+  background-color: #06396a;
+  background-image: url('/bg_topCtrl.jpg');
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+}
+
+.header-top__time {
+  color: #a9c9e1;
+  margin-right: 10px;
+  position: relative;
+  display: flex;
+
+  & span {
+    display: block;
+    position: relative;
+    color: #a9c9e1;
+    margin-right: 10px;
+    font-size: 13px;
+  }
+
+  & span::after {
+    content: '';
+    position: absolute;
+    width: 1px;
+    top: 4px;
+    bottom: 4px;
+    right: -8px;
+    background-color: #3e85ad;
+  }
+}
+
+.header-top__time--icon {
+  width: 17px;
+  height: 15px;
+  cursor: pointer;
+  margin-left: 10px;
+  background-image: url(/btn_setFavor.png);
+  position: relative;
+  top: 1px;
+
+  &:hover {
+    background-position: bottom;
+  }
+}
+
+.header-top__right__login,
+.header-top__right__register {
+  color: white;
+  position: relative;
+  cursor: pointer;
+  font-size: 13px;
+  border-radius: 2px;
+}
+
+.header-top__right__login {
+  height: 20px;
+  background-color: #00b2b9;
+  width: 85px;
+  text-align: center;
+}
+
+.header-top__right__register {
+  margin-right: 16px;
+  min-width: 95px;
+  height: 20px;
+  box-sizing: border-box;
+  padding-left: 12px;
+  margin-right: 10px;
+  background-image: url(/btn_addMember.png);
+  text-decoration: none;
+
+  &:hover {
+    background-position: bottom;
+  }
+}
+
+.header-top__right__register span {
+  text-align: center;
+  background-color: #ff6c00;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: -11px;
+  width: 18px;
+  font-weight: 600;
+  font-size: 19px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  line-height: 21px;
+}
+
+.header-bottom {
+  background-color: white;
+  height: 65px;
+}
+
+.header-bottom__wrapper {
+  height: 100%;
+  align-items: center;
+}
+
+.header-bottom__item--last,
+.header-bottom__item {
+  padding: 0px 10px 0px 0px;
+  border-bottom: 4px solid transparent;
+  position: relative;
+  color: #555;
+  font-weight: bold;
+  height: 100%;
+  line-height: 65px;
+  font-size: 14px;
+}
+
+.header-bottom__item ::after {
+  content: '';
+  position: absolute;
+  width: 1px;
+  top: 26px;
+  bottom: 22px;
+  right: 0;
+  background-color: #dadada;
+}
+
+.header-bottom__item--last:hover,
+.header-bottom__item:hover {
+  border-bottom-color: #0076c6;
+  color: #0076c6;
+}
+
+.header-bottom__item--game {
+  margin: 0 auto;
+  position: absolute;
+  top: 105px;
+  z-index: 1;
+  width: 100%;
+  height: 340px;
+  background-color: rgba(255, 255, 255, 0.95);
+  transform: translateY(0);
+  animation: expandHeight 0.2s linear;
+}
+
+.header-bottom__item--icon {
+  width: 20px;
+  height: 20px;
+  margin-right: 4px;
+  z-index: 10;
+  position: relative;
+}
+
+.header-bottom__item--first {
+  // top:2px;
+  // border-bottom-width: 3px;
+}
+
+.header-top__name {
+  margin-right: 12px;
+}
+
+.header-top__name--rank {
+  color: #d4a34c;
+  margin-right: 4px;
+  font-size: 15px;
+}
+
+.header-top__name--text {
+  font-size: 15px;
+  color: white;
+}
+
+.header-top__amount {
+  color: #ffde00;
+  margin-right: 12px;
+  font-size: 18px;
+}
+
+.header-top__amount--text {
+  margin-right: 2px;
+}
+
+.header-top__amount--icon {
+  color: rgba(255, 255, 255, 0.7);
+  cursor: pointer;
+  margin: 0 1px;
+}
+
+.header-top__btn--move,
+.header-top__btn--recharge,
+.header-top__btn--withdraw {
+  margin-right: 8px;
+  border-radius: 4px;
+  padding: 2px 8px;
+  cursor: pointer;
+  color: white;
+  font-size: 14px;
+}
+
+.header-top__btn--move {
+  background-color: #1ebf8c;
+}
+
+.header-top__btn--recharge {
+  background-color: #f39800;
+}
+
+.header-top__btn--withdraw {
+  background-color: #f39800;
+  margin-right: 0;
+}
+
+.header-top--icon {
+  color: white;
+  width: 27px;
+  height: 27px;
+  margin-right: 12px;
+}
+
+.header-top--icon-user,
+.header-top--icon-letter,
+.header-top-logout {
+  width: 27px;
+  height: 27px;
+  background: url('/icon_Signout.png');
+  background-repeat: no-repeat;
+  margin-left: 12px;
+  cursor: pointer;
+}
+
+.header-top--icon-letter {
+  background: url('/btn_personalMsg.png');
+  background-repeat: no-repeat;
+}
+
+.header-top--icon-user {
+  background: url('/icon_member.png');
+  background-repeat: no-repeat;
+}
+
+.wrapper-login,
+.wrapper-register {
+  display: none;
+}
+
+@keyframes expandHeight {
+  0% {
+    height: 0; /* Bắt đầu với height là 0% */
+  }
+  100% {
+    height: 340px; /* Kết thúc với height là 100% */
+  }
+}

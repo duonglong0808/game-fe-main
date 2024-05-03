@@ -1,0 +1,83 @@
+.layer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: transparent;
+}
+
+.wrapper {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  margin: auto;
+  height: fit-content;
+  // width: 500px;
+  // max-width: 100%;
+  // background-color: white;
+  // padding: 20px 0 20px 20px;
+  // color: #d1d1d1;
+
+  width: 320px;
+  max-width: 100%;
+  background-color: white;
+  // padding: 20px 0 20px 20px;
+  // color: #d1d1d1;
+  // height: fit-content;
+}
+
+.message__body {
+  padding-bottom: 26px;
+  border-bottom: 1px #aaaaaa7a solid;
+  margin-bottom: 8px;
+  text-align: center;
+  // color: #595959;
+
+  color: black;
+}
+
+.message__desc {
+  font-size: 1.125em;
+  font-weight: 400;
+  line-height: normal;
+  z-index: 1;
+  word-wrap: break-word;
+  margin: 0 2px;
+  // color: #545454;
+
+  font-size: 16px;
+  color: black;
+}
+
+.message__btns {
+  display: flex;
+  justify-content: space-between;
+  margin: 0 -4px;
+}
+
+.message__btn--confirm,
+.message__btn--close {
+  padding: 8px 12px;
+  width: 210px;
+  max-width: 100%;
+  border-radius: 4px;
+  color: white;
+  font-weight: 500;
+  flex: 1;
+  margin: 0 4px;
+}
+
+.message__btn--close {
+  background-color: #aaa;
+}
+
+.message__btn--confirm {
+  // background-color: #3085d6;
+
+  color: #3085d6;
+  font-weight: 600;
+  font-size: 18px;
+}

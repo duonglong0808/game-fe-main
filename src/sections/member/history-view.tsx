@@ -36,8 +36,8 @@ const config: CustomFlowbiteTheme = {
 const HistoryView = () => {
   const [data, setData] = useState(null);
   return (
-    <div className="flex flex-col gap-1 w-full p-2">
-      <div className="flex flex-col   bg-white p-2 gap-3">
+    <div className="h-full flex flex-col gap-1 w-full p-1">
+      <div className="h-full flex flex-col   bg-white p-2 gap-3">
         <div className="flex items-center justify-between ">
           <select className="w-[150px] appearance-none bg-gray-200 border border-gray-300 rounded-sm shadow-sm pl-3 pr-10 py-2 text-left focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
             <option value="">Tất cả</option>
@@ -78,7 +78,7 @@ const HistoryView = () => {
           </Table>
         </Flowbite>
         {!data && (
-          <div className="h-[500px] flex flex-col items-center justify-center ">
+          <div className="h-full flex flex-col items-center justify-center ">
             <Image
               src={'/transition/icon_noMessage.svg'}
               alt="no data"

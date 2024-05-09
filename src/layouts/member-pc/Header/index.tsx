@@ -38,10 +38,10 @@ const Header = () => {
   return (
     <header className=" w-full h-[60px] bg-[#0c5d91] flex justify-center">
       <div className="w-[950px] flex items-center justify-between">
-        <p className="text-lg">Hội viên</p>
+        <p className="text-lg text-white">Hội viên</p>
         <div className="flex items-center gap-4 h-full">
           {LINKS.map((item) => (
-            <Link key={item.href} href={item.href} className="relative h-full">
+            <Link key={item.href} href={item.href} className="relative h-full text-white">
               <p
                 className={classNames(
                   'text-sm h-full  flex items-center',

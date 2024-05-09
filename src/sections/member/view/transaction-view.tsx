@@ -64,7 +64,7 @@ const TransactionView = () => {
           </Table>
         </Flowbite>
         {!data && (
-          <div className="h-[500px] flex flex-col items-center justify-center ">
+          <div className="h-full flex flex-col items-center justify-center ">
             <Image
               src={'/transition/icon_noMessage.svg'}
               alt="no data"

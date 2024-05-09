@@ -1,157 +1,22 @@
 'use client';
-import React from 'react';
+import React, { useEffect } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 
 import { Accordion } from 'flowbite-react';
+import { useGameTable } from './utils/handleTable';
 
-const INFO = [
-  {
-    name: 'KU Thể Thao',
-    count: 0,
-  },
-  {
-    name: 'KU Casino',
-    count: 0,
-  },
-  {
-    name: 'JZ Thể Thao',
-    count: 0,
-  },
-  {
-    name: 'KU Xổ Số',
-    count: 0,
-  },
-  {
-    name: '3D',
-    count: 5,
-  },
-  {
-    name: 'AG',
-    count: 0,
-  },
-  {
-    name: 'WM',
-    count: 0,
-  },
-  {
-    name: 'CMD',
-    count: 0,
-  },
-  {
-    name: 'COOL-IN',
-    count: 0,
-  },
-  {
-    name: 'Ví bạn bè',
-    count: 0,
-  },
-];
-const INFO_2 = [
-  {
-    name: 'GPI',
-    count: 0,
-  },
-  {
-    name: 'DG',
-    count: 0,
-  },
-  {
-    name: 'SA',
-    count: 0,
-  },
-  {
-    name: 'AES',
-    count: 0,
-  },
-  {
-    name: 'EVO',
-    count: 0,
-  },
-  {
-    name: 'DB Casino',
-    count: 0,
-  },
-  {
-    name: 'SABA',
-    count: 0,
-  },
-  {
-    name: 'AI',
-    count: 0,
-  },
-  {
-    name: 'BBIN',
-    count: 0,
-  },
-  {
-    name: 'PANDA',
-    count: 0,
-  },
-  {
-    name: 'IM',
-    count: 0,
-  },
-];
-const INFO_3 = [
-  {
-    name: 'BNG',
-    count: 0,
-  },
-  {
-    name: 'CQ9',
-    count: 0,
-  },
-  {
-    name: 'PLS',
-    count: 0,
-  },
-  {
-    name: 'RK5',
-    count: 0,
-  },
-  {
-    name: 'DS',
-    count: 0,
-  },
-  {
-    name: 'V8',
-    count: 0,
-  },
-  {
-    name: 'KS',
-    count: 0,
-  },
-  {
-    name: 'PG',
-    count: 0,
-  },
-  {
-    name: 'KA',
-    count: 0,
-  },
-  {
-    name: 'FTG',
-    count: 0,
-  },
-  {
-    name: 'FC',
-    count: 0,
-  },
-  {
-    name: 'DB Bắn Cá',
-    count: 0,
-  },
-];
 const TableInfo = () => {
+  const { INFO, INFO_2, INFO_3, main } = useGameTable();
+
   return (
-    <div className="relative p-1">
-      <div className=" w-full bg-[#4a80a3] text-black grid grid-cols-3 p-3">
-        <p className="whitespace-nowrap text-sm text-white font-bold dark:text-white border-r flex flex-col justify-center">
+    <div className="relative p-1 h-full">
+      <div className=" w-full bg-[#4a80a3] text-black grid grid-cols-3 p-3 sticky top-1">
+        <p className="whitespace-nowrap text-sm text-white font-bold dark:text-white border-r flex flex-col justify-center ">
           TK Chính
         </p>
         <div className="flex justify-between col-span-2">
-          <p className="text-white font-bold px-2 text-lg">0</p>
+          <p className="text-white font-bold px-2 text-lg">{main}</p>
           <div className="group cursor-pointer">
             <Image
               src={'/btn_pRefresh.png'}
@@ -178,8 +43,8 @@ const TableInfo = () => {
                 {item.name}
               </p>
               <div className="flex justify-between col-span-2">
-                <p className="text-[#02af1d] font-bold px-2">{item.count}</p>
-                {item.count > 0 && (
+                <p className="text-[#02af1d] font-bold px-2">{item.points}</p>
+                {item.points > 0 && (
                   <p className="cursor-pointer text-white bg-[#00979c] text-sm hover:bg-[#26bcc1] p-1 rounded-sm">
                     Chuyển về
                   </p>
@@ -211,8 +76,8 @@ const TableInfo = () => {
                   {item.name}
                 </p>
                 <div className="flex justify-between col-span-2">
-                  <p className="text-[#02af1d] font-bold px-2">{item.count}</p>
-                  {item.count > 0 && (
+                  <p className="text-[#02af1d] font-bold px-2">{item.points}</p>
+                  {item.points > 0 && (
                     <p className="cursor-pointer text-white bg-[#00979c] text-sm hover:bg-[#26bcc1] p-1 rounded-sm">
                       Chuyển về
                     </p>
@@ -244,8 +109,8 @@ const TableInfo = () => {
                   {item.name}
                 </p>
                 <div className="flex justify-between col-span-2">
-                  <p className="text-[#02af1d] font-bold px-2">{item.count}</p>
-                  {item.count > 0 && (
+                  <p className="text-[#02af1d] font-bold px-2">{item.points}</p>
+                  {item.points > 0 && (
                     <p className="cursor-pointer text-white bg-[#00979c] text-sm hover:bg-[#26bcc1] p-1 rounded-sm">
                       Chuyển về
                     </p>
@@ -257,7 +122,7 @@ const TableInfo = () => {
         </Accordion.Panel>
       </Accordion>
 
-      <div className=" w-full bg-[#4a80a3]  grid grid-cols-3 p-3">
+      <div className=" w-full bg-[#4a80a3]  grid grid-cols-3 p-3 sticky bottom-0">
         <p className="whitespace-nowrap text-sm text-white dark:text-white border-r flex flex-col justify-center font-bold">
           Tổng điểm
         </p>

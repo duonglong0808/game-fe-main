@@ -2,8 +2,7 @@ import React from 'react';
 import Image from 'next/image';
 const TransferView = () => {
   return (
-    <div className="flex flex-col gap-1 w-full p-1">
-      
+    <div className="flex flex-1 flex-col gap-1 w-full p-1">
       <div className="flex items-center bg-white p-1 gap-3 h-[300px]">
         <div className="flex flex-col items-center justify-center max-w-[68px] p-2 bg-[#f3f3f3] h-full border border-gray-300 ">
           <Image src={'/member/withdraw/icon_dataInput.png'} alt="" width={30} height={30} />
@@ -47,7 +46,7 @@ const TransferView = () => {
           </div>
         </div>
       </div>
-      <div className="flex items-center bg-white p-1 gap-3 h-[250px]">
+      <div className="flex flex-1 items-center bg-white p-1 gap-3 h-[250px]">
         <div className="flex flex-col items-center justify-center max-w-[68px] p-2 bg-[#f3f3f3] h-full border border-gray-300 ">
           <Image
             src={'/member/withdraw/icon_dataHint.png'}

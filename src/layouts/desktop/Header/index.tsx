@@ -17,10 +17,7 @@ import {
   dataSport,
   dataTopGame,
 } from './dataStatics';
-// import { Register } from '../Register';
-// import { Login } from '../Login';
 import { useAppDispatch, useAppSelector } from '@/lib/redux/utilRedux';
-// import { getUserInfo } from '../Login/handleLogin';
 import { logOutUser } from '@/lib/redux/app/user.slice';
 import { formatTime } from '@/utils';
 import { GameOptions } from '@/components/home-desktop/GameOptions';
@@ -49,6 +46,15 @@ export function HeaderHome(): JSX.Element {
     fetchDataUser();
     setDownload(localStorage.getItem('download') === 'true' ? true : false);
   }, []);
+
+  const handleClickDeposit = () => {
+    if (userName) {
+      const accessToken = localStorage.getItem('access_token');
+      const refreshToken = localStorage.getItem('refresh_token');
+
+      window.open(`/desktop/member/transition`, '_blank');
+    }
+  };
 
   const handleMouseLeave = (event: any) => {
     const target = event.relatedTarget as HTMLElement; // Kiểm tra kiểu
@@ -83,7 +89,9 @@ export function HeaderHome(): JSX.Element {
               </div>
 
               <button className={cx('header-top__btn', 'header-top__btn--move')}>Chuyển quỹ</button>
-              <button className={cx('header-top__btn', 'header-top__btn--recharge')}>
+              <button
+                className={cx('header-top__btn', 'header-top__btn--recharge')}
+                onClick={handleClickDeposit}>
                 Nạp tiền
               </button>
               <button className={cx('header-top__btn', 'header-top__btn--withdraw')}>

@@ -1,10 +1,13 @@
 'use client';
-import { useState } from 'react';
-import { Datepicker } from 'flowbite-react';
+import { use, useRef, useState } from 'react';
+import { Datepicker, TableCell, TableRow } from 'flowbite-react';
 import { Table } from 'flowbite-react';
 import type { CustomFlowbiteTheme } from 'flowbite-react';
 import { Flowbite } from 'flowbite-react';
 import Image from 'next/image';
+import { useAppSelector } from '@/lib/redux/utilRedux';
+import moment from 'moment';
+
 const config: CustomFlowbiteTheme = {
   table: {
     root: {
@@ -35,21 +38,55 @@ const config: CustomFlowbiteTheme = {
 
 const HistoryView = () => {
   const [data, setData] = useState(null);
+  const { dataGamePoints } = useAppSelector((state) => state.user);
+  const gameSelect = useRef('all');
+  const dateNow = new Date();
+  const minDate = new Date(dateNow.getTime() - 1000 * 60 * 60 * 24 * 7);
+  const [dateFrom, setDateFrom] = useState(moment(minDate).format('DD-MM-YYYY'));
+  const [dateTo, setDateTo] = useState(moment(dateNow).format('DD-MM-YYYY'));
+
   return (
     <div className="h-full flex flex-col gap-1 w-full p-1">
       <div className="h-full flex flex-col   bg-white p-2 gap-3">
         <div className="flex items-center justify-between ">
-          <select className="w-[150px] appearance-none bg-gray-200 border border-gray-300 rounded-sm shadow-sm pl-3 pr-10 py-2 text-left focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-            <option value="">Tất cả</option>
-            <option value="option1">KU thể thao</option>
-            <option value="option2">KU Casino</option>
+          <select
+            defaultValue={gameSelect.current}
+            onChange={(e) => {
+              gameSelect.current = e.target.value;
+            }}
+            className="w-[150px] appearance-none bg-gray-200 border border-gray-300 rounded-sm shadow-sm pl-3 pr-10 py-2 text-left focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+            <option value="all">Tất cả</option>
+            {dataGamePoints.map((game, index) => (
+              <option key={index} value={game.gameSlug}>
+                {game.gameName}
+              </option>
+            ))}
           </select>
 
-          <div className="flex items-center justify-between gap-1 h-full">
+          <div className="flex items-center justify-between gap-1 h-full right-0">
             <p className="text-sm">Thời gian</p>
-            <Datepicker className="text-sm w-[150px] " />
+            <Datepicker
+              value={dateFrom}
+              onSelectedDateChanged={(date) => {
+                // dateFrom.current = moment(date).format('DD-MM-YYYY');
+                setDateFrom(moment(date).format('DD-MM-YYYY'));
+              }}
+              showClearButton={false}
+              showTodayButton={false}
+              minDate={minDate}
+              maxDate={dateNow}
+              className="text-base w-[150px]"
+            />
             <p> - </p>
-            <Datepicker className="text-sm w-[150px]" />
+            <Datepicker
+              value={dateTo}
+              onChange={(e) => setDateTo(moment(e.target.value).format('DD-MM-YYYY'))}
+              showClearButton={false}
+              showTodayButton={false}
+              minDate={minDate}
+              maxDate={dateNow}
+              className="text-base w-[150px]"
+            />
 
             <button className="bg-[#4a80a3] text-sm text-white p-2">Tìm kiếm</button>
           </div>
@@ -66,14 +103,14 @@ const HistoryView = () => {
               <Table.HeadCell>Trạng thái</Table.HeadCell>
             </Table.Head>
             <Table.Body className="divide-y">
-              {/* <TableRow>
+              <TableRow>
                 <TableCell>{'20-10-2024'}</TableCell>
                 <TableCell>Admin</TableCell>
                 <TableCell>VNPAY</TableCell>
                 <TableCell>300</TableCell>
                 <TableCell>User</TableCell>
                 <TableCell>OK</TableCell>
-              </TableRow> */}
+              </TableRow>
             </Table.Body>
           </Table>
         </Flowbite>

@@ -16,6 +16,15 @@ export class BaseAxios {
     });
   }
 
+  async get(url: string, config?: any) {
+    try {
+      const response = await this.request.get(url, config);
+      return response.data;
+    } catch (error) {
+      return false;
+    }
+  }
+
   async post(url: string, data: any, config?: any) {
     try {
       const response = await this.request.post(url, data, config);

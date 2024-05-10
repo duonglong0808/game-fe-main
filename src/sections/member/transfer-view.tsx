@@ -4,15 +4,15 @@ import React, { useState } from 'react';
 import Image from 'next/image';
 import { useAppDispatch, useAppSelector } from '@/lib/redux/utilRedux';
 import classNames from 'classnames/bind';
-import { handleMovePoint } from './view/utils/handleTransfer';
+import { handleMovePoint } from './view/utils/handleMember';
 
 const cx = classNames.bind({});
 
 const TransferView = () => {
-  const { dataGamePoints, userId } = useAppSelector((state) => state.user);
+  const { dataGamePoints } = useAppSelector((state) => state.user);
   const [accountTransfer, setAccountTransfer] = useState('tk-chinh');
   const [accountReceiver, setAccountReceiver] = useState('wait');
-  const [pointTransfer, setPointTransfer] = useState<number>();
+  const [pointTransfer, setPointTransfer] = useState<number>(0);
   const gameTransfer = dataGamePoints.find((i) => i.gameSlug == accountTransfer) || {
     gameName: '',
     gamePointId: '',
@@ -47,12 +47,13 @@ const TransferView = () => {
                 <></>
               )}
               <select
+                defaultValue={'tk-chinh'}
                 onChange={(e) => {
                   setAccountTransfer(e.target.value);
                 }}
                 className="w-[250px] relative  appearance-none bg-gray-200 border border-gray-300 rounded-md shadow-sm pl-3 pr-10 py-2 text-left focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-                {dataGamePoints.map((game) => (
-                  <option value={game.gameSlug} selected={game.gameSlug == accountTransfer}>
+                {dataGamePoints.map((game, index) => (
+                  <option key={index} value={game.gameSlug}>
                     {game.gameName}
                   </option>
                 ))}
@@ -68,17 +69,16 @@ const TransferView = () => {
                 <></>
               )}
               <select
+                defaultValue={'wait'}
                 onChange={(e) => {
                   setAccountReceiver(e.target.value);
                 }}
                 className="w-[250px] relative  appearance-none bg-gray-200 border border-gray-300 rounded-md shadow-sm pl-3 pr-10 py-2 text-left focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-                <option value="wait" selected={'wait' == accountReceiver}>
-                  Vui lòng chọn
-                </option>
+                <option value="wait">Vui lòng chọn</option>
                 {dataGamePoints
                   .filter((item) => item.gameSlug != accountTransfer)
-                  .map((game) => (
-                    <option value={game.gameSlug} selected={game.gameSlug == accountReceiver}>
+                  .map((game, index) => (
+                    <option key={index} value={game.gameSlug}>
                       {game.gameName}
                     </option>
                   ))}
@@ -98,8 +98,6 @@ const TransferView = () => {
               type="text"
               placeholder="Nhập số điểm"
               value={pointTransfer}
-              min={0}
-              max={gameTransfer?.points}
               className="w-[250px] border-none outline-none bg-gray-200 border border-gray-300 appearance-none focus:ring-indigo-500 focus:border-indigo-500 rounded-md text-sm"
             />
           </div>
@@ -109,14 +107,15 @@ const TransferView = () => {
             </button>
             <button
               onClick={() => {
+                console.log('🚀 ~ TransferView ~ pointTransfer:', pointTransfer);
                 if (pointTransfer) {
                   handleMovePoint(
                     +gameTransfer.gamePointId,
                     +gameReceiver.gamePointId,
-                    +userId,
                     pointTransfer,
                     dispatch
                   );
+                  setPointTransfer(0);
                 }
               }}
               disabled={pointTransfer == 0}

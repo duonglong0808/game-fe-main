@@ -45,7 +45,7 @@ const TableInfo = () => {
               <div className="flex justify-between col-span-2">
                 <p className="text-[#02af1d] font-bold px-2">{item.points}</p>
                 {item.points > 0 && (
-                  <p className="cursor-pointer text-white bg-[#00979c] text-sm hover:bg-[#26bcc1] p-1 rounded-sm">
+                  <p className="cursor-pointer text-white bg-[#00979c] text-sm hover:bg-[#26bcc1]   p-1.5 rounded-md">
                     Chuyển về
                   </p>
                 )}
@@ -78,7 +78,7 @@ const TableInfo = () => {
                 <div className="flex justify-between col-span-2">
                   <p className="text-[#02af1d] font-bold px-2">{item.points}</p>
                   {item.points > 0 && (
-                    <p className="cursor-pointer text-white bg-[#00979c] text-sm hover:bg-[#26bcc1] p-1 rounded-sm">
+                    <p className="cursor-pointer text-white bg-[#00979c] text-sm hover:bg-[#26bcc1]   p-1.5 rounded-md">
                       Chuyển về
                     </p>
                   )}
@@ -111,7 +111,7 @@ const TableInfo = () => {
                 <div className="flex justify-between col-span-2">
                   <p className="text-[#02af1d] font-bold px-2">{item.points}</p>
                   {item.points > 0 && (
-                    <p className="cursor-pointer text-white bg-[#00979c] text-sm hover:bg-[#26bcc1] p-1 rounded-sm">
+                    <p className="cursor-pointer text-white bg-[#00979c] text-sm hover:bg-[#26bcc1]   p-1.5 rounded-md">
                       Chuyển về
                     </p>
                   )}

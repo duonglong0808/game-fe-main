@@ -1,5 +1,5 @@
 'use client';
-import { use, useRef, useState } from 'react';
+import { use, useEffect, useRef, useState } from 'react';
 import { Datepicker, TableCell, TableRow } from 'flowbite-react';
 import { Table } from 'flowbite-react';
 import type { CustomFlowbiteTheme } from 'flowbite-react';
@@ -7,6 +7,7 @@ import { Flowbite } from 'flowbite-react';
 import Image from 'next/image';
 import { useAppSelector } from '@/lib/redux/utilRedux';
 import moment from 'moment';
+import { getHistoryTransfer } from './view/utils/api';
 
 const config: CustomFlowbiteTheme = {
   table: {
@@ -19,13 +20,13 @@ const config: CustomFlowbiteTheme = {
     body: {
       base: 'group/body',
       cell: {
-        base: 'px-6 py-4 group-first/body:group-first/row:first:rounded-tl-lg group-first/body:group-first/row:last:rounded-tr-lg group-last/body:group-last/row:first:rounded-bl-lg group-last/body:group-last/row:last:rounded-br-lg',
+        base: 'h-[45px] px-1 text-sm text-black text-center',
       },
     },
     head: {
       base: 'group/head text-xs  text-white dark:text-gray-400',
       cell: {
-        base: 'bg-[#0c5d91] text-center p-2 group-first/head:first:rounded-tl-lg group-first/head:last:rounded-tr-lg dark:bg-gray-700',
+        base: 'bg-[#4a80a3] text-center p-2  dark:bg-gray-700  ',
       },
     },
     row: {
@@ -37,13 +38,55 @@ const config: CustomFlowbiteTheme = {
 };
 
 const HistoryView = () => {
-  const [data, setData] = useState(null);
+  const [data, setData] = useState<
+    {
+      createdAt: string;
+      accountTrans: string;
+      pointTrans: string;
+      surplus: string;
+      accountReceiver: string;
+      status: string;
+    }[]
+  >([]);
   const { dataGamePoints } = useAppSelector((state) => state.user);
   const gameSelect = useRef('all');
   const dateNow = new Date();
   const minDate = new Date(dateNow.getTime() - 1000 * 60 * 60 * 24 * 7);
   const [dateFrom, setDateFrom] = useState(moment(minDate).format('DD-MM-YYYY'));
   const [dateTo, setDateTo] = useState(moment(dateNow).format('DD-MM-YYYY'));
+  const [subMitQuery, setSubMitQuery] = useState(true);
+  const [page, setPage] = useState(1);
+  const total = useRef(0);
+
+  useEffect(() => {
+    async function fetchHistory() {
+      if (subMitQuery) {
+        const gamePointId =
+          dataGamePoints.find((game) => game.gameSlug == gameSelect.current)?.gamePointId ||
+          undefined;
+        console.log('🚀 ~ fetchHistory ~ gamePointId:', gamePointId);
+        const dataRes = await getHistoryTransfer(page, 10, dateFrom, dateTo, gamePointId);
+        if (dataRes.data) {
+          const { data, pagination } = dataRes.data;
+          setPage(pagination.page);
+          total.current = pagination.total;
+          const dataHis = data.map((item: any) => {
+            return {
+              createdAt: item.createdAt,
+              accountTrans: item.gameTransfer.name,
+              pointTrans: item.pointTrans,
+              surplus: item.surplus,
+              accountReceiver: item.gameReceiver.name,
+              status: item.status ? 'Thành công' : 'Thất bại',
+            };
+          });
+          setData(dataHis);
+        }
+      }
+    }
+
+    fetchHistory();
+  }, [setSubMitQuery]);
 
   return (
     <div className="h-full flex flex-col gap-1 w-full p-1">
@@ -93,24 +136,110 @@ const HistoryView = () => {
         </div>
         <div className="border-b bg-gray-200"></div>
         <Flowbite theme={{ theme: config }}>
-          <Table>
+          <Table
+            style={{
+              fontSize: '13px',
+              borderLeft: '1px solid #dfdfdf',
+              borderTop: '1px solid #dfdfdf',
+            }}>
             <Table.Head>
-              <Table.HeadCell>Thời gian</Table.HeadCell>
-              <Table.HeadCell>TK chuyển</Table.HeadCell>
-              <Table.HeadCell>Điểm chuyển</Table.HeadCell>
-              <Table.HeadCell>Số dư</Table.HeadCell>
-              <Table.HeadCell>TK nhận</Table.HeadCell>
-              <Table.HeadCell>Trạng thái</Table.HeadCell>
+              <Table.HeadCell
+                style={{
+                  borderRight: '1px solid #8ba6b8',
+                }}>
+                Thời gian
+              </Table.HeadCell>
+              <Table.HeadCell
+                style={{
+                  borderRight: '1px solid #8ba6b8',
+                }}>
+                TK chuyển
+              </Table.HeadCell>
+              <Table.HeadCell
+                style={{
+                  borderRight: '1px solid #8ba6b8',
+                }}>
+                Điểm chuyển
+              </Table.HeadCell>
+              <Table.HeadCell
+                style={{
+                  borderRight: '1px solid #8ba6b8',
+                }}>
+                Số dư
+              </Table.HeadCell>
+              <Table.HeadCell
+                style={{
+                  borderRight: '1px solid #8ba6b8',
+                }}>
+                TK nhận
+              </Table.HeadCell>
+              <Table.HeadCell
+                style={{
+                  borderRight: '1px solid #8ba6b8',
+                }}>
+                Trạng thái
+              </Table.HeadCell>
             </Table.Head>
             <Table.Body className="divide-y">
-              <TableRow>
-                <TableCell>{'20-10-2024'}</TableCell>
-                <TableCell>Admin</TableCell>
-                <TableCell>VNPAY</TableCell>
-                <TableCell>300</TableCell>
-                <TableCell>User</TableCell>
-                <TableCell>OK</TableCell>
-              </TableRow>
+              {data.map((item) => (
+                <TableRow>
+                  <TableCell
+                    style={{
+                      borderRight: '1px solid #dfdfdf',
+                      borderBottom: '1px solid #dfdfdf',
+                      padding: '0 3px',
+                      color: '#888',
+                    }}>
+                    {moment(item.createdAt).format('DD-MM HH:MM:SS')}
+                  </TableCell>
+                  <TableCell
+                    style={{
+                      borderRight: '1px solid #dfdfdf',
+                      borderBottom: '1px solid #dfdfdf',
+                      padding: '0 3px',
+                      textAlign: 'center',
+                    }}>
+                    {item.accountTrans}
+                  </TableCell>
+                  <TableCell
+                    className="text-[#00af1d] text-right "
+                    style={{
+                      borderRight: '1px solid #dfdfdf',
+                      borderBottom: '1px solid #dfdfdf',
+                      padding: '0 3px',
+                    }}>
+                    {item.pointTrans}
+                  </TableCell>
+                  <TableCell
+                    style={{
+                      borderRight: '1px solid #dfdfdf',
+                      borderBottom: '1px solid #dfdfdf',
+                      padding: '0 10px',
+                      color: '#888',
+
+                      textAlign: 'right',
+                    }}>
+                    {item.surplus}
+                  </TableCell>
+                  <TableCell
+                    className="text-[#ff7500]"
+                    style={{
+                      borderRight: '1px solid #dfdfdf',
+                      borderBottom: '1px solid #dfdfdf',
+                      padding: '0 3px',
+                    }}>
+                    {item.accountReceiver}
+                  </TableCell>
+                  <TableCell
+                    style={{
+                      borderRight: '1px solid #dfdfdf',
+                      borderBottom: '1px solid #dfdfdf',
+                      padding: '0 3px',
+                    }}>
+                    {item.status}
+                  </TableCell>
+                </TableRow>
+              ))}
             </Table.Body>
           </Table>
         </Flowbite>
@@ -126,6 +255,7 @@ const HistoryView = () => {
             <p className="text-base text-[#72a5dc] font-bold">Chưa có tin nhắn</p>
           </div>
         )}
+        <div className="m-auto">aaaa</div>
       </div>
     </div>
   );

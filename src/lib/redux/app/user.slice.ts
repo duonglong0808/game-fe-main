@@ -3,6 +3,7 @@ import { createSlice } from '@reduxjs/toolkit';
 interface PointItem {
   gamePointId: number;
   gameSlug: string;
+  gameName: string;
   points: number;
 }
 interface UserSlice {

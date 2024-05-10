@@ -202,19 +202,18 @@ export const useGameTable = () => {
         points: dataGamePoints.find((item) => item.gameSlug == i.slug)?.points || 0,
       };
     }),
-
     INFO_2: INFO_2.map((i) => {
       return {
         ...i,
         points: dataGamePoints.find((item) => item.gameSlug == i.slug)?.points || 0,
       };
     }),
-
     INFO_3: INFO_3.map((i) => {
       return {
         ...i,
         points: dataGamePoints.find((item) => item.gameSlug == i.slug)?.points || 0,
       };
     }),
+    total: dataGamePoints.reduce((pre, item) => pre + item.points, 0),
   };
 };

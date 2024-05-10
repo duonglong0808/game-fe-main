@@ -7,7 +7,7 @@ import { Accordion } from 'flowbite-react';
 import { useGameTable } from './utils/handleTable';
 
 const TableInfo = () => {
-  const { INFO, INFO_2, INFO_3, main } = useGameTable();
+  const { INFO, INFO_2, INFO_3, main, total } = useGameTable();
 
   return (
     <div className="relative p-1 h-full">
@@ -127,7 +127,7 @@ const TableInfo = () => {
           Tổng điểm
         </p>
         <div className="flex justify-between col-span-2">
-          <p className="text-[#ffe201] font-bold px-2">5</p>
+          <p className="text-[#ffe201] font-bold px-2">{total}</p>
         </div>
       </div>
     </div>

@@ -25,12 +25,12 @@ export class BaseAxios {
     }
   }
 
-  async get(url: string, config?: any) {
+  async patch(url: string, data: any, config?: any) {
     try {
-      const response = await this.request.get(url, config);
+      const response = await this.request.patch(url, data, config);
       return response.data;
-    } catch (error) {
-      return false;
+    } catch (error: any) {
+      throw new Error(error.response.data?.exception?.message);
     }
   }
 }

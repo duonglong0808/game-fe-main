@@ -1,3 +1,5 @@
+export * from './bank.statics';
+
 export const EventSocket = {
   JoinRoom: 'join-room',
   LeaveRoom: 'leave-room',
@@ -27,4 +29,9 @@ export const StatusDiceDetail = {
 export const TypeUpdatePointUser = {
   up: 0,
   down: 1,
+};
+
+export const TypePaymentTranSaction = {
+  deposit: 0,
+  withdrawMoney: 1,
 };

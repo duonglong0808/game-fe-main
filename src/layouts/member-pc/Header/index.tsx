@@ -45,7 +45,7 @@ const Header = () => {
               <p
                 className={classNames(
                   'text-sm h-full  flex items-center',
-                  { 'text-yellow-200': item.isImportant },
+                  { 'text-[#ffd200]': item.isImportant },
                   { 'border-b-4 border-white ': pathname.includes(item.href) }
                 )}>
                 {item.name}

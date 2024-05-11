@@ -1,12 +1,14 @@
 import { configureStore } from '@reduxjs/toolkit';
 import settingAppReduce from './system/settingSys';
 import userReduce from './app/user.slice';
+import paymentReduce from './app/payment.slice';
 
 export const makeStore = () => {
   return configureStore({
     reducer: {
       settingApp: settingAppReduce,
       user: userReduce,
+      payment: paymentReduce,
     },
   });
 };

@@ -1,50 +1,45 @@
-
 'use client';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
-import Link from 'next/link';
-import { Accordion } from 'flowbite-react';
-import { CustomFlowbiteTheme } from 'flowbite-react';
-import { Flowbite } from 'flowbite-react';
-const theme: CustomFlowbiteTheme = {
-  accordion: {
-    root: {
-      base: 'divide-y divide-gray-200 border-gray-200 dark:divide-gray-700 dark:border-gray-700',
-      flush: {
-        off: 'rounded-lg border',
-        on: 'border-b',
-      },
-    },
-    content: {
-      base: 'p-5 first:rounded-t-lg last:rounded-b-lg dark:bg-gray-900',
-    },
-    title: {
-      arrow: {
-        base: 'h-6 w-6 shrink-0',
-        open: {
-          off: '',
-          on: 'rotate-180',
-        },
-      },
-      base: 'flex w-full items-center justify-between p-5 text-left font-medium text-gray-500 first:rounded-t-lg last:rounded-b-lg dark:text-gray-400',
-      flush: {
-        off: 'hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 dark:hover:bg-gray-800 dark:focus:ring-gray-800',
-        on: 'bg-transparent dark:bg-transparent',
-      },
-      heading: 'flex-1',
-      open: {
-        off: '',
-        on: 'bg-gray-100 text-gray-900 dark:bg-gray-800 dark:text-white',
-      },
-    },
-  },
-};
+import { getAllBankUser } from './utils/api';
+import { ButtonAdd, ButtonBank } from '@/components/member/Button';
+import { useAppDispatch, useAppSelector } from '@/lib/redux/utilRedux';
+import { ShowConfirmMessage } from '@/app/compmnents/ShowMessage';
+import { addMessagePopup, handleConfirmMessage, handleDrawMoney } from './utils/handleMember';
+import { TypePaymentTranSaction } from '@/constant';
+
 const WithDrawView = () => {
- 
+  const { titleMessage, descMessage, textClose, textConfirm } = useAppSelector(
+    (state) => state.settingApp
+  );
+
+  const { dataGamePoints } = useAppSelector((state) => state.user);
+  const pointMain = dataGamePoints.find((game) => game.gameSlug == 'tk-chinh')?.points || 0;
+
+  const [bankUser, setBankUser] = useState([]);
+  const [bankUserReceive, setBankUserReceive] = useState<number>();
+  const [point, setPoint] = useState('');
+  const dispatch = useAppDispatch();
+  const minPoint = 200;
+  const maxPoint = 1000000;
+
+  useEffect(() => {
+    async function fetchData() {
+      const bankUser = await getAllBankUser();
+      if (bankUser.data) {
+        const { data } = bankUser.data;
+        setBankUser(data);
+        setBankUserReceive(data[0].id);
+      }
+    }
+
+    fetchData();
+  }, []);
+
   return (
     <div className="max-lg:hidden flex flex-col gap-1 w-full p-1">
-      <div className="flex items-center bg-white p-1 gap-3">
-        <div className="flex flex-col items-center justify-center max-w-[68px] p-2 bg-[#f3f3f3] border border-gray-300">
+      <div className="flex items-center bg-white p-1 gap-3 h-[100px]">
+        <div className="flex flex-col items-center justify-center max-w-[68px] p-2 bg-[#f3f3f3] border border-gray-300 h-full">
           <Image
             src={'/member/withdraw/icon_payWay.png'}
             alt=""
@@ -71,14 +66,14 @@ const WithDrawView = () => {
             className={'absolute right-0 bottom-0'}
           />
         </button>
-        <div>
+        {/* <div>
           <Link href={'/desktop/member/crypto'} className="underline text-blue-600 text-sm">
             Tìm hiểu về Tiền mã hóa
           </Link>
-        </div>
+        </div> */}
       </div>
-      <div className="flex items-center  bg-white p-1 gap-3">
-        <div className="flex flex-col items-center justify-center max-w-[68px] p-2 bg-[#f3f3f3] border border-gray-300">
+      <div className="flex items-center  bg-white p-1 gap-3 h-[135px]">
+        <div className="flex flex-col items-center justify-center max-w-[68px] p-2 bg-[#f3f3f3] border border-gray-300 h-full">
           <Image
             src={'/member/withdraw/icon_payWay.png'}
             alt=""
@@ -89,53 +84,20 @@ const WithDrawView = () => {
           <p className="text-center text-sm text-[#888888]">Chọn ngân hàng</p>
         </div>
         <div className="flex-1 flex items-center justify-between">
-          <button className="flex flex-col items-center justify-center h-[60px] bg-[#e8f2ff] p-2 gap-2 text-blue-600 border border-solid border-blue-500 rounded-sm">
-            <Image
-              src={'/member/withdraw/icon_bkcard_1003.png'}
-              alt=""
-              width={80}
-              height={80}
-              className={''}
+          {bankUser?.map((bank: any, index) => (
+            <ButtonBank
+              key={index}
+              binBank={bank.binBank}
+              lastNumber={bank.accountNumber?.slice(-4)}
             />
-            <div className="flex items-center gap-2 text-sm">
-              <p className="text-black">Số cuối:</p>
-              <p>5577</p>
-            </div>
-          </button>
-          <button className="relative flex items-center justify-between gap-2 p-2 h-[60px] border border-gray-300 rounded-md bg-gray-200 float-left cursor-pointer">
-            <Image
-              src={'/member/withdraw/icon_add.png'}
-              alt=""
-              width={20}
-              height={20}
-              className={''}
-            />
-            <p className="text-sm">Thêm tài khoản</p>
-          </button>
-          <button className="relative flex items-center justify-between gap-2 p-2 h-[60px] border border-gray-300 rounded-md bg-gray-200 float-left cursor-pointer">
-            <Image
-              src={'/member/withdraw/icon_add.png'}
-              alt=""
-              width={20}
-              height={20}
-              className={''}
-            />
-            <p className="text-sm">Thêm tài khoản</p>
-          </button>
-          <button className="relative flex items-center justify-between gap-2 p-2 h-[60px] border border-gray-300 rounded-md bg-gray-200 float-left cursor-pointer">
-            <Image
-              src={'/member/withdraw/icon_add.png'}
-              alt=""
-              width={20}
-              height={20}
-              className={''}
-            />
-            <p className="text-sm">Thêm tài khoản</p>
-          </button>
+          ))}
+          {Array.from({ length: 4 - bankUser.length }, (_, index) => index + 1).map((i, index) => (
+            <ButtonAdd key={index} />
+          ))}
         </div>
       </div>
 
-      <div className="flex items-center bg-white p-1 gap-3">
+      <div className="flex items-center bg-white p-1 gap-3 h-[135px]">
         <div className="flex flex-col items-center justify-center max-w-[68px] p-2 bg-[#f3f3f3] h-full border border-gray-300 ">
           <Image
             src={'/member/withdraw/icon_dataInput.png'}
@@ -152,12 +114,26 @@ const WithDrawView = () => {
               <p className="text-sm">Số điểm rút:</p>
               <input
                 type="text"
-                placeholder="200 ~ 1000000"
-                className="w-40 h-8 px-4 py-2 text-sm rounded-md bg-gray-200  outline-none border-none "
+                value={point}
+                onChange={(e) => {
+                  if (Number(e.target.value) > 0) {
+                    const val = +e.target.value < maxPoint ? e.target.value : maxPoint;
+                    setPoint(String(val));
+                  } else {
+                    setPoint('');
+                  }
+                }}
+                placeholder={`${minPoint} ~ ${maxPoint}`}
+                className=" h-8 px-4 py-2 text-sm rounded-md bg-gray-200 w-[190px]  outline-none border-none "
               />
-              <div className="absolute -bottom-8 left-[82px] flex justify-between text-sm w-[160px] text-red-500">
-                <p>Thực tế: 0</p>
-                <p>VNĐ</p>
+              <div className="absolute -bottom-8 left-[82px] flex justify-between text-sm w-auto min-w-[190px] text-red-500">
+                <p>
+                  Thực tế:{' '}
+                  <span className="font-bold">
+                    {point ? (+point * 1000).toLocaleString('vi-VN') : 0}
+                  </span>
+                </p>
+                <p className="ml-2">VNĐ</p>
               </div>
             </div>
             <div className="relative flex justify-between items-center gap-2">
@@ -172,14 +148,30 @@ const WithDrawView = () => {
           </div>
           <div className="flex w-full justify-end">
             <button
-              disabled
-              className="bg-gray-400 text-sm text-white w-[155px] py-2 rounded-md cursor-not-allowed">
+              disabled={!bankUserReceive || Number(point) < 200}
+              onClick={() => {
+                if (bankUserReceive && Number(point) > 200) {
+                  if (+point > pointMain) {
+                    addMessagePopup('Tin nhắn', 'Số dư không đủ', 'Xác nhận', dispatch);
+                  } else {
+                    const data = {
+                      bankReceiveId: bankUserReceive,
+                      type: TypePaymentTranSaction.withdrawMoney,
+                      point: point,
+                      content: 'Ngân hàng điện tử',
+                    };
+                    handleDrawMoney(data, dispatch);
+                    setPoint('');
+                  }
+                }
+              }}
+              className=" text-sm  w-[155px] py-2 rounded-sm cursor-pointer text-white bg-[#ff9600] hover:bg-[#ffba00] disabled:bg-gray-400 disabled:cursor-not-allowed">
               Xác nhận
             </button>
           </div>
         </div>
       </div>
-      <div className="flex items-center bg-white p-1 gap-3">
+      <div className="flex items-center bg-white p-1 gap-3 h-[250px]">
         <div className="flex flex-col items-center justify-center max-w-[68px] p-2 bg-[#f3f3f3] h-full border border-gray-300 ">
           <Image
             src={'/member/withdraw/icon_dataHint.png'}
@@ -206,6 +198,18 @@ const WithDrawView = () => {
           </ol>
         </div>
       </div>
+
+      {titleMessage && descMessage && (
+        <ShowConfirmMessage
+          textClose={textClose}
+          textConfirm={textConfirm}
+          title={titleMessage}
+          desc={descMessage}
+          onConfirm={() => {
+            handleConfirmMessage(dispatch);
+          }}
+        />
+      )}
     </div>
   );
 };

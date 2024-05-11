@@ -1,17 +1,93 @@
 'use client';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
 import { ButtonAdd, ButtonBank, ButtonMethod } from '@/components/member/Button';
 import HeaderPurchase from '@/components/member/Header/header-purchase';
-const AtmPage = () => {
-  const [selectedOption, setSelectedOption] = useState('');
+import { useAppDispatch, useAppSelector } from '@/lib/redux/utilRedux';
+import { getAllBankPayment, getAllBankUser, getPaymentByType } from './view/utils/api';
+import { copyTextToClipboard } from '@/utils';
+import { handleConfirmMessage, handleDepositPoint } from './view/utils/handleMember';
+import { TypePaymentTranSaction, dataBankStatics } from '@/constant';
+import { ShowConfirmMessage } from '@/app/compmnents/ShowMessage';
+import { useRouter } from 'next/navigation';
+const AtmPage = ({
+  handleItemClick,
+  paymentTypeId,
+}: {
+  handleItemClick: (id?: number) => void;
+  paymentTypeId: number;
+}) => {
+  const { titleMessage, descMessage, textClose, textConfirm } = useAppSelector(
+    (state) => state.settingApp
+  );
+
+  const router = useRouter();
+  const [bankReceiver, setBankReceiver] = useState('');
+  const { paymentTypes } = useAppSelector((state) => state.payment);
+  const paymentTypeById = paymentTypes.find((i) => i.id === paymentTypeId);
+  const [payments, setPayments] = useState([]);
+  const [paymentBank, setPaymentBank] = useState<any[]>([]);
+  const [paymentId, setPaymentId] = useState();
+  const paymentSelect: any = payments.find((i: any) => i.id === paymentId);
+  const [point, setPoint] = useState<number>();
+  const [submitDeposit, setSubmitDeposit] = useState(false);
+  const dispatch = useAppDispatch();
+
+  const [bankUser, setBankUser] = useState([]);
+  const [bankUserTransfer, setBankUserTransfer] = useState<number>();
+  const bankSelected = paymentBank.find((bank: any) => bank.id == bankReceiver);
+
   const handleOptionChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    setSelectedOption(event.target.value);
+    setBankReceiver(event.target.value);
   };
 
+  useEffect(() => {
+    async function fetchData() {
+      if (paymentId) {
+        const res = await getAllBankPayment(paymentId);
+        if (res.data) {
+          const { data } = res;
+          setPaymentBank(data);
+        }
+      }
+    }
+
+    fetchData();
+  }, [paymentId]);
+
+  useEffect(() => {
+    async function fetchData() {
+      if (paymentTypeById) {
+        const res = await getPaymentByType(paymentTypeById.id);
+        if (res.data) {
+          const { data } = res.data;
+          setPayments(data);
+          setPaymentId(data[0].id);
+        }
+      }
+    }
+
+    fetchData();
+  }, [paymentTypeById]);
+
+  useEffect(() => {
+    async function fetchData() {
+      if (paymentTypeById) {
+        const bankUser = await getAllBankUser();
+        if (bankUser.data) {
+          const { data } = bankUser.data;
+          setBankUser(data);
+          setBankUserTransfer(data[0].id);
+        }
+      }
+    }
+
+    fetchData();
+  }, []);
+
   return (
-    <div className="max-lg:hidden flex flex-col gap-1 w-full p-1">
-      <div className="flex items-center bg-white p-1 gap-3 h-[150px]">
+    <div className="max-lg:hidden relative flex flex-col gap-1 w-full p-1">
+      <div className="flex items-center bg-white p-1 gap-3 h-[145px]">
         <div className=" flex flex-col items-center justify-center w-[68px] h-full p-2 bg-[#f3f3f3] border border-gray-300">
           <Image
             src={'/member/withdraw/icon_payWay.png'}
@@ -23,12 +99,18 @@ const AtmPage = () => {
           <p className="text-center text-sm text-[#888888]">Phương thức</p>
         </div>
         <div className="flex-1 flex flex-col justify-evenly gap-2 h-full">
-          <HeaderPurchase title="Chuyển khoản ATM" />
+          <HeaderPurchase
+            title={paymentTypeById?.name || ''}
+            icon={paymentTypeById?.image}
+            handleBack={handleItemClick}
+          />
           <div className="border-b border-gray-300" />
-          <ButtonMethod name="Chuyển khoản cùng hệ thống" select />
+          {payments.map((pay: any, index) => (
+            <ButtonMethod key={index} name={pay.methodName} icon={pay.methodImage} select />
+          ))}
         </div>
       </div>
-      <div className="flex items-center  bg-white p-1 gap-3 h-[180px]">
+      <div className="flex items-center  bg-white p-1 gap-3 h-[160px]">
         <div className="flex flex-col items-center justify-center max-w-[68px] h-full p-2 bg-[#f3f3f3] border border-gray-300">
           <Image
             src={'/member/withdraw/icon_payWay.png'}
@@ -41,62 +123,111 @@ const AtmPage = () => {
         </div>
         <div className="flex-1 text-sm space-y-2 py-2">
           <div className="flex gap-2 items-center">
-            <p>Ngân hàng: </p>
+            <p className="min-w-[120px] text-black">Ngân hàng: </p>
             <div className="relative">
               <select
-                value={selectedOption}
+                value={bankReceiver}
                 onChange={handleOptionChange}
                 className="block appearance-none bg-white border border-gray-300 rounded-md shadow-sm pl-3 pr-10 py-2 text-left focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
                 <option value="">Chọn ngân hàng muốn nạp</option>
-                <option value="option1">ACB</option>
-                <option value="option2">Vietcombank</option>
+                {paymentBank.map((bank: any, index) => {
+                  const nameBankShort = dataBankStatics.find(
+                    (item) => (item.bin = bank.binBank)
+                  )?.shortName;
+
+                  return (
+                    <option key={index} value={bank.id}>
+                      {nameBankShort || bank.nameBank}
+                    </option>
+                  );
+                })}
               </select>
             </div>
           </div>
-          <div>
-            <p>Tên tài khoản:</p>
+          <div className="flex">
+            <p className="min-w-[120px] text-black">Tên tài khoản:</p>
+            <span className="text-[#006cff]">{bankSelected ? bankSelected?.accountOwner : ''}</span>
           </div>
-          <div>
-            <p>Số tài khoản:</p>
+          <div className="flex">
+            <p className="min-w-[120px] text-black">Số tài khoản:</p>
+            <span className="text-[#006cff]">
+              {bankSelected ? bankSelected?.accountNumber : ''}
+            </span>
+            {bankSelected && (
+              <span
+                onClick={() => copyTextToClipboard(bankSelected.accountNumber)}
+                className="ml-3 cursor-pointer w-[47px] text-center bg-[#2d82f5] text-white rounded-[3px]">
+                Copy
+              </span>
+            )}
           </div>
-          <p className="text-red-500">*Chỉ sử dụng cho nạp tiền lần này.</p>
+          {paymentSelect?.nameWarning && (
+            <p className="text-red-500">* {paymentSelect?.nameWarning}</p>
+          )}
         </div>
       </div>
 
-      <div className="flex items-center bg-white p-1 gap-3 h-[200px]">
+      <div className="flex items-center bg-white p-1 gap-3 h-[195px]">
         <div className="flex flex-col items-center justify-center max-w-[68px] p-2 bg-[#f3f3f3] h-full border border-gray-300 ">
           <Image src={'/member/withdraw/icon_dataInput.png'} alt="" width={30} height={30} />
           <p className="text-center text-sm text-[#888888]">Đề xuất yêu cầu</p>
         </div>
         <div className="flex-1 flex flex-col py-2 gap-4 ">
           <div className="flex w-full items-center justify-between">
-            <ButtonBank />
-            <ButtonAdd />
-            <ButtonAdd />
-            <ButtonAdd />
+            {bankUser?.length &&
+              bankUser?.map((bank: any, index) => (
+                <ButtonBank
+                  key={index}
+                  binBank={bank.binBank}
+                  lastNumber={bank.accountNumber?.slice(-4)}
+                />
+              ))}
+            {Array.from({ length: 4 - bankUser.length }, (_, index) => index + 1).map(
+              (i, index) => (
+                <ButtonAdd key={index} />
+              )
+            )}
           </div>
           <div className=" flex justify-between items-center gap-2">
             <div className="relative flex justify-between items-center gap-2">
               <p className="text-sm">Số điểm nạp:</p>
               <input
-                type="text"
-                placeholder="200 ~ 1000000"
+                type="number"
+                value={point}
+                onChange={(e) => {
+                  const val =
+                    +e.target.value < Number(paymentTypeById?.maximum)
+                      ? +e.target.value
+                      : Number(paymentTypeById?.maximum);
+                  setPoint(val);
+                }}
+                placeholder={`${paymentTypeById?.minimum} ~ ${paymentTypeById?.maximum}`}
                 className="w-40 h-8 px-4 py-2 text-sm rounded-md bg-gray-200  outline-none border-none "
               />
-              <div className="absolute -bottom-8 left-[82px] flex justify-between text-sm w-[160px] text-red-500">
-                <p>Thực tế: 0</p>
-                <p>VNĐ</p>
+              <div className="absolute -bottom-8 left-[82px] flex justify-between text-sm w-auto text-red-500">
+                <p>
+                  Thực tế:{' '}
+                  <span className="font-bold">
+                    {point ? (point * 1000).toLocaleString('vi-VN') : 0}
+                  </span>
+                </p>
+                <p className="ml-2">VNĐ</p>
               </div>
             </div>
             <button
-              disabled
-              className="bg-gray-400 text-sm text-white w-[155px] py-2 rounded-md cursor-not-allowed">
+              disabled={!paymentId || !bankUserTransfer || !bankReceiver || !point}
+              onClick={() => {
+                if (paymentId && bankUserTransfer && bankReceiver && point) {
+                  setSubmitDeposit(true);
+                }
+              }}
+              className=" text-sm  w-[155px] py-2 rounded-sm cursor-pointer text-white bg-[#ff9600] hover:bg-[#ffba00] disabled:bg-gray-400 disabled:cursor-not-allowed">
               Xác nhận
             </button>
           </div>
         </div>
       </div>
-      <div className="flex items-center bg-white p-1 gap-3 h-[150px]">
+      <div className="flex items-center bg-white p-1 gap-3 h-[120px]">
         <div className="flex flex-col items-center justify-center max-w-[68px] p-2 bg-[#f3f3f3] h-full border border-gray-300 ">
           <Image
             src={'/member/withdraw/icon_dataHint.png'}
@@ -118,6 +249,77 @@ const AtmPage = () => {
           </ol>
         </div>
       </div>
+
+      {submitDeposit ? (
+        <div className="fixed top-0 left-0 right-0 bottom-0 bg-[#00000066] flex justify-center items-center">
+          <div className="bg-[#fff] rounded-md w-[25%]">
+            <div className="font-bold text-black px-4 py-2 text-center">Nạp tiền nhanh</div>
+            <div className="mb-4 text-black">
+              <div className="px-4">
+                <div>
+                  Xin quý khách vui lòng xác nhận lại số điểm.
+                  <br></br>
+                  Sau khi hệ thống xét duyệt xong sẽ tự động nạp điểm vào tài khoản của quý khách.
+                </div>
+                <div className="mt-3">
+                  Nạp điểm: <span className="text-[#ad0000] text-lg">{point || 1000}</span>
+                </div>
+              </div>
+            </div>
+            <div
+              className="flex border-t-[1px]"
+              style={{
+                borderColor: '#eee',
+              }}>
+              <button
+                onClick={() => setSubmitDeposit(false)}
+                className="hover:bg-[#e5e5e5] px-2 py-3 text-[#a1a1a1] font-bold "
+                style={{
+                  borderRight: '1px solid #eee',
+                  width: '50%',
+                }}>
+                Hủy
+              </button>
+              <button
+                onClick={() => {
+                  const data = {
+                    paymentId,
+                    bankTransferId: bankUserTransfer,
+                    bankReceiveId: bankReceiver,
+                    type: TypePaymentTranSaction.deposit,
+                    point: point,
+                    content: paymentTypeById?.name.toLocaleLowerCase().includes('atm')
+                      ? 'Ck ATM qua tk'
+                      : 'Ck e-banking qua số thẻ',
+                  };
+                  setSubmitDeposit(false);
+                  return handleDepositPoint(data, dispatch);
+                }}
+                className="hover:bg-[#e5e5e5] px-2 text-[#008bec] font-bold"
+                style={{
+                  width: '50%',
+                }}>
+                Xác nhận
+              </button>
+            </div>
+          </div>
+        </div>
+      ) : (
+        <></>
+      )}
+
+      {titleMessage && descMessage && (
+        <ShowConfirmMessage
+          textClose={textClose}
+          textConfirm={textConfirm}
+          title={titleMessage}
+          desc={descMessage}
+          onConfirm={() => {
+            handleConfirmMessage(dispatch);
+            router.push('/desktop/member/transaction');
+          }}
+        />
+      )}
     </div>
   );
 };

@@ -4,11 +4,16 @@ import Link from 'next/link';
 type HeaderProps = {
   title: string;
   icon?: string;
+  handleBack: () => void;
 };
-const HeaderPurchase = ({ title, icon }: HeaderProps) => {
-  
+const HeaderPurchase = ({ title, icon, handleBack }: HeaderProps) => {
   return (
-    <div className="flex justify-between">
+    <div
+      className="flex justify-between"
+      onClick={() => {
+        console.log('aaa');
+        handleBack();
+      }}>
       <div className="flex items-center gap-2">
         {icon ? (
           <Image src={icon} alt="" width={30} height={30} />

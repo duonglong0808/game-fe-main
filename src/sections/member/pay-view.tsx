@@ -3,7 +3,13 @@ import React from 'react';
 import Image from 'next/image';
 import { ButtonMethod } from '@/components/member/Button';
 import HeaderPurchase from '@/components/member/Header/header-purchase';
-const PayPage = () => {
+const PayPage = ({
+  handleItemClick,
+  paymentTypeId,
+}: {
+  handleItemClick: (id?: number) => void;
+  paymentTypeId: number;
+}) => {
   return (
     <div className="max-lg:hidden flex flex-col gap-1 w-full p-1">
       <div className="flex items-center bg-white p-1 gap-3 h-[150px]">
@@ -18,7 +24,11 @@ const PayPage = () => {
           <p className="text-center text-sm text-[#888888]">Phương thức</p>
         </div>
         <div className="flex-1 flex flex-col justify-evenly gap-2 h-full">
-          <HeaderPurchase title="Ví điện tử" icon="/member/purchase/icon_wallet.png" />
+          <HeaderPurchase
+            title="Ví điện tử"
+            icon="/member/purchase/icon_wallet.png"
+            handleBack={handleItemClick}
+          />
           <div className="border-b border-gray-300" />
           <div className="flex gap-2">
             <ButtonMethod name="Viettel Pay" select icon="/member/purchase/icon_viettelpay.png" />
@@ -26,8 +36,6 @@ const PayPage = () => {
           </div>
         </div>
       </div>
-
-      
     </div>
   );
 };

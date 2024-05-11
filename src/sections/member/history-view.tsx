@@ -8,6 +8,9 @@ import Image from 'next/image';
 import { useAppSelector } from '@/lib/redux/utilRedux';
 import moment from 'moment';
 import { getHistoryTransfer } from './view/utils/api';
+import classNames from 'classnames/bind';
+
+const cx = classNames.bind({});
 
 const config: CustomFlowbiteTheme = {
   table: {
@@ -81,16 +84,17 @@ const HistoryView = () => {
             };
           });
           setData(dataHis);
+          setSubMitQuery(false);
         }
       }
     }
 
     fetchHistory();
-  }, [setSubMitQuery]);
+  }, [subMitQuery, page]);
 
   return (
     <div className="h-full flex flex-col gap-1 w-full p-1">
-      <div className="h-full flex flex-col   bg-white p-2 gap-3">
+      <div className="h-full flex flex-col   bg-white p-2 gap-3 relative">
         <div className="flex items-center justify-between ">
           <select
             defaultValue={gameSelect.current}
@@ -131,7 +135,11 @@ const HistoryView = () => {
               className="text-base w-[150px]"
             />
 
-            <button className="bg-[#4a80a3] text-sm text-white p-2">Tìm kiếm</button>
+            <button
+              onClick={() => setSubMitQuery(true)}
+              className="bg-[#4a80a3] text-sm text-white p-2">
+              Tìm kiếm
+            </button>
           </div>
         </div>
         <div className="border-b bg-gray-200"></div>
@@ -255,7 +263,88 @@ const HistoryView = () => {
             <p className="text-base text-[#72a5dc] font-bold">Chưa có tin nhắn</p>
           </div>
         )}
-        <div className="m-auto">aaaa</div>
+        <div className="mx-auto mt-auto flex items-center re">
+          <div
+            onClick={() => {
+              setPage(1);
+              setSubMitQuery(true);
+            }}
+            className="mx-1.5 flex w-[25px] rounded-md h-[28px] bg-[#999] hover:bg-[#aaa] cursor-pointer">
+            <Image
+              alt="previous all"
+              src={'/transition/btn_firstPages.png'}
+              width={25}
+              height={25}
+              objectFit="contain"
+              className="p-1.5"
+            />
+          </div>
+          <div
+            onClick={() => {
+              if (page > 1) {
+                setPage(page - 1);
+                setSubMitQuery(true);
+              }
+            }}
+            className="mx-1.5 flex w-[25px] rounded-md h-[28px] bg-[#999] hover:bg-[#aaa] cursor-pointer">
+            <Image
+              alt="previous all"
+              src={'/transition/btn_prevPages.png'}
+              width={25}
+              height={25}
+              objectFit="contain"
+              className="p-1.5"
+            />
+          </div>
+
+          {Array.from({ length: Math.ceil(total.current / 10) }, (_, index) => index + 1).map(
+            (i) => (
+              <span
+                onClick={() => {
+                  setPage(i);
+                  setSubMitQuery(true);
+                }}
+                className={cx('mx-1 hover:deco cursor-pointer hover:underline', {
+                  'text-[#0089c9] underline': i == page,
+                })}>
+                {i}
+              </span>
+            )
+          )}
+
+          <div
+            onClick={() => {
+              if (page < Math.ceil(total.current / 10)) {
+                setPage(page + 1);
+                setSubMitQuery(true);
+              }
+            }}
+            className="mx-1.5 flex w-[25px] rounded-md h-[28px] bg-[#999] hover:bg-[#aaa] cursor-pointer">
+            <Image
+              alt="previous all"
+              src={'/transition/btn_nextPages.png'}
+              width={25}
+              height={25}
+              objectFit="contain"
+              className="p-1.5"
+            />
+          </div>
+          <div
+            onClick={() => {
+              setPage(Math.ceil(total.current / 10));
+              setSubMitQuery(true);
+            }}
+            className="mx-1.5 flex w-[25px] rounded-md h-[28px] bg-[#999] hover:bg-[#aaa] cursor-pointer">
+            <Image
+              alt="previous all"
+              src={'/transition/btn_lastPages.png'}
+              width={25}
+              height={25}
+              objectFit="contain"
+              className="p-1.5"
+            />
+          </div>
+        </div>
       </div>
     </div>
   );

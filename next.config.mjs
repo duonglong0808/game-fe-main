@@ -16,6 +16,9 @@ const nextConfig = {
   //   URL_GAME: 'https://game.vk169.net',
   //   HOST_KU: 'https://vn.vc3559k.net/api',
   // },
+  images: {
+    domains: ['storage.googleapis.com', "api.vietqr.io"],
+  },
 };
 
 export default nextConfig;

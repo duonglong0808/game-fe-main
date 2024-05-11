@@ -1,7 +1,8 @@
 import { useEffect } from 'react';
-import { getAllPointByUser } from './api';
+import { getAllPointByUser, transferPoint } from './api';
 import { useAppDispatch, useAppSelector } from '@/lib/redux/utilRedux';
-import { setDataGamePoint } from '@/lib/redux/app/user.slice';
+import { setDataGamePoint, setFetchingDataPoint } from '@/lib/redux/app/user.slice';
+import { setMessageApp } from '@/lib/redux/system/settingSys';
 
 export const useGameTable = () => {
   const { dataGamePoints, isFetchPoint } = useAppSelector((state) => state.user);
@@ -194,26 +195,57 @@ export const useGameTable = () => {
     fetchData();
   }, [isFetchPoint]);
 
+  const gameMain = dataGamePoints?.find((item) => item.gameSlug == 'tk-chinh');
   return {
-    main: dataGamePoints?.find((item) => item.gameSlug == 'tk-chinh')?.points,
+    gameMainId: gameMain?.gamePointId,
+    main: gameMain?.points,
     INFO: INFO.map((i) => {
+      const gamePoint = dataGamePoints?.find((item) => item.gameSlug == i.slug);
       return {
         ...i,
-        points: dataGamePoints?.find((item) => item.gameSlug == i.slug)?.points || 0,
+        gamePointId: gamePoint?.gamePointId,
+        points: gamePoint?.points || 0,
       };
     }),
     INFO_2: INFO_2.map((i) => {
+      const gamePoint = dataGamePoints?.find((item) => item.gameSlug == i.slug);
       return {
         ...i,
-        points: dataGamePoints?.find((item) => item.gameSlug == i.slug)?.points || 0,
+        gamePointId: gamePoint?.gamePointId,
+        points: gamePoint?.points || 0,
       };
     }),
     INFO_3: INFO_3.map((i) => {
+      const gamePoint = dataGamePoints?.find((item) => item.gameSlug == i.slug);
       return {
         ...i,
-        points: dataGamePoints?.find((item) => item.gameSlug == i.slug)?.points || 0,
+        gamePointId: gamePoint?.gamePointId,
+        points: gamePoint?.points || 0,
       };
     }),
     total: dataGamePoints.reduce((pre, item) => pre + item.points, 0),
   };
+};
+
+export const handleMovePointToMain = async (
+  gamePointTransfer: number,
+  gamePointReceive: number,
+  points: number,
+  dispatch: any
+) => {
+  if (gamePointTransfer && gamePointReceive && points) {
+    const res = await transferPoint(gamePointTransfer, gamePointReceive, points);
+    console.log('🚀 ~ res:', res);
+    if (res.data) {
+      dispatch(setFetchingDataPoint({ isFetchPoint: true }));
+      // dispatch(
+      //   setMessageApp({
+      //     titleMessage: 'Tin nhắn',
+      //     descMessage: 'Chuyển tiền thành công',
+      //     textClose: '',
+      //     textConfirm: 'Xác nhận',
+      //   })
+      // );
+    }
+  }
 };

@@ -4,10 +4,12 @@ import Image from 'next/image';
 import Link from 'next/link';
 
 import { Accordion } from 'flowbite-react';
-import { useGameTable } from './utils/handleTable';
+import { handleMovePointToMain, useGameTable } from './utils/handleTable';
+import { useDispatch } from 'react-redux';
 
 const TableInfo = () => {
-  const { INFO, INFO_2, INFO_3, main, total } = useGameTable();
+  const { INFO, INFO_2, INFO_3, main, total, gameMainId } = useGameTable();
+  const dispatch = useDispatch();
 
   return (
     <div className="relative p-1 h-full">
@@ -42,10 +44,15 @@ const TableInfo = () => {
               <p className="whitespace-nowrap text-sm text-gray-900 dark:text-white border-r flex flex-col justify-center">
                 {item.name}
               </p>
-              <div className="flex justify-between col-span-2">
+              <div className="flex justify-between col-span-2 items-center">
                 <p className="text-[#02af1d] font-bold px-2">{item.points}</p>
                 {item.points > 0 && (
-                  <p className="cursor-pointer text-white bg-[#00979c] text-sm hover:bg-[#26bcc1]   p-1.5 rounded-md">
+                  <p
+                    onClick={() => {
+                      if (item.gamePointId && gameMainId)
+                        handleMovePointToMain(item.gamePointId, gameMainId, item.points, dispatch);
+                    }}
+                    className="cursor-pointer text-white bg-[#00979c] text-sm hover:bg-[#26bcc1]   p-1.5 rounded-md">
                     Chuyển về
                   </p>
                 )}
@@ -75,10 +82,20 @@ const TableInfo = () => {
                 <p className="whitespace-nowrap text-sm text-gray-900 dark:text-white border-r flex flex-col justify-center">
                   {item.name}
                 </p>
-                <div className="flex justify-between col-span-2">
+                <div className="flex justify-between col-span-2 items-center">
                   <p className="text-[#02af1d] font-bold px-2">{item.points}</p>
                   {item.points > 0 && (
-                    <p className="cursor-pointer text-white bg-[#00979c] text-sm hover:bg-[#26bcc1]   p-1.5 rounded-md">
+                    <p
+                      onClick={() => {
+                        if (item.gamePointId && gameMainId)
+                          handleMovePointToMain(
+                            item.gamePointId,
+                            gameMainId,
+                            item.points,
+                            dispatch
+                          );
+                      }}
+                      className="cursor-pointer text-white bg-[#00979c] text-sm hover:bg-[#26bcc1]   p-1.5 rounded-md">
                       Chuyển về
                     </p>
                   )}
@@ -108,10 +125,20 @@ const TableInfo = () => {
                 <p className="whitespace-nowrap text-sm text-gray-900 dark:text-white border-r flex flex-col justify-center">
                   {item.name}
                 </p>
-                <div className="flex justify-between col-span-2">
+                <div className="flex justify-between col-span-2 items-center">
                   <p className="text-[#02af1d] font-bold px-2">{item.points}</p>
                   {item.points > 0 && (
-                    <p className="cursor-pointer text-white bg-[#00979c] text-sm hover:bg-[#26bcc1]   p-1.5 rounded-md">
+                    <p
+                      onClick={() => {
+                        if (item.gamePointId && gameMainId)
+                          handleMovePointToMain(
+                            item.gamePointId,
+                            gameMainId,
+                            item.points,
+                            dispatch
+                          );
+                      }}
+                      className="cursor-pointer text-white bg-[#00979c] text-sm hover:bg-[#26bcc1]   p-1.5 rounded-md">
                       Chuyển về
                     </p>
                   )}

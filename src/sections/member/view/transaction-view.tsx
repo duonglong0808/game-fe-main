@@ -37,7 +37,7 @@ const TransactionView = () => {
   return (
     <div className="flex flex-col gap-1 w-full h-[70vh]  bg-white p-2">
       <HeaderTransaction />
-      <div className="overflow-auto">
+      <div className="overflow-hidden h-full">
         <Flowbite theme={{ theme: config }}>
           <Table>
             <Table.Head>

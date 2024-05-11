@@ -72,10 +72,14 @@ export const handleDepositPoint = async (data: any, dispatch: any) => {
   }
 };
 
+export const refreshPoint = (dispatch: any) => {
+  dispatch(setFetchingDataPoint({ isFetchPoint: true }));
+};
+
 export const handleDrawMoney = async (data: any, dispatch: any) => {
   const res = await depositPointToMain(data);
   if (res.data) {
-    console.log('🚀 ~ handleDepositPoint ~ res.data:', res.data);
+    dispatch(setFetchingDataPoint({ isFetchPoint: true }));
     dispatch(
       setMessageApp({
         titleMessage: 'Tin nhắn',

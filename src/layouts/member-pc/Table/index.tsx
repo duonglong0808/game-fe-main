@@ -6,6 +6,7 @@ import Link from 'next/link';
 import { Accordion } from 'flowbite-react';
 import { handleMovePointToMain, useGameTable } from './utils/handleTable';
 import { useDispatch } from 'react-redux';
+import { refreshPoint } from '@/sections/member/view/utils/handleMember';
 
 const TableInfo = () => {
   const { INFO, INFO_2, INFO_3, main, total, gameMainId } = useGameTable();
@@ -19,7 +20,7 @@ const TableInfo = () => {
         </p>
         <div className="flex justify-between col-span-2">
           <p className="text-white font-bold px-2 text-lg">{main}</p>
-          <div className="group cursor-pointer">
+          <div className="group cursor-pointer" onClick={() => refreshPoint(dispatch)}>
             <Image
               src={'/btn_pRefresh.png'}
               alt=""

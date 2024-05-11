@@ -22,7 +22,7 @@ const VNPayPage = ({
   const [payments, setPayments] = useState([]);
   const [paymentId, setPaymentId] = useState();
   const paymentSelect: any = payments.find((i: any) => i.id === paymentId);
-  const [point, setPoint] = useState<number>();
+  const [point, setPoint] = useState('');
   const [submitDeposit, setSubmitDeposit] = useState(false);
   const dispatch = useAppDispatch();
 
@@ -88,24 +88,27 @@ const VNPayPage = ({
               type="number"
               value={point}
               onChange={(e) => {
-                const val =
-                  +e.target.value < Number(paymentTypeById?.maximum)
-                    ? +e.target.value
-                    : Number(paymentTypeById?.maximum);
-                setPoint(val);
+                if (Number(e.target.value) > 0) {
+                  const val =
+                    +e.target.value < Number(paymentTypeById?.maximum)
+                      ? e.target.value
+                      : Number(paymentTypeById?.maximum);
+                  setPoint(String(val));
+                } else {
+                  setPoint('');
+                }
               }}
               placeholder={`${paymentTypeById?.minimum} ~ ${paymentTypeById?.maximum}`}
-              className="h-8 px-4 py-2 text-sm rounded-md bg-gray-200  outline-none border-none "
+              className="w-40 h-8 px-4 py-2 text-sm rounded-md bg-gray-200  outline-none border-none "
             />
-            <div className=" flex justify-between text-sm w-auto text-red-500">
+            <div className="absolute -bottom-8 left-[82px] flex justify-between text-sm w-auto text-red-500">
               <p>
                 Thực tế:{' '}
                 <span className="font-bold">
-                  {point ? (point * 1000).toLocaleString('vi-VN') : 0}
+                  {point ? (+point * 1000).toLocaleString('vi-VN') : 0}
                 </span>
               </p>
-
-              <p>VNĐ</p>
+              <p className="ml-2">VNĐ</p>
             </div>
             <button
               disabled={!paymentId || !point}

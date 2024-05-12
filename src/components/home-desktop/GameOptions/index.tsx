@@ -12,6 +12,7 @@ export function GameOptions({
   maxLengthRow,
   positionLogo,
   animation,
+  onClickGame,
 }: {
   maxLengthRow: number;
   positionLogo?: string;
@@ -25,6 +26,7 @@ export function GameOptions({
     top: number;
     isPending?: boolean;
   }[];
+  onClickGame: () => void;
 }): JSX.Element {
   const currentUser = useAppSelector((state) => state.user);
   const { userName } = currentUser;
@@ -39,13 +41,7 @@ export function GameOptions({
 
   const handleClickGame = () => {
     if (userName) {
-      const accessToken = localStorage.getItem('access_token');
-      const refreshToken = localStorage.getItem('refresh_token');
-
-      window.open(
-        `${process.env.URL_GAME}?access_token=${accessToken}&&refresh_token=${refreshToken}`,
-        '_blank'
-      );
+      onClickGame();
     } else {
       handleOpenLogin();
     }

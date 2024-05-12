@@ -4,7 +4,12 @@ import classNames from 'classnames/bind';
 import styles from './styles.module.scss';
 import Image from 'next/image';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCaretDown, faMobileScreenButton, faStar } from '@fortawesome/free-solid-svg-icons';
+import {
+  faCaretDown,
+  faMobileScreenButton,
+  faStar,
+  faXmark,
+} from '@fortawesome/free-solid-svg-icons';
 // import { GameOptions } from '../GameOptions';
 import { useEffect, useRef, useState } from 'react';
 import {
@@ -19,7 +24,7 @@ import {
 } from './dataStatics';
 import { useAppDispatch, useAppSelector } from '@/lib/redux/utilRedux';
 import { logOutUser } from '@/lib/redux/app/user.slice';
-import { formatTime } from '@/utils';
+import { BaseAxios, formatTime } from '@/utils';
 import { GameOptions } from '@/components/home-desktop/GameOptions';
 import { Register } from '@/components/home-desktop/Register';
 import { Login } from '@/components/home-desktop/Login';
@@ -29,11 +34,15 @@ const cx = classNames.bind(styles);
 
 export function HeaderHome(): JSX.Element {
   const dataGameOption = useRef(dataChess);
+
+  const [openPopupTrans, setOpenPopupTrans] = useState(false);
+  const [pointTransfer, setPointTransfer] = useState('');
+
   const [openGameOption, setOpenGameOption] = useState(false);
 
   const dispatch = useAppDispatch();
   const currentUser = useAppSelector((state) => state.user);
-  const { name, userName, mainPoint } = currentUser;
+  const { name, userName, mainPoint, gamePointKu } = currentUser;
 
   const [download, setDownload] = useState<boolean>(true);
   useEffect(() => {
@@ -45,7 +54,7 @@ export function HeaderHome(): JSX.Element {
     setDownload(localStorage.getItem('download') === 'true' ? true : false);
   }, []);
 
-  const handleOpenTab = (path: string) => {
+  const handleOpenNewTab = (path: string) => {
     if (userName) {
       const left = screen.width / 2 - 950 / 2;
       const top = screen.height / 2 - 750 / 2;
@@ -65,6 +74,18 @@ export function HeaderHome(): JSX.Element {
     }
   };
 
+  const handleNavigateGameKu = () => {
+    if (userName) {
+      const accessToken = localStorage.getItem('access_token');
+      const refreshToken = localStorage.getItem('refresh_token');
+
+      window.open(
+        `${process.env.URL_GAME}?access_token=${accessToken}&&refresh_token=${refreshToken}`,
+        '_blank'
+      );
+    }
+  };
+
   const handleMouseLeave = (event: any) => {
     const target = event.relatedTarget as HTMLElement; // Kiểm tra kiểu
     if (target && !target.closest(`.header-bottom__list-game`)) {
@@ -75,6 +96,19 @@ export function HeaderHome(): JSX.Element {
   const handleSetDownload = () => {
     setDownload(!download);
     localStorage.setItem('download', !download ? 'true' : 'false');
+  };
+
+  const transferPoint = async (
+    gamePointTransfer: number,
+    gamePointReceive: number,
+    points: number
+  ) => {
+    const axios = new BaseAxios();
+    return axios.post('/user-point', {
+      gamePointTransfer,
+      gamePointReceive,
+      points,
+    });
   };
 
   return (
@@ -99,17 +133,17 @@ export function HeaderHome(): JSX.Element {
 
               <button
                 className={cx('header-top__btn', 'header-top__btn--move')}
-                onClick={() => handleOpenTab('/desktop/member/transition')}>
+                onClick={() => handleOpenNewTab('/desktop/member/transition')}>
                 Chuyển quỹ
               </button>
               <button
                 className={cx('header-top__btn', 'header-top__btn--recharge')}
-                onClick={() => handleOpenTab('/desktop/member/purchase')}>
+                onClick={() => handleOpenNewTab('/desktop/member/purchase')}>
                 Nạp tiền
               </button>
               <button
                 className={cx('header-top__btn', 'header-top__btn--withdraw')}
-                onClick={() => handleOpenTab('/desktop/member/withdraw')}>
+                onClick={() => handleOpenNewTab('/desktop/member/withdraw')}>
                 Rút tiền
               </button>
 
@@ -255,7 +289,7 @@ export function HeaderHome(): JSX.Element {
           <div
             className={cx('header-bottom__item--game', 'header-bottom__list-game')}
             onMouseLeave={() => setOpenGameOption(false)}>
-            <GameOptions {...dataGameOption.current} />
+            <GameOptions {...dataGameOption.current} onClickGame={() => setOpenPopupTrans(true)} />
           </div>
         )}
       </div>
@@ -333,6 +367,96 @@ export function HeaderHome(): JSX.Element {
       <div className={cx('wrapper-login')} id="wrapper-login">
         <Login />
       </div>
+      {openPopupTrans ? (
+        <div className="fixed left-0 top-0 right-0 bottom-0 bg-[#00000099] z-10 flex justify-center items-center">
+          <div
+            className="p-[15px] rounded-[8px] w-[434px] bg-[#fff]"
+            style={{
+              boxShadow: '0 10px 25px rgba(0, 0, 0, 0.5)',
+            }}>
+            <div className="text-[#5aaaf3] text-[18px] border-b-2 border-b-[#e5e5e5] flex pb-3">
+              <span className="font-semibold flex-1 text-center">Chuyển khoản nhanh</span>
+              <FontAwesomeIcon
+                icon={faXmark}
+                className={cx('register__header--icon')}
+                onClick={() => setOpenPopupTrans(false)}
+              />
+            </div>
+            <div className="p-[20px] pb-[5px]">
+              <div className="border-b-2 border-b-[#e5e5e5]">
+                <div className="flex h-[35px] mb-[25px]">
+                  <span className="w-[115px] ">Tk Chính</span>
+                  <span className="text-[#1ba200] flex items-center flex-1 pl-[10px] border-[1px] border-[#dadada]">
+                    {mainPoint}
+                  </span>
+                </div>
+
+                <div className="flex h-[35px] mb-[25px]">
+                  <span className="w-[115px] text-[#ffa800]">KU Casino</span>
+                  <span className="text-[#1ba200] flex items-center flex-1 pl-[10px] border-[1px] border-[#dadada] ">
+                    {gamePointKu}
+                  </span>
+                </div>
+
+                <div className="flex h-[35px] mb-[25px] items-center">
+                  <span className="w-[115px] text-[15px] block">Điểm chuyển</span>
+                  <input
+                    value={pointTransfer}
+                    onChange={(e) => {
+                      if (Number(e.target.value) > 0) {
+                        const val = Number(e.target.value) < mainPoint ? e.target.value : mainPoint;
+                        setPointTransfer(String(val));
+                      } else {
+                        setPointTransfer('');
+                      }
+                    }}
+                    placeholder="Nhập điểm chuyển"
+                    className="bg-[#f3f3f3] font-semibold  h-[35px]  w-[156px] px-2 outline-0"
+                  />
+
+                  <button
+                    disabled={!mainPoint}
+                    onClick={async () => {
+                      if (mainPoint) {
+                        const res = await transferPoint(1, 3, mainPoint);
+                        if (res?.data) {
+                          handleNavigateGameKu();
+                        }
+                      }
+                    }}
+                    className="bg-[#35b0c0] cursor-pointer rounded-[3px] w-[85px] text-[14px] h-[35px] text-white ml-auto">
+                    Chuyển hết
+                  </button>
+                </div>
+              </div>
+              <div className="flex justify-between mt-4 mx-2">
+                <button
+                  onClick={() => {
+                    handleNavigateGameKu();
+                  }}
+                  className="bg-[#ffa800] w-[48%] rounded-sm h-[45px] text-white">
+                  Vào trò chơi
+                </button>
+                <button
+                  disabled={!pointTransfer}
+                  onClick={async () => {
+                    if (pointTransfer) {
+                      const res = await transferPoint(1, 3, +pointTransfer);
+                      if (res?.data) {
+                        handleNavigateGameKu();
+                      }
+                    }
+                  }}
+                  className="bg-[#32abff] w-[48%] rounded-sm h-[45px] text-white disabled:bg-[#aaa]">
+                  Xác nhận
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      ) : (
+        <></>
+      )}
     </header>
   );
 }

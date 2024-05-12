@@ -250,6 +250,13 @@
   display: none;
 }
 
+.register__header--icon {
+  color: #bdbdbd;
+  font-weight: bold;
+  font-size: 26px;
+  cursor: pointer;
+}
+
 @keyframes expandHeight {
   0% {
     height: 0; /* Bắt đầu với height là 0% */

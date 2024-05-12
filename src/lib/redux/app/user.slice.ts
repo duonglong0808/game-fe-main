@@ -14,6 +14,7 @@ interface UserSlice {
   isFetchPoint: boolean;
   dataGamePoints: PointItem[];
   mainPoint: number;
+  gamePointKu: number;
 }
 
 const userSlice = createSlice({
@@ -26,14 +27,16 @@ const userSlice = createSlice({
     dataGamePoints: [],
     isFetchPoint: true,
     mainPoint: 0,
+    gamePointKu: 0,
   } as UserSlice,
   reducers: {
     setDataUserLogin(state, action) {
       state.name = action.payload.name;
       state.userId = action.payload.id;
       state.userName = action.payload.username;
-      state.mainPoint = action.payload.mainPoint;
+      state.mainPoint = action.payload.mainPoint || 0;
       state.phone = action.payload.phone;
+      state.gamePointKu = action.payload.gamePoint || 0;
     },
     logOutUser(state) {
       state.userName = '';

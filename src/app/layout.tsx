@@ -3,11 +3,24 @@ import { Inter } from 'next/font/google';
 import './globals.css';
 import StoreProvider from './StoreProvider';
 
-const inter = Inter({ subsets: ['latin'] });
+// const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
-  title: 'KU App',
-  description: '',
+  title:
+    'Thương hiệu Casino chuyên nghiệp số 1 Châu Á, [đối tác chính thức của Laliga trong 5 giải đấu lớn] cùng các trò chơi giải trí (Thể Thao, Casino, E-Sports, Xổ Số)',
+  description: ' Casino top 1 ',
+  icons: [
+    {
+      media: '(prefers-color-scheme: light)',
+      url: '/images/favicon.ico',
+      href: '/images/favicon.ico',
+    },
+    {
+      media: '(prefers-color-scheme: dark)',
+      url: '/images/favicon.ico',
+      href: '/images/favicon.ico',
+    },
+  ],
 };
 
 export default function RootLayout({
@@ -15,8 +28,6 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const time = new Date();
-
   return (
     <html lang="en">
       <body className="h-full">

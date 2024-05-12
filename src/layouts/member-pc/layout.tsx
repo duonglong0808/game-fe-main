@@ -12,7 +12,7 @@ export default function MemberLayout({
 
   if (pathname.includes('transaction'))
     return (
-      <div className="max-lg:hidden h-screen overflow-hidden flex flex-col">
+      <div className="h-screen overflow-hidden flex flex-col">
         <Header />
         <div
           className="flex-1 bg-gray-200 text-[#555] flex justify-center"
@@ -31,18 +31,18 @@ export default function MemberLayout({
       </>
     );
   return (
-    <div className="max-lg:hidden h-screen overflow-hidden flex flex-col">
+    <div className=" h-screen overflow-hidden flex flex-col">
       <Header />
       <div
         className="flex-1 bg-gray-200 text-[#555] flex justify-center"
         style={{
           backgroundColor: '#f3f3f3',
         }}>
-        <div className="flex w-[950px] ">
-          <div className="flex-[0.35] h-[70vh] overflow-auto">
+        <div className="flex w-[950px] h-[635px] ">
+          <div className="flex-[0.35]">
             <Table />
           </div>
-          <div className="flex-[0.75] h-[70vh]">{children}</div>
+          <div className="flex-[0.75] ">{children}</div>
         </div>
       </div>
     </div>

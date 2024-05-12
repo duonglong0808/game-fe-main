@@ -1,11 +1,15 @@
 'use client';
+import styles from './view/styles/vnp-view.module.scss';
 import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
 import { ButtonMethod } from '@/components/member/Button';
 import HeaderPurchase from '@/components/member/Header/header-purchase';
-import { useAppDispatch, useAppSelector } from '@/lib/redux/utilRedux';
-import { getPaymentByType } from './view/utils/api';
+import { useAppSelector } from '@/lib/redux/utilRedux';
+import { depositPointToMain, getAllBankPayment, getPaymentByType } from './view/utils/api';
 import { ShowConfirmMessage } from '@/app/compmnents/ShowMessage';
+import { TypePaymentTranSaction, dataBankStatics } from '@/constant';
+import classNames from 'classnames/bind';
+const cx = classNames.bind(styles);
 const VNPayPage = ({
   handleItemClick,
   paymentTypeId,
@@ -22,9 +26,32 @@ const VNPayPage = ({
   const [payments, setPayments] = useState([]);
   const [paymentId, setPaymentId] = useState();
   const paymentSelect: any = payments.find((i: any) => i.id === paymentId);
+  const showAccountBank = paymentSelect?.showAccount;
+  const methodPay =
+    paymentSelect && paymentSelect.methodName.toLocaleLowerCase().includes('qr')
+      ? 'qr'
+      : paymentSelect?.methodName.toLocaleLowerCase().includes('momo')
+      ? 'momo'
+      : 'viettel';
+  const [paymentBank, setPaymentBank] = useState<any[]>([]);
+  const [bankReceiver, setBankReceiver] = useState('');
+
   const [point, setPoint] = useState('');
   const [submitDeposit, setSubmitDeposit] = useState(false);
-  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    async function fetchData() {
+      if (paymentId) {
+        const res = await getAllBankPayment(paymentId);
+        if (res.data) {
+          const { data } = res;
+          setPaymentBank(data);
+        }
+      }
+    }
+
+    fetchData();
+  }, [paymentId]);
 
   useEffect(() => {
     async function fetchData() {
@@ -40,6 +67,23 @@ const VNPayPage = ({
 
     fetchData();
   }, [paymentTypeById]);
+
+  function openPopup(url: string, title: string, w: number, h: number) {
+    const left = screen.width / 2 - w / 2;
+    const top = screen.height / 2 - h / 2;
+    return window.open(
+      url,
+      title,
+      'toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=no, resizable=no, copyhistory=no, width=' +
+        w +
+        ', height=' +
+        h +
+        ', top=' +
+        top +
+        ', left=' +
+        left
+    );
+  }
 
   return (
     <div className="max-lg:hidden flex flex-col gap-1 w-full p-1">
@@ -99,9 +143,9 @@ const VNPayPage = ({
                 }
               }}
               placeholder={`${paymentTypeById?.minimum} ~ ${paymentTypeById?.maximum}`}
-              className="w-40 h-8 px-4 py-2 text-sm rounded-md bg-gray-200  outline-none border-none "
+              className="w-[200px] h-8 px-4 py-2 text-sm rounded-md bg-gray-200  outline-none border-none "
             />
-            <div className="absolute -bottom-8 left-[82px] flex justify-between text-sm w-auto text-red-500">
+            <div className="flex justify-between text-sm w-auto text-red-500">
               <p>
                 Thực tế:{' '}
                 <span className="font-bold">
@@ -111,10 +155,39 @@ const VNPayPage = ({
               <p className="ml-2">VNĐ</p>
             </div>
             <button
-              disabled={!paymentId || !point}
-              onClick={() => {
-                if (paymentId && point) {
-                  setSubmitDeposit(true);
+              disabled={!paymentId || !(+point >= 200)}
+              onClick={async () => {
+                console.log('🚀 ~ onClick={ ~ paymentId:', paymentId);
+                if (paymentId && +point >= 200) {
+                  if (showAccountBank) {
+                    setSubmitDeposit(true);
+                  } else {
+                    console.log('aaaaa');
+                    const data = {
+                      paymentId,
+                      bankReceiveId: bankReceiver,
+                      type: TypePaymentTranSaction.deposit,
+                      point: point,
+                      content:
+                        methodPay == 'qr'
+                          ? 'Qrcode'
+                          : methodPay == 'momo'
+                          ? 'MoMo Quét mã'
+                          : 'Viettel Money Quét mã',
+                    };
+                    const res = await depositPointToMain(data);
+                    if (res?.data) {
+                      const qrCode = res.data?.qrCode;
+                      const a = openPopup(
+                        `${process.env.URL_MAIN}/payment-gate?methodName=${methodPay}&point=${point}&qrCode=${qrCode}`,
+                        'KU Casio -Qr code',
+                        900,
+                        729
+                      );
+                      // console.log('a', a);
+                      setSubmitDeposit(false);
+                    }
+                  }
                 }
               }}
               className=" text-sm  w-[155px] py-2 rounded-sm cursor-pointer text-white bg-[#ff9600] hover:bg-[#ffba00] disabled:bg-gray-400 disabled:cursor-not-allowed">
@@ -154,6 +227,82 @@ const VNPayPage = ({
           desc={descMessage}
           onConfirm={() => {}}
         />
+      )}
+      {showAccountBank && submitDeposit ? (
+        <div className="fixed top-0 left-0 right-0 bottom-0 bg-[#00000099] flex items-center">
+          <div className="bg-[#fff] m-auto z-10 p-[15px] rounded-[8px] w-[640px] relative">
+            <div className="text-[#5aaaf3] border-b-2 border-[#e5e5e5] py-3 text-center h-[38px] pb-4 text-[18px] font-bold flex items-center justify-center">
+              Chọn ngân hàng thanh toán
+            </div>
+            <div
+              onClick={() => setSubmitDeposit(false)}
+              className="absolute top-[5px] right-[14px] w-10 h-10 cursor-pointer"
+              style={{
+                background: 'url(/member/deposit/icon_close.png) no-repeat center',
+                backgroundSize: '20px 20px',
+              }}></div>
+            <ul className="flex flex-wrap py-1 mb-[15px] max-h-[360px] overflow-y-auto border-b-2 border-[#e5e5e5]">
+              {paymentBank.map((bank: any, index) => (
+                <li
+                  key={index}
+                  onClick={() => setBankReceiver(bank.id)}
+                  className={cx(
+                    'm-[5px] cursor-pointer w-[140] h-[50px] overflow-hidden relative',
+                    { 'bank-active': bank.id == bankReceiver }
+                  )}
+                  style={{ border: '1px solid #ccc' }}>
+                  <Image
+                    alt="logo bank"
+                    src={dataBankStatics.find((i) => i.bin == bank.binBank)?.logo || ''}
+                    height={50}
+                    width={140}
+                  />
+                </li>
+              ))}
+            </ul>
+            <div className="flex justify-center">
+              <button
+                disabled={!bankReceiver}
+                onClick={async () => {
+                  if (
+                    bankReceiver &&
+                    +point > Number(paymentTypeById?.minimum) &&
+                    +point < Number(paymentTypeById?.maximum)
+                  ) {
+                    const data = {
+                      paymentId,
+                      bankReceiveId: bankReceiver,
+                      type: TypePaymentTranSaction.deposit,
+                      point: point,
+                      content:
+                        methodPay == 'qr'
+                          ? 'Qrcode'
+                          : methodPay == 'momo'
+                          ? 'MoMo Quét mã'
+                          : 'Viettel Money Quét mã',
+                    };
+                    const res = await depositPointToMain(data);
+                    if (res?.data) {
+                      const qrCode = res.data?.qrCode;
+                      const a = openPopup(
+                        `${process.env.URL_MAIN}/payment-gate?methodName=${methodPay}&point=${point}&qrCode=${qrCode}`,
+                        'KU Casio -Qr code',
+                        900,
+                        729
+                      );
+                      // console.log('a', a);
+                      setSubmitDeposit(false);
+                    }
+                  }
+                }}
+                className="mx-auto border-0 rounded-[3px] h-[45px] text-sm text-white cursor-pointer w-[300px] bg-[#32abff] hover:bg-[#38b8ff]  disabled:bg-[#aaa] disabled:cursor-not-allowed">
+                Xác nhận
+              </button>
+            </div>
+          </div>
+        </div>
+      ) : (
+        <></>
       )}
     </div>
   );

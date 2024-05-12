@@ -1,0 +1,30 @@
+.bank-active {
+  border: 2px solid #f00 !important;
+  //   background-color: #f00;
+  background-color: rgba(255, 0, 0, 0.092);
+
+  &::before {
+    content: '';
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: 0 18px 18px 0;
+    border-color: transparent #f00 transparent transparent;
+    position: absolute;
+    top: 0;
+    right: 0;
+    z-index: 1;
+  }
+
+  &::after {
+    content: '';
+    width: 13px;
+    height: 13px;
+    background: url(/member/deposit/icon_weekOn.png) no-repeat;
+    background-size: 100% auto;
+    position: absolute;
+    top: -1px;
+    right: -2px;
+    z-index: 2;
+  }
+}

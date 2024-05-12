@@ -25,7 +25,12 @@ export const handleCreateAccount = async (data: any, handleCloseRegister: () => 
   handleCloseRegister();
 };
 
-export const handleLoginAccount = async (account: string, password: string, handleCloseRegister: () => void, dispatch: any) => {
+export const handleLoginAccount = async (
+  account: string,
+  password: string,
+  handleCloseRegister: () => void,
+  dispatch: any
+) => {
   password = btoa(password);
   const axios = new BaseAxios();
   const login = await axios.post('/auth/login', {
@@ -34,7 +39,14 @@ export const handleLoginAccount = async (account: string, password: string, hand
   });
   console.log('🚀 ~ handleLoginAccount ~ login:', login);
   if (!login) {
-    dispatch(setMessageApp({ titleMessage: 'Tin nhắn', descMessage: 'Tài khoản hoặc mật khẩu sai', textClose: '', textConfirm: 'Xác nhận' }));
+    dispatch(
+      setMessageApp({
+        titleMessage: 'Tin nhắn',
+        descMessage: 'Tài khoản hoặc mật khẩu sai',
+        textClose: '',
+        textConfirm: 'Xác nhận',
+      })
+    );
   } else {
     localStorage.setItem('access_token', login?.data?.access_token);
     localStorage.setItem('refresh_token', login?.data?.refresh_token);
@@ -46,12 +58,21 @@ export const handleLoginAccount = async (account: string, password: string, hand
 
 export const getUserInfo = async (dispatch: any) => {
   const axios = new BaseAxios();
-  const userInfo = await axios.get('auth/userInfo');
+  const [userInfo, dataPoint] = await Promise.all([
+    axios.get('auth/userInfo'),
+    getPointGameKuAndMain(),
+  ]);
+  console.log('🚀 ~ getUserInfo ~ dataPoint:', dataPoint);
   if (userInfo) {
-    dispatch(setDataUserLogin(userInfo?.data));
+    dispatch(setDataUserLogin({ ...userInfo?.data, ...dataPoint.data }));
     return true;
   }
   return false;
+};
+
+export const getPointGameKuAndMain = async () => {
+  const axios = new BaseAxios();
+  return axios.get(`/user-point/game/ku-casino`);
 };
 
 // export const checkAccountKu = async (account: string, password: string, BBOSID: string) => {

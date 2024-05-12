@@ -5,13 +5,20 @@ import { getAllBankUser } from './utils/api';
 import { ButtonAdd, ButtonBank } from '@/components/member/Button';
 import { useAppDispatch, useAppSelector } from '@/lib/redux/utilRedux';
 import { ShowConfirmMessage } from '@/app/compmnents/ShowMessage';
-import { addMessagePopup, handleConfirmMessage, handleDrawMoney } from './utils/handleMember';
+import {
+  addMessagePopup,
+  handleConfirmMessage,
+  handleDrawMoney,
+  useDataUserInfo,
+} from './utils/handleMember';
 import { TypePaymentTranSaction } from '@/constant';
 
 const WithDrawView = () => {
   const { titleMessage, descMessage, textClose, textConfirm } = useAppSelector(
     (state) => state.settingApp
   );
+
+  const useInfo = useDataUserInfo();
 
   const { dataGamePoints } = useAppSelector((state) => state.user);
   const pointMain = dataGamePoints.find((game) => game.gameSlug == 'tk-chinh')?.points || 0;

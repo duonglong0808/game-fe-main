@@ -28,14 +28,12 @@ import { getUserInfo } from '@/components/home-desktop/Login/handleLogin';
 const cx = classNames.bind(styles);
 
 export function HeaderHome(): JSX.Element {
-  const time = new Date();
-
   const dataGameOption = useRef(dataChess);
   const [openGameOption, setOpenGameOption] = useState(false);
 
   const dispatch = useAppDispatch();
   const currentUser = useAppSelector((state) => state.user);
-  const { name, userName } = currentUser;
+  const { name, userName, mainPoint } = currentUser;
 
   const [download, setDownload] = useState<boolean>(true);
   useEffect(() => {
@@ -47,12 +45,23 @@ export function HeaderHome(): JSX.Element {
     setDownload(localStorage.getItem('download') === 'true' ? true : false);
   }, []);
 
-  const handleClickDeposit = () => {
+  const handleOpenTab = (path: string) => {
     if (userName) {
-      const accessToken = localStorage.getItem('access_token');
-      const refreshToken = localStorage.getItem('refresh_token');
+      const left = screen.width / 2 - 950 / 2;
+      const top = screen.height / 2 - 750 / 2;
 
-      window.open(`/desktop/member/transition`, '_blank');
+      window.open(
+        `${process.env.URL_MAIN}${path}`,
+        '',
+        'toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=no, resizable=no, copyhistory=no, width=' +
+          950 +
+          ', height=' +
+          750 +
+          ', top=' +
+          top +
+          ', left=' +
+          left
+      );
     }
   };
 
@@ -84,17 +93,23 @@ export function HeaderHome(): JSX.Element {
               </div>
 
               <div className={cx('header-top__amount')}>
-                <span className={cx('header-top__amount--text')}>$ 0</span>
+                <span className={cx('header-top__amount--text')}>$ {mainPoint}</span>
                 <FontAwesomeIcon icon={faCaretDown} className={cx('header-top__amount--icon')} />
               </div>
 
-              <button className={cx('header-top__btn', 'header-top__btn--move')}>Chuyển quỹ</button>
+              <button
+                className={cx('header-top__btn', 'header-top__btn--move')}
+                onClick={() => handleOpenTab('/desktop/member/transition')}>
+                Chuyển quỹ
+              </button>
               <button
                 className={cx('header-top__btn', 'header-top__btn--recharge')}
-                onClick={handleClickDeposit}>
+                onClick={() => handleOpenTab('/desktop/member/purchase')}>
                 Nạp tiền
               </button>
-              <button className={cx('header-top__btn', 'header-top__btn--withdraw')}>
+              <button
+                className={cx('header-top__btn', 'header-top__btn--withdraw')}
+                onClick={() => handleOpenTab('/desktop/member/withdraw')}>
                 Rút tiền
               </button>
 

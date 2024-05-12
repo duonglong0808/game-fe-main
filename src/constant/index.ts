@@ -35,3 +35,9 @@ export const TypePaymentTranSaction = {
   deposit: 0,
   withdrawMoney: 1,
 };
+
+export const StatusPaymentTranSaction = {
+  processing: 0,
+  success: 1,
+  cancel: 2,
+};

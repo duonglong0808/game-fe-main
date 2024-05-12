@@ -189,8 +189,8 @@ const HistoryView = () => {
               </Table.HeadCell>
             </Table.Head>
             <Table.Body className="divide-y">
-              {data.map((item) => (
-                <TableRow>
+              {data.map((item, index) => (
+                <TableRow key={index}>
                   <TableCell
                     style={{
                       borderRight: '1px solid #dfdfdf',

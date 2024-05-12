@@ -4,20 +4,21 @@ import Image from 'next/image';
 import VNPayPage from '../vnp-view';
 import AtmPage from '../atm-view';
 import PayPage from '../pay-view';
-import { usePaymentTypes } from './utils/handleMember';
+import { useDataUserInfo, usePaymentTypes } from './utils/handleMember';
 
 const PurchaseView = () => {
   const [activePaymentType, setActivePaymentType] = useState(0);
   const handleItemClick = (id?: number) => {
     setActivePaymentType(id ? id : 0);
   };
+  const useUserInfo = useDataUserInfo();
 
   const { data } = usePaymentTypes();
 
   return (
-    <div>
+    <div className="h-full">
       {activePaymentType == 0 && (
-        <div className="lg:h-[69vh] max-lg:flex-1 grid grid-cols-2 grid-rows-3 max-lg:flex max-lg:flex-col gap-4 w-full p-4 bg-white max-lg:bg-gray-100">
+        <div className="lg:h-[100%] max-lg:flex-1 grid grid-cols-2 grid-rows-3 max-lg:flex max-lg:flex-col gap-4 w-full p-4 bg-white max-lg:bg-gray-100">
           {data.map((item, index) => (
             <div
               onClick={() => {

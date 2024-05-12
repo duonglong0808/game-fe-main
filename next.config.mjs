@@ -5,11 +5,13 @@ const nextConfig = {
     API_URL_DICE: 'http://localhost:9991/api',
     API_URL_WSK: 'http://localhost:8089',
     URL_GAME: 'http://localhost:3000',
+    URL_MAIN: 'http://localhost:3002',
     HOST_KU: 'https://vn.vc3559k.net/api',
   },
-
+  
   // Production environment
   // env: {
+  // URL_MAIN: 'https://vk169.net',
   //   API_URL: 'https://api.vk169.net/api',
   //   API_URL_DICE: 'https://game.api.vk169.net/api',
   //   API_URL_WSK: 'https://game.wsk.vk169.net',

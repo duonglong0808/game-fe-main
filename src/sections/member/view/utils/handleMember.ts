@@ -1,9 +1,11 @@
-import { setFetchingDataPoint } from '@/lib/redux/app/user.slice';
+import { setDataUserLogin, setFetchingDataPoint } from '@/lib/redux/app/user.slice';
 import { depositPointToMain, getAllPaymentType, transferPoint } from './api';
 import { cleanDataMessage, setMessageApp } from '@/lib/redux/system/settingSys';
 import { useAppDispatch, useAppSelector } from '@/lib/redux/utilRedux';
 import { useEffect } from 'react';
 import { setPaymentTypes } from '@/lib/redux/app/payment.slice';
+import { useRouter } from 'next/navigation';
+import { BaseAxios } from '@/utils';
 
 export const handleMovePoint = async (
   gamePointTransfer: number,
@@ -105,4 +107,29 @@ export const addMessagePopup = async (
       textConfirm,
     })
   );
+};
+
+export const useDataUserInfo = () => {
+  const dispatch = useAppDispatch();
+  const { userName } = useAppSelector((state) => state.user);
+  const router = useRouter();
+
+  useEffect(() => {
+    async function fetchData() {
+      if (!userName) {
+        const axios = new BaseAxios();
+        const userInfo = await axios.get('auth/userInfo');
+        if (userInfo) {
+          dispatch(setDataUserLogin(userInfo?.data));
+          return true;
+        } else {
+          router.replace('/desktop/home');
+        }
+      }
+    }
+
+    fetchData();
+  });
+
+  return true;
 };

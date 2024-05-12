@@ -84,5 +84,10 @@ export const upLoadOneFile = async (folder: string, file: File) => {
 
 export const updateReceiptByTransactionId = (id: number, receipt: string) => {
   const axios = new BaseAxios();
-  return axios.patch(`payment-transaction/${id}/receipt`, { receipt });
+  return axios.patch(`/payment-transaction/${id}/receipt`, { receipt });
+};
+
+export const addBankUser = (data: any) => {
+  const axios = new BaseAxios();
+  return axios.post(`/bank`, data);
 };

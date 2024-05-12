@@ -12,6 +12,7 @@ import {
   useDataUserInfo,
 } from './utils/handleMember';
 import { TypePaymentTranSaction } from '@/constant';
+import { AddBankPopup } from '../add-bank-view';
 
 const WithDrawView = () => {
   const { titleMessage, descMessage, textClose, textConfirm } = useAppSelector(
@@ -19,32 +20,52 @@ const WithDrawView = () => {
   );
 
   const useInfo = useDataUserInfo();
-
   const { dataGamePoints } = useAppSelector((state) => state.user);
   const pointMain = dataGamePoints.find((game) => game.gameSlug == 'tk-chinh')?.points || 0;
-
   const [bankUser, setBankUser] = useState([]);
   const [bankUserReceive, setBankUserReceive] = useState<number>();
   const [point, setPoint] = useState('');
   const dispatch = useAppDispatch();
   const minPoint = 200;
   const maxPoint = 1000000;
+  const [openAddBank, setOpenAddBank] = useState(false);
+  const [refetchBank, setRefetchBank] = useState(true);
 
   useEffect(() => {
     async function fetchData() {
-      const bankUser = await getAllBankUser();
-      if (bankUser.data) {
-        const { data } = bankUser.data;
-        setBankUser(data);
-        setBankUserReceive(data[0].id);
+      if (refetchBank) {
+        const bankUser = await getAllBankUser();
+        if (bankUser.data) {
+          const { data } = bankUser.data;
+          setBankUser(data);
+          setBankUserReceive(data[0].id);
+          setRefetchBank(false);
+        }
       }
     }
 
     fetchData();
-  }, []);
+  }, [refetchBank]);
+
+  const onClosePopupAddBank = () => {
+    setOpenAddBank(false);
+  };
+
+  const onAddSuccessBank = () => {
+    setOpenAddBank(false);
+    setRefetchBank(true);
+  };
 
   return (
     <div className="max-lg:hidden flex flex-col gap-1 w-full p-1">
+      {openAddBank ? (
+        <AddBankPopup
+          onAddSuccessBank={onAddSuccessBank}
+          onClosePopupAddBank={onClosePopupAddBank}
+        />
+      ) : (
+        <></>
+      )}
       <div className="flex items-center bg-white p-1 gap-3 h-[100px]">
         <div className="flex flex-col items-center justify-center max-w-[68px] p-2 bg-[#f3f3f3] border border-gray-300 h-full">
           <Image
@@ -99,7 +120,7 @@ const WithDrawView = () => {
             />
           ))}
           {Array.from({ length: 4 - bankUser.length }, (_, index) => index + 1).map((i, index) => (
-            <ButtonAdd key={index} />
+            <ButtonAdd key={index} onCLick={() => setOpenAddBank(true)} />
           ))}
         </div>
       </div>

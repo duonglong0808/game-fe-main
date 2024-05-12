@@ -10,6 +10,7 @@ interface UserSlice {
   userName: string;
   userId: string;
   name: string;
+  phone: string;
   isFetchPoint: boolean;
   dataGamePoints: PointItem[];
   mainPoint: number;
@@ -21,6 +22,7 @@ const userSlice = createSlice({
     userName: '',
     userId: '',
     name: '',
+    phone: '',
     dataGamePoints: [],
     isFetchPoint: true,
     mainPoint: 0,
@@ -31,6 +33,7 @@ const userSlice = createSlice({
       state.userId = action.payload.id;
       state.userName = action.payload.username;
       state.mainPoint = action.payload.mainPoint;
+      state.phone = action.payload.phone;
     },
     logOutUser(state) {
       state.userName = '';

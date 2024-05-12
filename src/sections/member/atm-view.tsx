@@ -10,6 +10,7 @@ import { handleConfirmMessage, handleDepositPoint } from './view/utils/handleMem
 import { TypePaymentTranSaction, dataBankStatics } from '@/constant';
 import { ShowConfirmMessage } from '@/app/compmnents/ShowMessage';
 import { useRouter } from 'next/navigation';
+import { AddBankPopup } from './add-bank-view';
 const AtmPage = ({
   handleItemClick,
   paymentTypeId,
@@ -36,6 +37,9 @@ const AtmPage = ({
   const [bankUser, setBankUser] = useState([]);
   const [bankUserTransfer, setBankUserTransfer] = useState<number>();
   const bankSelected = paymentBank.find((bank: any) => bank.id == bankReceiver);
+
+  const [openAddBank, setOpenAddBank] = useState(false);
+  const [refetchBank, setRefetchBank] = useState(true);
 
   const handleOptionChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setBankReceiver(event.target.value);
@@ -72,21 +76,39 @@ const AtmPage = ({
 
   useEffect(() => {
     async function fetchData() {
-      if (paymentTypeById) {
+      if (paymentTypeById && refetchBank) {
         const bankUser = await getAllBankUser();
         if (bankUser.data) {
           const { data } = bankUser.data;
           setBankUser(data);
           setBankUserTransfer(data[0].id);
+          setRefetchBank(false);
         }
       }
     }
 
     fetchData();
-  }, []);
+  }, [refetchBank]);
+
+  const onClosePopupAddBank = () => {
+    setOpenAddBank(false);
+  };
+
+  const onAddSuccessBank = () => {
+    setOpenAddBank(false);
+    setRefetchBank(true);
+  };
 
   return (
     <div className="max-lg:hidden relative flex flex-col gap-1 w-full p-1">
+      {openAddBank ? (
+        <AddBankPopup
+          onAddSuccessBank={onAddSuccessBank}
+          onClosePopupAddBank={onClosePopupAddBank}
+        />
+      ) : (
+        <></>
+      )}
       <div className="flex items-center bg-white p-1 gap-3 h-[145px]">
         <div className=" flex flex-col items-center justify-center w-[68px] h-full p-2 bg-[#f3f3f3] border border-gray-300">
           <Image
@@ -184,7 +206,7 @@ const AtmPage = ({
               ))}
             {Array.from({ length: 4 - bankUser.length }, (_, index) => index + 1).map(
               (i, index) => (
-                <ButtonAdd key={index} />
+                <ButtonAdd key={index} onCLick={() => setOpenAddBank(true)} />
               )
             )}
           </div>

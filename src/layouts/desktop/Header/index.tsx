@@ -123,11 +123,15 @@ export function HeaderHome(): JSX.Element {
             <div className={cx('header-top__right', 'flex items-center')}>
               <div className={cx('header-top__name')}>
                 <span className={cx('header-top__name--rank')}>Đồng</span>
-                <span className={cx('header-top__name--text')}>{userName || name}</span>
+                <span className={cx('header-top__name--text')}>
+                  {userName.toUpperCase() || name.toUpperCase()}
+                </span>
               </div>
 
               <div className={cx('header-top__amount')}>
-                <span className={cx('header-top__amount--text')}>$ {mainPoint}</span>
+                <span className={cx('header-top__amount--text')}>
+                  $ {mainPoint?.toLocaleString('vi-VN') || 0}
+                </span>
                 <FontAwesomeIcon icon={faCaretDown} className={cx('header-top__amount--icon')} />
               </div>
 

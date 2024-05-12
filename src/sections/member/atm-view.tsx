@@ -202,6 +202,7 @@ const AtmPage = ({
                         : Number(paymentTypeById?.maximum);
                     setPoint(String(val));
                   } else {
+                    console.log('aaaaaaa');
                     setPoint('');
                   }
                 }}

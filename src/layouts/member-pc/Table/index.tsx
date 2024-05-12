@@ -14,7 +14,7 @@ const TableInfo = () => {
 
   return (
     <div className="relative p-1 h-full overflow-auto">
-      <div className=" w-full bg-[#4a80a3] text-black grid grid-cols-3 p-3 sticky top-1">
+      <div className=" w-full bg-[#4a80a3] text-black grid grid-cols-3 p-3 sticky top-1 z-10">
         <p className="whitespace-nowrap text-sm text-white font-bold dark:text-white border-r flex flex-col justify-center ">
           TK Chính
         </p>
@@ -41,11 +41,11 @@ const TableInfo = () => {
       <Accordion>
         <Accordion.Panel>
           {INFO.map((item, index) => (
-            <div key={index} className="bg-white text-black grid grid-cols-3 p-3 h-[44.5px]">
+            <div key={index} className="bg-white text-black grid grid-cols-3 p-1 h-[44.5px] ">
               <p className="whitespace-nowrap text-sm text-gray-900 dark:text-white border-r flex flex-col justify-center">
                 {item.name}
               </p>
-              <div className="flex justify-between col-span-2 items-center">
+              <div className="flex justify-between col-span-2 items-center ">
                 <p className="text-[#02af1d] font-bold px-2">{item.points}</p>
                 {item.points > 0 && (
                   <p
@@ -79,11 +79,11 @@ const TableInfo = () => {
             {INFO_2.map((item) => (
               <div
                 key={item.name}
-                className="bg-[#e2f0f9] text-black grid grid-cols-3 p-3 border-b h-[44.5px]">
+                className="bg-[#e2f0f9] text-black grid grid-cols-3 p-1 border-b h-[44.5px]">
                 <p className="whitespace-nowrap text-sm text-gray-900 dark:text-white border-r flex flex-col justify-center">
                   {item.name}
                 </p>
-                <div className="flex justify-between col-span-2 items-center">
+                <div className="flex justify-between col-span-2 items-center ">
                   <p className="text-[#02af1d] font-bold px-2">{item.points}</p>
                   {item.points > 0 && (
                     <p
@@ -122,11 +122,11 @@ const TableInfo = () => {
             {INFO_3.map((item) => (
               <div
                 key={item.name}
-                className="bg-[#e2f0f9] text-black grid grid-cols-3 p-3 border-b h-[44.5px]">
+                className="bg-[#e2f0f9] text-black grid grid-cols-3 p-1 border-b h-[44.5px]">
                 <p className="whitespace-nowrap text-sm text-gray-900 dark:text-white border-r flex flex-col justify-center">
                   {item.name}
                 </p>
-                <div className="flex justify-between col-span-2 items-center">
+                <div className="flex justify-between col-span-2 items-center ">
                   <p className="text-[#02af1d] font-bold px-2">{item.points}</p>
                   {item.points > 0 && (
                     <p

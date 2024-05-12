@@ -12,7 +12,7 @@ const TransferView = () => {
   const { dataGamePoints } = useAppSelector((state) => state.user);
   const [accountTransfer, setAccountTransfer] = useState('tk-chinh');
   const [accountReceiver, setAccountReceiver] = useState('wait');
-  const [pointTransfer, setPointTransfer] = useState<number>(0);
+  const [pointTransfer, setPointTransfer] = useState('');
   const gameTransfer = dataGamePoints.find((i) => i.gameSlug == accountTransfer) || {
     gameName: '',
     gamePointId: '',
@@ -89,13 +89,17 @@ const TransferView = () => {
             <p className="text-sm text-black">Điểm chuyển:</p>
             <input
               onChange={(e) => {
-                if (+e.target.value <= gameTransfer?.points) {
-                  setPointTransfer(+e.target.value);
+                if (Number(e.target.value) > 0) {
+                  const val =
+                    +e.target.value < Number(gameTransfer?.points)
+                      ? e.target.value
+                      : Number(gameTransfer?.points);
+                  setPointTransfer(String(val));
                 } else {
-                  setPointTransfer(+gameTransfer?.points);
+                  setPointTransfer('');
                 }
               }}
-              type="text"
+              type="number"
               placeholder="Nhập số điểm"
               value={pointTransfer}
               className="w-[250px] border-none outline-none bg-gray-200 border border-gray-300 appearance-none focus:ring-indigo-500 focus:border-indigo-500 rounded-md text-sm"
@@ -112,13 +116,13 @@ const TransferView = () => {
                   handleMovePoint(
                     +gameTransfer.gamePointId,
                     +gameReceiver.gamePointId,
-                    pointTransfer,
+                    +pointTransfer,
                     dispatch
                   );
-                  setPointTransfer(0);
+                  setPointTransfer('');
                 }
               }}
-              disabled={pointTransfer == 0}
+              disabled={!pointTransfer || !accountReceiver}
               className={cx(
                 'flex-1  bg-[#0c5d91] py-2 px-4 cursor-pointer disabled:cursor-not-allowed disabled:bg-gray-400 rounded-sm h-[45px] flex items-center justify-center'
               )}>

@@ -54,7 +54,7 @@ export function HeaderHome(): JSX.Element {
         `${process.env.URL_MAIN}${path}`,
         '',
         'toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=no, resizable=no, copyhistory=no, width=' +
-          950 +
+          1100 +
           ', height=' +
           750 +
           ', top=' +

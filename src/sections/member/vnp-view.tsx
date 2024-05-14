@@ -179,7 +179,11 @@ const VNPayPage = ({
                     if (res?.data) {
                       const qrCode = res.data?.qrCode;
                       const a = openPopup(
-                        `${process.env.URL_MAIN}/payment-gate?methodName=${methodPay}&point=${point}&qrCode=${qrCode}`,
+                        `${
+                          process.env.URL_MAIN
+                        }/payment-gate?methodName=${methodPay}&point=${point}&qrCode=${btoa(
+                          qrCode
+                        )}`,
                         'KU Casio -Qr code',
                         900,
                         729

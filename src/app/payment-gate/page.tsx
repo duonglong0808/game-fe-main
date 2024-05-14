@@ -104,7 +104,7 @@ export default function ShowQrCode(): JSX.Element {
               <div className={cx('box-qr')}>
                 <Image
                   alt="Qr"
-                  src={qrCode || ''}
+                  src={atob(qrCode) || ''}
                   width={200}
                   height={200}
                   className={cx('box-qr__img')}

@@ -7,7 +7,7 @@ import { usePathname } from 'next/navigation';
 const LINKS = [
   {
     name: 'Tư liệu',
-    href: '/desktop/member/tulieu',
+    // href: '/desktop/member/tulieu',
   },
   {
     name: 'Chuyển quỹ',
@@ -29,7 +29,7 @@ const LINKS = [
   },
   {
     name: 'Khuyến mãi',
-    href: '/desktop/member/point',
+    // href: '/desktop/member/point',
   },
 ];
 
@@ -40,18 +40,29 @@ const Header = () => {
       <div className="w-[950px] flex items-center justify-between">
         <p className="text-lg text-white">Hội viên</p>
         <div className="flex items-center gap-4 h-full">
-          {LINKS.map((item) => (
-            <Link key={item.href} href={item.href} className="relative h-full text-white">
-              <p
-                className={classNames(
-                  'text-sm h-full  flex items-center',
-                  { 'text-[#ffd200]': item.isImportant },
-                  { 'border-b-4 border-white ': pathname.includes(item.href) }
-                )}>
-                {item.name}
-              </p>
-            </Link>
-          ))}
+          {LINKS.map((item, index) =>
+            item.href ? (
+              <Link key={item.href} href={item.href} className="relative h-full text-white">
+                <p
+                  className={classNames(
+                    'text-sm h-full  flex items-center',
+                    { 'text-[#ffd200]': item.isImportant },
+                    { 'border-b-4 border-white ': pathname.includes(item.href) }
+                  )}>
+                  {item.name}
+                </p>
+              </Link>
+            ) : (
+              <div key={index} className="relative h-full text-white cursor-pointer">
+                <p
+                  className={classNames('text-sm h-full  flex items-center', {
+                    'text-[#ffd200]': item.isImportant,
+                  })}>
+                  {item.name}
+                </p>
+              </div>
+            )
+          )}
         </div>
       </div>
     </header>

@@ -153,7 +153,7 @@
   width: 20px;
   height: 20px;
   margin-right: 4px;
-  z-index: 10;
+  z-index: 7;
   position: relative;
 }
 
@@ -181,6 +181,8 @@
   color: #ffde00;
   margin-right: 12px;
   font-size: 18px;
+  position: relative;
+  cursor: pointer;
 }
 
 .header-top__amount--text {
@@ -189,8 +191,106 @@
 
 .header-top__amount--icon {
   color: rgba(255, 255, 255, 0.7);
-  cursor: pointer;
   margin: 0 1px;
+}
+
+.wrapper-points {
+  color: white;
+  font-size: 14px;
+
+  &__arrow {
+    width: 0;
+    height: 0;
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+    border-bottom: 10px solid #333;
+    position: absolute;
+    top: -9px;
+    right: 216px;
+  }
+
+  &::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    height: 20px;
+    top: -20px;
+    cursor: default;
+  }
+
+  .points-box {
+    display: flex;
+    justify-content: space-between;
+    width: 770px;
+    padding: 5px 15px;
+    box-sizing: border-box;
+    background-color: rgba(0, 0, 0, 0.8);
+    border-radius: 5px 5px 0 0;
+  }
+}
+
+.points__list {
+  width: 150px;
+  flex: 1;
+  margin: 0 8px;
+}
+.point__item {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+  width: 100%;
+  min-height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 5px 0;
+  box-sizing: border-box;
+  position: relative;
+
+  &--title {
+    border-bottom: 1px solid #fff;
+    justify-content: center;
+    text-transform: uppercase;
+  }
+
+  &--value {
+    color: #91ff6d;
+    margin-left: 5px;
+  }
+
+  &--move {
+    height: 23px;
+    min-width: 50px;
+    cursor: pointer;
+    background-color: #00979c;
+    border-radius: 5px;
+    justify-content: center;
+    line-height: 24px;
+    font-size: 12px;
+    padding: 0 2px;
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    margin-left: -42px;
+  }
+}
+.points-footer {
+  background-color: rgba(40, 40, 40, 0.8);
+  border-radius: 0 0 5px 5px;
+  display: flex;
+  justify-content: space-between;
+  width: 770px;
+  padding: 5px 15px;
+  box-sizing: border-box;
+
+  &__item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 31px;
+    width: 150px;
+    flex: 1;
+    margin: 0 8px;
+  }
 }
 
 .header-top__btn--move,

@@ -1,4 +1,5 @@
 import { BaseAxios } from '@/utils';
+import moment from 'moment';
 
 export const transferPoint = async (
   gamePointTransfer: number,
@@ -23,7 +24,10 @@ export const getHistoryTransfer = async (
   const axios = new BaseAxios();
   let url = `/user-point/history?page=${page}&limit=${limit}`;
   if (dateFrom && dateTo) {
-    url += `&dateFrom=${dateFrom}&dateTo=${dateTo}`;
+    url += `&dateFrom=${moment(dateFrom, 'DD/MM/YYYY').toDate()}&dateTo=${moment(
+      dateTo,
+      'DD/MM/YYYY'
+    ).toDate()}`;
   }
   if (gameReceiverId) {
     url += `&gameReceiverId=${gameReceiverId}`;

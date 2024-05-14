@@ -58,21 +58,12 @@ export const handleLoginAccount = async (
 
 export const getUserInfo = async (dispatch: any) => {
   const axios = new BaseAxios();
-  const [userInfo, dataPoint] = await Promise.all([
-    axios.get('auth/userInfo'),
-    getPointGameKuAndMain(),
-  ]);
-  console.log('🚀 ~ getUserInfo ~ dataPoint:', dataPoint);
+  const [userInfo] = await Promise.all([axios.get('auth/userInfo')]);
   if (userInfo) {
-    dispatch(setDataUserLogin({ ...userInfo?.data, ...dataPoint.data }));
+    dispatch(setDataUserLogin({ ...userInfo?.data }));
     return true;
   }
   return false;
-};
-
-export const getPointGameKuAndMain = async () => {
-  const axios = new BaseAxios();
-  return axios.get(`/user-point/game/ku-casino`);
 };
 
 // export const checkAccountKu = async (account: string, password: string, BBOSID: string) => {

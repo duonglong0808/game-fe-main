@@ -55,7 +55,7 @@ const HistoryView = () => {
   const gameSelect = useRef('all');
   const dateNow = new Date();
   const minDate = new Date(dateNow.getTime() - 1000 * 60 * 60 * 24 * 7);
-  const [dateFrom, setDateFrom] = useState(moment(minDate).format('DD-MM-YYYY'));
+  const [dateFrom, setDateFrom] = useState(moment(minDate).format('DD-MM-YYYY '));
   const [dateTo, setDateTo] = useState(moment(dateNow).format('DD-MM-YYYY'));
   const [subMitQuery, setSubMitQuery] = useState(true);
   const [page, setPage] = useState(1);

@@ -178,6 +178,7 @@ const VNPayPage = ({
                     const res = await depositPointToMain(data);
                     if (res?.data) {
                       const qrCode = res.data?.qrCode;
+                      //
                       const a = openPopup(
                         `${
                           process.env.URL_MAIN

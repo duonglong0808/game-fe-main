@@ -32,7 +32,7 @@ export const useGamePointHeader = () => {
     gameMainId: gameMain?.gamePointId,
     gameMainPoint: gameMain?.points || 0,
     dataGamePoints,
-    totalPoint: dataGamePoints.reduce((pre, item) => pre + item.points, 0),
+    totalPoint: dataGamePoints?.reduce((pre, item) => pre + item.points, 0),
   };
 };
 

@@ -155,14 +155,14 @@ const VNPayPage = ({
               <p className="ml-2">VNĐ</p>
             </div>
             <button
-              disabled={!paymentId || !(+point >= 200)}
+              disabled={!paymentId || !(+point >= Number(paymentTypeById?.minimum))}
               onClick={async () => {
                 console.log('🚀 ~ onClick={ ~ paymentId:', paymentId);
-                if (paymentId && +point >= 200) {
+                if (paymentId && +point >= Number(paymentTypeById?.minimum)) {
+                  console.log('🚀 ~ onClick={ ~ showAccountBank:', showAccountBank);
                   if (showAccountBank) {
                     setSubmitDeposit(true);
                   } else {
-                    console.log('aaaaa');
                     const data = {
                       paymentId,
                       bankReceiveId: bankReceiver,
@@ -234,8 +234,8 @@ const VNPayPage = ({
         />
       )}
       {showAccountBank && submitDeposit ? (
-        <div className="fixed top-0 left-0 right-0 bottom-0 bg-[#00000099] flex items-center">
-          <div className="bg-[#fff] m-auto z-10 p-[15px] rounded-[8px] w-[640px] relative">
+        <div className="fixed top-0 left-0 right-0 bottom-0 bg-[#00000099] flex items-center z-10">
+          <div className="bg-[#fff] m-auto z-10 p-[15px] rounded-[8px] w-[666px] relative">
             <div className="text-[#5aaaf3] border-b-2 border-[#e5e5e5] py-3 text-center h-[38px] pb-4 text-[18px] font-bold flex items-center justify-center">
               Chọn ngân hàng thanh toán
             </div>
@@ -247,7 +247,7 @@ const VNPayPage = ({
                 backgroundSize: '20px 20px',
               }}></div>
             <ul className="flex flex-wrap py-1 mb-[15px] max-h-[360px] overflow-y-auto border-b-2 border-[#e5e5e5]">
-              {paymentBank.map((bank: any, index) => (
+              {/* {paymentBank.map((bank: any, index) => (
                 <li
                   key={index}
                   onClick={() => setBankReceiver(bank.id)}
@@ -263,6 +263,25 @@ const VNPayPage = ({
                     width={140}
                   />
                 </li>
+              ))} */}
+
+              {dataBankStatics.map((bank, index) => (
+                <li
+                  key={index}
+                  onClick={() => setBankReceiver(String(bank.bin))}
+                  className={cx(
+                    'm-[5px] cursor-pointer w-[140] h-[50px] overflow-hidden relative',
+                    { 'bank-active': bank.bin == bankReceiver }
+                  )}
+                  style={{ border: '1px solid #ccc' }}>
+                  <Image
+                    alt="logo bank"
+                    src={bank.logo || ''}
+                    height={50}
+                    width={140}
+                    className="w-[140px] h-[50px]"
+                  />
+                </li>
               ))}
             </ul>
             <div className="flex justify-center">
@@ -271,12 +290,12 @@ const VNPayPage = ({
                 onClick={async () => {
                   if (
                     bankReceiver &&
-                    +point > Number(paymentTypeById?.minimum) &&
-                    +point < Number(paymentTypeById?.maximum)
+                    +point >= Number(paymentTypeById?.minimum) &&
+                    +point <= Number(paymentTypeById?.maximum)
                   ) {
                     const data = {
                       paymentId,
-                      bankReceiveId: bankReceiver,
+                      // bankReceiveId: bankReceiver,
                       type: TypePaymentTranSaction.deposit,
                       point: point,
                       content:
@@ -286,6 +305,7 @@ const VNPayPage = ({
                           ? 'MoMo Quét mã'
                           : 'Viettel Money Quét mã',
                     };
+                    console.log('🚀 ~ onClick={ ~ data:', data);
                     const res = await depositPointToMain(data);
                     if (res?.data) {
                       const qrCode = res.data?.qrCode;

@@ -19,7 +19,7 @@ const nextConfig = {
   //   HOST_KU: 'https://vn.vc3559k.net/api',
   // },
   images: {
-    domains: ['storage.googleapis.com', "api.vietqr.io"],
+    domains: ['storage.googleapis.com', "api.vietqr.io", "vietqr.net"],
   },
 };
 

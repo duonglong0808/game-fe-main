@@ -199,6 +199,8 @@ const AtmPage = ({
             {bankUser?.length &&
               bankUser?.map((bank: any, index) => (
                 <ButtonBank
+                  active={bank.id == bankUserTransfer}
+                  onClick={() => setBankUserTransfer(bank.id)}
                   key={index}
                   binBank={bank.binBank}
                   lastNumber={bank.accountNumber?.slice(-4)}

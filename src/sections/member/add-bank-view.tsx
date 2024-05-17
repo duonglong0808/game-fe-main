@@ -20,6 +20,7 @@ export function AddBankPopup({
 }): JSX.Element {
   const { userName, phone } = useAppSelector((state) => state.user);
 
+  const [accountOwner, setAccountOwner] = useState('');
   const [accountNumber, setAccountNumber] = useState('');
   const [openListBank, setOpenListBank] = useState(false);
 
@@ -51,11 +52,11 @@ export function AddBankPopup({
     dispatch(cleanDataMessage({}));
   };
 
-  function hideMiddleDigits(text: string) {
-    const firstThreeDigits = text.slice(0, 1);
-    const lastThreeDigits = text.slice(-1);
-    return `${firstThreeDigits}********${lastThreeDigits}`;
-  }
+  // function hideMiddleDigits(text: string) {
+  //   const firstThreeDigits = text.slice(0, 1);
+  //   const lastThreeDigits = text.slice(-1);
+  //   return `${firstThreeDigits}********${lastThreeDigits}`;
+  // }
 
   return (
     <div className={cx('register-layer')}>
@@ -79,9 +80,21 @@ export function AddBankPopup({
             }}>
             <label htmlFor="AgentID">Tài khoản</label>
             <div className="text-start w-[74%]">
-              <span className="mb-3 block uppercase text-black ml-[10px]">
+              {/* <span className="mb-3 block uppercase text-black ml-[10px]">
                 {hideMiddleDigits(userName)}
-              </span>
+              </span> */}
+              <div className="mb-3">
+                <input
+                  type="text"
+                  name="accountOwner"
+                  id="accountOwner"
+                  value={accountOwner}
+                  onChange={(e) => setAccountOwner(e.target.value)}
+                  // minLength={10}
+                  // maxLength={10}
+                  placeholder="Chủ tài khoản"
+                />
+              </div>
               <input
                 type="number"
                 name="accountNumber"
@@ -89,7 +102,7 @@ export function AddBankPopup({
                 value={accountNumber}
                 onChange={(e) => setAccountNumber(e.target.value)}
                 minLength={10}
-                maxLength={10}
+                maxLength={20}
                 placeholder="Số tài khoản"
               />
               <div className="ml-[10px] relative mt-3">
@@ -133,7 +146,7 @@ export function AddBankPopup({
             </div>
           </div>
 
-          <div className={cx('register-body__input')}>
+          {/* <div className={cx('register-body__input')}>
             <label htmlFor="phone">Số điện thoại</label>
             <input
               type="number"
@@ -176,7 +189,7 @@ export function AddBankPopup({
               Gửi
             </div>
             <span className={cx('register-body__text--err', 'text-xs')}>{codeError}</span>
-          </div>
+          </div> */}
           <span
             className="text-[red] mb-[2px] py-4 block text-sm"
             style={{
@@ -200,14 +213,14 @@ export function AddBankPopup({
             </button>
             <button
               type="submit"
-              disabled={!accountNumber || !binBank}
+              disabled={!accountNumber || !binBank || !accountOwner}
               onClick={async () => {
                 if (accountNumber && binBank) {
                   const bankSelect = dataBankStatics.find((bank) => bank.bin == binBank);
                   const data = {
                     nameBank: bankSelect?.name,
                     binBank,
-                    accountOwner: userName,
+                    accountOwner,
                     accountNumber,
                     isForUser: true,
                   };

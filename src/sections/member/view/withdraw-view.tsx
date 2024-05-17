@@ -114,6 +114,8 @@ const WithDrawView = () => {
         <div className="flex-1 flex items-center justify-between">
           {bankUser?.map((bank: any, index) => (
             <ButtonBank
+              active={bank.id == bankUserReceive}
+              onClick={() => setBankUserReceive(bank.id)}
               key={index}
               binBank={bank.binBank}
               lastNumber={bank.accountNumber?.slice(-4)}

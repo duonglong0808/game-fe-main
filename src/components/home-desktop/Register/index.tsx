@@ -13,7 +13,7 @@ import { cleanDataMessage, setMessageApp } from '@/lib/redux/system/settingSys';
 const cx = classNames.bind(styles);
 
 export function Register(): JSX.Element {
-  const [disabledSubmit, setDisabledSubmit] = useState(true);
+  // const [disabledSubmit, setDisabledSubmit] = useState(true);
   const [agentID, setAgentID] = useState('');
   const [account, setAccount] = useState('');
   const [accountError, setAccountError] = useState('');
@@ -27,10 +27,19 @@ export function Register(): JSX.Element {
   const [codeError, setCodeError] = useState('');
 
   // redux
-  const { titleMessage, descMessage, textClose, textConfirm } = useAppSelector((state) => state.settingApp);
+  const { titleMessage, descMessage, textClose, textConfirm } = useAppSelector(
+    (state) => state.settingApp
+  );
   const dispatch = useAppDispatch();
   const setMessageScreenRegister = (title: string, message: string) => {
-    dispatch(setMessageApp({ titleMessage: title, descMessage: message, textClose: 'Thoát', textConfirm: 'Xác Nhận' }));
+    dispatch(
+      setMessageApp({
+        titleMessage: title,
+        descMessage: message,
+        textClose: 'Thoát',
+        textConfirm: 'Xác Nhận',
+      })
+    );
   };
 
   const handleCloseRegister = () => {
@@ -59,7 +68,11 @@ export function Register(): JSX.Element {
             icon={faXmark}
             className={cx('register__header--icon')}
             onClick={() => {
-              if (agentID || account || name || password || phoneNumber) setMessageScreenRegister('Tin nhắn', 'Bạn đăng ký chưa hoàn tất, có tiếp tục hay không？              ');
+              if (agentID || account || name || password || phoneNumber)
+                setMessageScreenRegister(
+                  'Tin nhắn',
+                  'Bạn đăng ký chưa hoàn tất, có tiếp tục hay không？              '
+                );
               else handleCloseRegister();
             }}
           />
@@ -67,7 +80,13 @@ export function Register(): JSX.Element {
         <form className={cx('register__body')} onSubmit={(e) => e.preventDefault()}>
           <div className={cx('register-body__input')}>
             <label htmlFor="agentID">Tài khoản đại lý</label>
-            <input type="text" id="agentID" value={agentID} onChange={(e) => setAgentID(e.target.value)} placeholder="Bỏ qua nếu không có đại lý giới thiệu" />
+            <input
+              type="text"
+              id="agentID"
+              value={agentID}
+              onChange={(e) => setAgentID(e.target.value)}
+              placeholder="Bỏ qua nếu không có đại lý giới thiệu"
+            />
           </div>
 
           <div className={cx('register-body__input')}>
@@ -77,7 +96,8 @@ export function Register(): JSX.Element {
               id="account"
               value={account}
               onBlur={() => {
-                if (account.length < 4 || account.length > 10) setAccountError('Vui lòng nhập từ 4 - 10 ký tự');
+                if (account.length < 4 || account.length > 10)
+                  setAccountError('Vui lòng nhập từ 4 - 10 ký tự');
                 else setAccountError('');
               }}
               onChange={(e) => {
@@ -116,7 +136,8 @@ export function Register(): JSX.Element {
               id="password"
               value={password}
               onBlur={() => {
-                if (password.length < 6 || password.length > 10) setPasswordError('Vui lòng nhập từ 4 - 10 ký tự');
+                if (password.length < 6 || password.length > 10)
+                  setPasswordError('Vui lòng nhập từ 4 - 10 ký tự');
                 else setPasswordError('');
               }}
               onChange={(e) => {
@@ -136,7 +157,8 @@ export function Register(): JSX.Element {
               id="phone"
               value={phoneNumber}
               onBlur={() => {
-                if (!isValidPhoneNumber(phoneNumber)) setPhoneNumberError('Sai quy cách SĐT Việt Nam	');
+                if (!isValidPhoneNumber(phoneNumber))
+                  setPhoneNumberError('Sai quy cách SĐT Việt Nam	');
                 else setPhoneNumberError('');
               }}
               minLength={10}
@@ -147,12 +169,12 @@ export function Register(): JSX.Element {
               }}
               placeholder="10 chữ số"
             />
-            <div className={cx('register-body__input--send', { 'register-body__input--active': isValidPhoneNumber(phoneNumber) })} onClick={() => isValidPhoneNumber(phoneNumber) && handleSendSms(phoneNumber, setPhoneNumberError)}>
+            {/* <div className={cx('register-body__input--send', { 'register-body__input--active': isValidPhoneNumber(phoneNumber) })} onClick={() => isValidPhoneNumber(phoneNumber) && handleSendSms(phoneNumber, setPhoneNumberError)}>
               Gửi mã
-            </div>
+            </div> */}
             <span className={cx('register-body__text--err', 'text-xs')}>{phoneNumberError}</span>
           </div>
-          <div className={cx('register-body__input', 'register-body__input--code')}>
+          {/* <div className={cx('register-body__input', 'register-body__input--code')}>
             <label htmlFor="codeSMS">Mã xác nhận</label>
             <input
               type="text"
@@ -172,14 +194,16 @@ export function Register(): JSX.Element {
               Gửi
             </div>
             <span className={cx('register-body__text--err', 'text-xs')}>{codeError}</span>
-          </div>
+          </div> */}
 
           <div className={cx('register-body__confirm')}>
             <div
               className={cx('register-body__check')}
               onClick={(e) => {
                 const element = e.target as HTMLElement; // Ép kiểu e.target thành HTMLElement
-                element.style.backgroundImage = element.style.backgroundImage ? '' : "url('/icon_check.png')";
+                element.style.backgroundImage = element.style.backgroundImage
+                  ? ''
+                  : "url('/icon_check.png')";
               }}></div>
             <span>Nhận thông tin khuyến mãi qua tin nhắn điện thoại</span>
           </div>
@@ -189,7 +213,9 @@ export function Register(): JSX.Element {
               className={cx('register-body__check')}
               onClick={(e) => {
                 const element = e.target as HTMLElement; // Ép kiểu e.target thành HTMLElement
-                element.style.backgroundImage = element.style.backgroundImage ? '' : "url('/icon_check.png')";
+                element.style.backgroundImage = element.style.backgroundImage
+                  ? ''
+                  : "url('/icon_check.png')";
               }}></div>
             <span>
               Tôi đã 18 tuổi, đồng thời đã đọc và đồng ý quy tắc cá cược{' '}
@@ -201,18 +227,33 @@ export function Register(): JSX.Element {
 
           <button
             type="submit"
-            disabled={disabledSubmit}
+            disabled={!account || !name || !password || !phoneNumber}
             onClick={(e) => {
               //e.preventDefault();
-              handleCreateAccount({ username: account, name, phone: phoneNumber, code, password }, handleCloseRegister);
+              handleCreateAccount(
+                { username: account, name, phone: phoneNumber, code, password },
+                handleCloseRegister
+              );
             }}
-            className={cx('register-body__submit', 'disabled:bg-stone-400 disabled:cursor-not-allowed')}>
+            className={cx(
+              'register-body__submit',
+              'disabled:bg-stone-400 disabled:cursor-not-allowed'
+            )}>
             Xác Nhận
           </button>
         </form>
       </div>
 
-      {titleMessage && descMessage && <ShowConfirmMessage textClose={textClose} textConfirm={textConfirm} title={titleMessage} desc={descMessage} onClose={handleCloseMessage} onConfirm={handleConfirmMessage} />}
+      {titleMessage && descMessage && (
+        <ShowConfirmMessage
+          textClose={textClose}
+          textConfirm={textConfirm}
+          title={titleMessage}
+          desc={descMessage}
+          onClose={handleCloseMessage}
+          onConfirm={handleConfirmMessage}
+        />
+      )}
     </div>
   );
 }

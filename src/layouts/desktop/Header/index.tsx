@@ -818,14 +818,14 @@ export function HeaderHome(): JSX.Element {
               <div className="border-b-2 border-b-[#e5e5e5]">
                 <div className="flex h-[35px] mb-[25px]">
                   <span className="w-[115px] ">Tk Chính</span>
-                  <span className="text-[#1ba200] flex items-center flex-1 pl-[10px] border-[1px] border-[#dadada]">
+                  <span className="text-[#1ba200] font-bold flex items-center flex-1 pl-[10px] border-[1px] border-[#dadada]">
                     {gameMainPoint}
                   </span>
                 </div>
 
                 <div className="flex h-[35px] mb-[25px]">
                   <span className="w-[115px] text-[#ffa800]">KU Casino</span>
-                  <span className="text-[#1ba200] flex items-center flex-1 pl-[10px] border-[1px] border-[#dadada] ">
+                  <span className="text-[#1ba200] font-bold flex items-center flex-1 pl-[10px] border-[1px] border-[#dadada] ">
                     {dataGamePoints.find((game) => game.gameSlug == 'ku-casino')?.points || 0}
                   </span>
                 </div>

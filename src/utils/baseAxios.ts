@@ -30,7 +30,8 @@ export class BaseAxios {
       const response = await this.request.post(url, data, config);
       return response.data;
     } catch (error: any) {
-      throw new Error(error.response.data?.exception?.message);
+      // throw new Error(error.response.data?.exception?.message);
+      return false;
     }
   }
 

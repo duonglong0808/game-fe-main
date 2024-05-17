@@ -223,7 +223,7 @@ export const useGameTable = () => {
         points: gamePoint?.points || 0,
       };
     }),
-    total: dataGamePoints.reduce((pre, item) => pre + item.points, 0),
+    total: dataGamePoints?.reduce((pre, item) => pre + item.points, 0),
   };
 };
 

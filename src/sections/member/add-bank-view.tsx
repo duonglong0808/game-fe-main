@@ -25,6 +25,7 @@ export function AddBankPopup({
   const [openListBank, setOpenListBank] = useState(false);
 
   const [binBank, setBinBank] = useState('');
+  console.log('🚀 ~ binBank:', binBank);
   const [searchBank, setSearchBank] = useState('Xin chọn ngân hàng');
 
   // const [code, setCode] = useState('');
@@ -116,13 +117,11 @@ export function AddBankPopup({
                   onFocus={() => setSearchBank('')}
                   onBlur={() => {
                     setSearchBank('');
-                    setOpenListBank(false);
+                    // setOpenListBank(false);
                   }}
                   onChange={(e) => setSearchBank(e.target.value)}
                   placeholder="Xin chọn ngân hàng"
-                  value={
-                    dataBankStatics.find((bank) => bank.bin == binBank)?.shortName || searchBank
-                  }
+                  value={dataBankStatics.find((bank) => bank.bin == binBank)?.shortName}
                 />
                 {openListBank ? (
                   <ul className={cx('list-bank')}>

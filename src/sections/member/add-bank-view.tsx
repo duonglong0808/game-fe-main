@@ -25,9 +25,10 @@ export function AddBankPopup({
   const [openListBank, setOpenListBank] = useState(false);
 
   const [binBank, setBinBank] = useState('');
+  const [searchBank, setSearchBank] = useState('Xin chọn ngân hàng');
 
-  const [code, setCode] = useState('');
-  const [codeError, setCodeError] = useState('');
+  // const [code, setCode] = useState('');
+  // const [codeError, setCodeError] = useState('');
 
   // redux
   const { titleMessage, descMessage, textClose, textConfirm } = useAppSelector(
@@ -105,39 +106,69 @@ export function AddBankPopup({
                 maxLength={20}
                 placeholder="Số tài khoản"
               />
-              <div className="ml-[10px] relative mt-3">
-                <span
+              <div className={cx('bank__wrapper', 'relative mt-3')}>
+                <input
                   onClick={() => setOpenListBank(true)}
                   className={cx(
                     'text-black block w-full bg-[#f3f3f3] py-1 px-2 relative cursor-pointer ',
-                    'select-bank__result'
-                  )}>
-                  {dataBankStatics.find((bank) => bank.bin == binBank)?.shortName ||
-                    'Xin chọn ngân hàng'}
-                </span>
+                    'select-bank__input'
+                  )}
+                  onFocus={() => setSearchBank('')}
+                  onBlur={() => {
+                    setSearchBank('');
+                    setOpenListBank(false);
+                  }}
+                  onChange={(e) => setSearchBank(e.target.value)}
+                  placeholder="Xin chọn ngân hàng"
+                  value={
+                    dataBankStatics.find((bank) => bank.bin == binBank)?.shortName || searchBank
+                  }
+                />
                 {openListBank ? (
                   <ul className={cx('list-bank')}>
-                    <li
-                      onClick={() => {
-                        setBinBank('');
-                        setOpenListBank(false);
-                      }}
-                      className="py-1 px-2"
-                      value={''}>
-                      Xin chọn ngân hàng
-                    </li>
-                    {dataBankStatics.map((bank, index) => (
-                      <li
-                        className="py-1 px-2 cursor-pointer"
-                        key={index}
-                        value={bank.bin}
-                        onClick={() => {
-                          setBinBank(bank.bin);
-                          setOpenListBank(false);
-                        }}>
-                        {bank.shortName}
-                      </li>
-                    ))}
+                    {searchBank ? (
+                      dataBankStatics.filter((item) =>
+                        item.shortName.toLowerCase().includes(searchBank)
+                      ).length ? (
+                        dataBankStatics
+                          .filter((item) => item.shortName.toLowerCase().includes(searchBank))
+                          .map((bank, index) => (
+                            <li
+                              className="py-1 px-2 cursor-pointer"
+                              key={index}
+                              value={bank.bin}
+                              onClick={() => {
+                                setBinBank(bank.bin);
+                                setOpenListBank(false);
+                              }}>
+                              {bank.shortName}
+                            </li>
+                          ))
+                      ) : (
+                        <li
+                          onClick={() => {
+                            setBinBank('');
+                            setOpenListBank(false);
+                          }}
+                          className="py-1 px-2 text-sm"
+                          value={''}>
+                          Kiểm tra không có nhân hàng phù hợp
+                        </li>
+                      )
+                    ) : (
+                      dataBankStatics.map((bank, index) => (
+                        <li
+                          className="py-1 px-2 cursor-pointer"
+                          key={index}
+                          value={bank.bin}
+                          onClick={() => {
+                            setBinBank(bank.bin);
+                            setOpenListBank(false);
+                          }}>
+                          {bank.shortName}
+                        </li>
+                      ))
+                    )}
                   </ul>
                 ) : (
                   <></>

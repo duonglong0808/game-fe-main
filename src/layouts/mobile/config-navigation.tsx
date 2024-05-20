@@ -1,3 +1,4 @@
+import { useAppSelector } from '@/lib/redux/utilRedux';
 import { paths } from '@/routes/paths';
 import Image from 'next/image';
 import { useMemo } from 'react';
@@ -19,6 +20,8 @@ const ICONS = {
 };
 
 export const useNavData = () => {
+  const currentUser = useAppSelector((state) => state.user);
+  const { name, userName } = currentUser;
   const data = useMemo(
     () => [
       {
@@ -73,5 +76,5 @@ export const useNavData = () => {
     []
   );
 
-  return data;
+  return { data, isLogin: Boolean(userName) };
 };

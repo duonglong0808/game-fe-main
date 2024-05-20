@@ -8,14 +8,18 @@ import classNames from 'classnames';
 import { usePathname } from 'next/navigation';
 
 import AssetPopover from '@/components/mobile/asset';
+import { useAppDispatch, useAppSelector } from '@/lib/redux/utilRedux';
+import { getUserInfo, handleConfirmMessage, useGamePointHeader } from './ultils/handleHome';
+import { ShowConfirmMessage } from '@/app/compmnents/ShowMessage';
 type Props = {
   title?: string;
+  openModalLogin: boolean;
+  setOpenModalLogin: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-export default function Header({ title }: Props) {
-  const [openModal, setOpenModal] = useState(false);
+export default function Header({ title, openModalLogin, setOpenModalLogin }: Props) {
+  // const [openModal, setOpenModal] = useState(false);
   const [openAssetModal, setOpenAssetModal] = useState(false);
-  const [user, setUser] = useState(true);
   const pathname = usePathname();
   const [parentPathname, setParentPathname] = useState('/');
   const [isShowInfo, setIsShowInfo] = useState(false);
@@ -32,17 +36,41 @@ export default function Header({ title }: Props) {
     );
   }, [pathname]);
 
+  const dispatch = useAppDispatch();
+  const { name, userName } = useAppSelector((state) => state.user);
+  const { gameMainPoint } = useGamePointHeader();
+  const { titleMessage, descMessage, textClose, textConfirm } = useAppSelector(
+    (state) => state.settingApp
+  );
+
+  useEffect(() => {
+    async function fetchDataUser() {
+      if (!name && !userName) getUserInfo(dispatch);
+    }
+
+    fetchDataUser();
+  }, []);
+
   return (
     <header
       className={classNames(
         'w-full flex items-center py-2 px-3 justify-between',
         {
-          'bg-blue-500 ': title,
+          'bg-[#0f548b] ': title,
         },
         {
           'bg-white ': !title,
         }
       )}>
+      {titleMessage && descMessage && (
+        <ShowConfirmMessage
+          textClose={textClose}
+          textConfirm={textConfirm}
+          title={titleMessage}
+          desc={descMessage}
+          onConfirm={() => handleConfirmMessage(dispatch)}
+        />
+      )}
       {title ? (
         <Link href={parentPathname}>
           <Image
@@ -56,8 +84,8 @@ export default function Header({ title }: Props) {
       ) : (
         <Image className="" src="/mobile/logo.png" alt="logo" width={100} height={30} />
       )}
-      {title && <p className="flex-1 text-center uppercase ">{title}</p>}
-      {!user ? (
+      {title && <p className="flex-1 text-center uppercase text-white">{title}</p>}
+      {!userName ? (
         <div className="flex gap-2">
           <Link
             href={paths.mobile.register}
@@ -66,7 +94,7 @@ export default function Header({ title }: Props) {
             Đăng ký
           </Link>
           <div
-            onClick={() => setOpenModal(true)}
+            onClick={() => setOpenModalLogin(true)}
             className="cursor-pointer bg-sky-500 text-white rounded-xl  flex items-center justify-between gap-2 px-2 ">
             <Image src={'/mobile/icons/login.svg'} alt="login" width={18} height={18} />
             Đăng nhập
@@ -80,13 +108,13 @@ export default function Header({ title }: Props) {
                 className="flex items-center gap-2"
                 onClick={() => setOpenAssetModal(!openAssetModal)}>
                 <p className={classNames('text-base uppercase text-gray-400', { hidden: title })}>
-                  username
+                  {userName.toUpperCase()}
                 </p>
                 <p
                   className={classNames('text-gray-600 text-xl', {
                     'text-yellow-300': pathname !== paths.mobile.root,
                   })}>
-                  $ 0
+                  $ {gameMainPoint?.toLocaleString('vi-VN') || 0}
                 </p>
                 <Image
                   src="/mobile/icons/arrowGray.svg"
@@ -112,7 +140,7 @@ export default function Header({ title }: Props) {
         </div>
       )}
 
-      <LoginModal openModal={openModal} setOpenModal={setOpenModal} />
+      <LoginModal openModal={openModalLogin} setOpenModal={setOpenModalLogin} />
     </header>
   );
 }

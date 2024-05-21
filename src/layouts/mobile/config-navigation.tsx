@@ -46,19 +46,19 @@ export const useNavData = () => {
           {
             title: 'Chuyển quỹ',
             path: paths.mobile.transfer,
-            bg: 'bg-blue-600',
+            bg: 'bg-[#3c92c5]',
           },
           {
             title: 'Nạp tiền',
             path: paths.mobile.purchase.root,
             icon: ICONS.purchase,
-            bg: 'bg-green-600',
+            bg: 'bg-[#0a9d4c]',
           },
           {
             title: 'Rút tiền',
             path: paths.mobile.withdraw,
             icon: ICONS.withdraw,
-            bg: 'bg-yellow-400',
+            bg: 'bg-[#f79319]',
           },
         ],
       },

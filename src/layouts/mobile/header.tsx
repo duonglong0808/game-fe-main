@@ -15,9 +15,10 @@ type Props = {
   title?: string;
   openModalLogin: boolean;
   setOpenModalLogin: React.Dispatch<React.SetStateAction<boolean>>;
+  handleBack?: () => void;
 };
 
-export default function Header({ title, openModalLogin, setOpenModalLogin }: Props) {
+export default function Header({ title, openModalLogin, setOpenModalLogin, handleBack }: Props) {
   // const [openModal, setOpenModal] = useState(false);
   const [openAssetModal, setOpenAssetModal] = useState(false);
   const pathname = usePathname();
@@ -72,20 +73,32 @@ export default function Header({ title, openModalLogin, setOpenModalLogin }: Pro
         />
       )}
       {title ? (
-        <Link href={parentPathname}>
-          <Image
-            src="/button/icon_arrowW.svg"
-            alt="logo"
-            width={16}
-            height={16}
-            className="rotate-90"
-          />
-        </Link>
+        handleBack ? (
+          <div onClick={handleBack}>
+            <Image
+              src="/button/icon_arrowW.svg"
+              alt="logo"
+              width={16}
+              height={16}
+              className="rotate-90"
+            />
+          </div>
+        ) : (
+          <Link href={parentPathname}>
+            <Image
+              src="/button/icon_arrowW.svg"
+              alt="logo"
+              width={16}
+              height={16}
+              className="rotate-90"
+            />
+          </Link>
+        )
       ) : (
         <Image className="" src="/mobile/logo.png" alt="logo" width={100} height={30} />
       )}
       {title && <p className="flex-1 text-center uppercase text-white">{title}</p>}
-      {!userName ? (
+      {!title && !userName ? (
         <div className="flex gap-2">
           <Link
             href={paths.mobile.register}

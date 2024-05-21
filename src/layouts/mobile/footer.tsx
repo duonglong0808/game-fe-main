@@ -73,20 +73,24 @@ export default function Footer({ isHome, openModalLogin, setOpenModalLogin }: Pr
         }
       })}
       {showNavMore && (
-        <div className="absolute bottom-full w-full flex items-center justify-around text-white bg-white text-base py-4 border-b border-gray-300 animate-show-up">
-          {data[3].items &&
-            data[3].items.map((item) => (
-              <Link
-                key={item.title}
-                href={item.path}
-                className={classNames(
-                  'flex items-center justify-between gap-4 p-4 rounded-md leading-8',
-                  item.bg
-                )}>
-                {item.icon}
-                {item.title}
-              </Link>
-            ))}
+        <div
+          onClick={() => setShowNavMore(false)}
+          className="fixed top-0 left-0 right-0 bottom-[55px] w-full h-[calc(100vh - 55px)] bg-[#00000099]">
+          <div className="absolute bottom-0 w-full flex items-center justify-around text-white bg-white text-base py-[10px] border-b border-gray-300 animate-show-up px-2">
+            {data[3].items &&
+              data[3].items.map((item) => (
+                <Link
+                  key={item.title}
+                  href={item.path}
+                  className={classNames(
+                    'flex items-center justify-between gap-4 px-2 py-[13px] rounded-lg leading-8 m-2 text-sm',
+                    item.bg
+                  )}>
+                  {item.icon}
+                  {item.title}
+                </Link>
+              ))}
+          </div>
         </div>
       )}
     </div>

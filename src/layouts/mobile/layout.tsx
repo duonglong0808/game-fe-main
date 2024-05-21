@@ -8,19 +8,46 @@ type Props = {
   children: React.ReactNode;
   title?: string;
   isHome?: boolean;
+  handleBack?: () => void;
+  useHandleBack?: boolean;
+  showFooter?: boolean;
 };
-export default function MobileLayout({ children, title, isHome }: Props) {
+export default function MobileLayout({
+  children,
+  title,
+  isHome,
+  handleBack,
+  useHandleBack,
+  showFooter = true,
+}: Props) {
   const [openModalLogin, setOpenModalLogin] = useState(false);
 
   return (
     <div className="flex flex-col h-screen overflow-hidden">
-      <Header title={title} openModalLogin={openModalLogin} setOpenModalLogin={setOpenModalLogin} />
+      {useHandleBack ? (
+        <Header
+          title={title}
+          openModalLogin={openModalLogin}
+          setOpenModalLogin={setOpenModalLogin}
+          handleBack={handleBack}
+        />
+      ) : (
+        <Header
+          title={title}
+          openModalLogin={openModalLogin}
+          setOpenModalLogin={setOpenModalLogin}
+        />
+      )}
       <div className="flex-1 flex flex-col gap-2 overflow-auto bg-gray-100">{children}</div>
-      <Footer
-        isHome={isHome}
-        openModalLogin={openModalLogin}
-        setOpenModalLogin={setOpenModalLogin}
-      />
+      {showFooter ? (
+        <Footer
+          isHome={isHome}
+          openModalLogin={openModalLogin}
+          setOpenModalLogin={setOpenModalLogin}
+        />
+      ) : (
+        <></>
+      )}
     </div>
   );
 }

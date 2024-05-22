@@ -57,7 +57,7 @@ export default function Header({ title, openModalLogin, setOpenModalLogin, handl
       className={classNames(
         'w-full flex items-center py-2 px-3 justify-between',
         {
-          'bg-[#0f548b] ': title,
+          'bg-[#124f7f] ': title,
         },
         {
           'bg-white ': !title,

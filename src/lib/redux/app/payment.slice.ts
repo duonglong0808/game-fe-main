@@ -11,6 +11,7 @@ interface PaymentType {
 }
 interface PaymentSlice {
   paymentTypes: PaymentType[];
+  paymentTypeId?: number;
   fetchDataPaymentTypes: boolean;
 }
 
@@ -19,15 +20,19 @@ const paymentSlice = createSlice({
   initialState: {
     paymentTypes: [],
     fetchDataPaymentTypes: true,
+    paymentTypeId: undefined,
   } as PaymentSlice,
   reducers: {
     setPaymentTypes(state, action) {
       state.paymentTypes = action.payload.data;
       state.fetchDataPaymentTypes = false;
     },
+    setPaymentTypeId(state, action) {
+      state.paymentTypeId = action.payload.id;
+    },
   },
 });
 
-export const { setPaymentTypes } = paymentSlice.actions;
+export const { setPaymentTypes, setPaymentTypeId } = paymentSlice.actions;
 
 export default paymentSlice.reducer;

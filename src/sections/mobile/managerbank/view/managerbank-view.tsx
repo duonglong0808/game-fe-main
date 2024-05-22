@@ -4,6 +4,10 @@ import Image from 'next/image';
 import { useEffect, useRef, useState } from 'react';
 import { addBankUser, getAllBankUser } from './ultils/api';
 import { dataBankStatics } from '@/constant';
+import { ClickNumberBox } from '@/components/mobile/clickNumber';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCircleXmark } from '@fortawesome/free-solid-svg-icons';
+import classNames from 'classnames';
 
 export default function ManagerBankView() {
   const [bankUser, setBankUser] = useState([]);
@@ -60,19 +64,28 @@ export default function ManagerBankView() {
                 className="outline-none mb-4 border-b-2 border-[#f0f0f0] w-full py-2 text-base"
               />
 
-              <input
-                value={accountNumber}
-                // onFocus={() =>  }
-                // onChange={(e) => {
-                //   if (Number(e.target.value) > 0) {
-                //     setAccountNumber(String(e.target.value));
-                //   } else {
-                //     setAccountNumber('');
-                //   }
-                // }}
-                placeholder="Số tài khoản"
-                className="outline-none mb-4 border-b-2 border-[#f0f0f0] w-full py-2 text-base"
-              />
+              <div>
+                <span
+                  className={classNames(
+                    'block relative outline-none mb-4 border-b-2 border-[#f0f0f0] w-full py-2 text-base',
+                    { 'text-[#999]': !accountNumber }
+                  )}>
+                  {accountNumber || 'Số tài khoản'}
+                  {accountNumber ? (
+                    <FontAwesomeIcon
+                      onClick={() => setAccountNumber('')}
+                      className="absolute cursor-pointer top-[50%] bottom-0 right-0 translate-x-[-50%] translate-y-[-50%] text-2xl"
+                      color="#c6c6ca"
+                      icon={faCircleXmark}
+                    />
+                  ) : (
+                    <></>
+                  )}
+                </span>
+                <div className="w-full py-2">
+                  <ClickNumberBox value={accountNumber} onChangeValue={setAccountNumber} />
+                </div>
+              </div>
 
               <div
                 className="relative py-2 border-b-2 border-[#f0f0f0]"

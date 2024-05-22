@@ -1,5 +1,10 @@
 export * from './bank.statics';
 
+export const Status = {
+  Active: 'ACTIVE',
+  InActive: 'INACTIVE',
+};
+
 export const EventSocket = {
   JoinRoom: 'join-room',
   LeaveRoom: 'leave-room',

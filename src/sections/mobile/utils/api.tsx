@@ -24,10 +24,7 @@ export const getHistoryTransfer = async (
   const axios = new BaseAxios();
   let url = `/user-point/history?page=${page}&limit=${limit}`;
   if (dateFrom && dateTo) {
-    url += `&dateFrom=${moment(dateFrom, 'DD/MM/YYYY').toDate()}&dateTo=${moment(
-      dateTo,
-      'DD/MM/YYYY'
-    ).toDate()}`;
+    url += `&dateFrom=${dateFrom}&dateTo=${dateTo}`;
   }
   if (gameReceiverId) {
     url += `&gameReceiverId=${gameReceiverId}`;
@@ -60,11 +57,11 @@ export const depositPointToMain = (data: any) => {
   return axios.post(`/payment-transaction`, data);
 };
 
-export const getAllPaymentTransaction = (page: number, type: number, status: number) => {
+export const getAllPaymentTransaction = (type: number, status: number) => {
   const axios = new BaseAxios();
   const dateTo = new Date();
   const dateFrom = new Date(dateTo.getTime() - 7 * 24 * 60 * 60 * 1000);
-  let url = `/payment-transaction?page=${page}&limit=${10}&dateFrom=${dateFrom}&dateTo=${dateTo}&status=${status}`;
+  let url = `/payment-transaction?page=${1}&limit=${1000}&dateFrom=${dateFrom}&dateTo=${dateTo}&status=${status}`;
   if (type < 2) {
     url += `&type=${type}`;
   }

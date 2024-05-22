@@ -15,7 +15,6 @@ export const handleMovePoint = async (
 ) => {
   if (gamePointTransfer && gamePointReceive && points) {
     const res = await transferPoint(gamePointTransfer, gamePointReceive, points);
-    console.log('🚀 ~ res:', res);
     if (res.data) {
       dispatch(setFetchingDataPoint({ isFetchPoint: true }));
       dispatch(

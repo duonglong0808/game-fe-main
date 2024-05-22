@@ -340,6 +340,7 @@ export default function ATMView() {
 
                     return (
                       <div
+                        key={index}
                         onClick={() => {
                           setShowBankUser(false);
                           setBankUserTransfer(bank?.id);

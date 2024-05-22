@@ -18,7 +18,7 @@ const ButtonMethod = ({ name, icon, select }: ButtonMethodProps) => {
       )}>
       <p className="text-sm max-lg:text-base">{name}</p>
       {icon ? (
-        <Image src={icon} alt="" width={30} height={30} className={''} />
+        <img src={icon} alt="" width={30} height={30} className={''} loading="lazy" />
       ) : (
         <Image
           src={'/member/withdraw/icon_card.svg'}

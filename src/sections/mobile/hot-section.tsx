@@ -1,4 +1,7 @@
+'use client';
+
 import { HOTSECTION } from '@/_mock/_side_right';
+import { useAppSelector } from '@/lib/redux/utilRedux';
 import Image from 'next/image';
 export default function HotSection() {
   return (
@@ -36,8 +39,27 @@ type HotButtonProps = {
   height?: number;
 };
 const HotButton = ({ name, icon, img, bg, width, height }: HotButtonProps) => {
+  const { userName } = useAppSelector((state) => state.user);
+
+  const handleNavigateGameKu = () => {
+    if (userName) {
+      const accessToken = localStorage.getItem('access_token');
+      const refreshToken = localStorage.getItem('refresh_token');
+
+      window.open(
+        `${process.env.URL_GAME}?access_token=${accessToken}&&refresh_token=${refreshToken}`,
+        '_blank'
+      );
+    }
+  };
+
   return (
-    <div className="relative flex flex-col w-full h-full rounded-xl overflow-hidden py-2 px-4 gap-2">
+    <div
+      onClick={() => {
+        console.log('AAAA');
+        handleNavigateGameKu();
+      }}
+      className="relative flex flex-col w-full h-full rounded-xl overflow-hidden py-2 px-4 gap-2">
       <Image src={bg} alt="" fill className="rounded-xl object-cover" />
       <div className="absolute -right-2 -bottom-6 w-[120%] h-[70%] ">
         <Image className="z-10 object-contain" src={img} alt="" fill />

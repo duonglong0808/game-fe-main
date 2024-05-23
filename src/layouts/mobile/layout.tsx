@@ -23,7 +23,7 @@ export default function MobileLayout({
   const [openModalLogin, setOpenModalLogin] = useState(false);
 
   return (
-    <div className="flex flex-col h-screen overflow-hidden">
+    <div className="flex flex-col h-svh overflow-hidden">
       {useHandleBack ? (
         <Header
           title={title}
@@ -38,7 +38,7 @@ export default function MobileLayout({
           setOpenModalLogin={setOpenModalLogin}
         />
       )}
-      <div className="flex-1 flex flex-col gap-2 overflow-auto bg-gray-100">{children}</div>
+      <div className="flex flex-col gap-2 overflow-auto bg-gray-100">{children}</div>
       {showFooter ? (
         <Footer
           isHome={isHome}

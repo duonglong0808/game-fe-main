@@ -9,7 +9,6 @@ import SideRight from '@/components/home-desktop/SideRight';
 
 const cx = classNames.bind(styles);
 
-
 export default function DesktopView() {
   const [index, setIndex] = useState(0);
   return (
@@ -40,14 +39,14 @@ export default function DesktopView() {
           </div>
         </div>
       </div>
-      <div className="lg:hidden h-full bg-white text-[#535867] flex gap-2 p-2">
+      {/* <div className="lg:hidden h-full bg-white text-[#535867] flex gap-2 p-2">
         <div className="flex-[0.2] h-full">
           <SideLeft index={index} setIndex={setIndex} />
         </div>
         <div className="flex-[0.8] h-full">
           <SideRight index={index} />
         </div>
-      </div>
+      </div> */}
     </main>
   );
 }

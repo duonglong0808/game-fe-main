@@ -726,7 +726,7 @@ export function HeaderHome(): JSX.Element {
         )}
       </div>
       {/* Mobile */}
-      <div className="max-lg:block hidden p-2 bg-white text-black">
+      {/* <div className="max-lg:block hidden p-2 bg-white text-black">
         <div className={cx('flex items-center justify-between', { hidden: download })}>
           <div className="flex gap-2 items-center">
             <button className="w-4 h-4 opacity-45" onClick={handleSetDownload}>
@@ -765,34 +765,9 @@ export function HeaderHome(): JSX.Element {
                 <p className="text-base">Đăng nhập</p>
               </div>
             </Link>
-            {/* <div className={cx('header-top__right', 'flex')}>
-              <div
-                className={cx('header-top__right__register', '')}
-                onClick={() => {
-                  const boxRegister = document.getElementById(`wrapper-register`);
-                  if (boxRegister) {
-                    boxRegister.style.display = 'block';
-                    document.body.style.overflow = 'hidden';
-                  }
-                }}>
-                Đăng ký
-              </div>
-
-              <div
-                className={cx('header-top__right__login')}
-                onClick={() => {
-                  const boxLogin = document.getElementById(`wrapper-login`);
-                  if (boxLogin) {
-                    boxLogin.style.display = 'block';
-                    document.body.style.overflow = 'hidden';
-                  }
-                }}>
-                Đăng nhập
-              </div>
-            </div> */}
           </div>
         </div>
-      </div>
+      </div> */}
       <div className={cx('wrapper-register')} id="wrapper-register">
         <Register />
       </div>

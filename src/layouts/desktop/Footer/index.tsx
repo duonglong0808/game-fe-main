@@ -292,7 +292,7 @@ export function FooterHome(): JSX.Element {
             }}></div>
         </div>
       </div>
-      <div className="lg:hidden flex z-20 w-full h-[63px] bg-white text-black border-t-[1px] border-gray-400 items-center">
+      {/* <div className="lg:hidden flex z-20 w-full h-[63px] bg-white text-black border-t-[1px] border-gray-400 items-center">
         <div className="flex items-center justify-evenly w-full text-center">
           <Link href={'/home'} className="flex flex-col items-center justify-center">
             <Image src="/footer/gift.png" alt="logo" width={25} height={25} />
@@ -324,7 +324,7 @@ export function FooterHome(): JSX.Element {
             <p className="text-sm">Tôi</p>
           </Link>
         </div>
-      </div>
+      </div> */}
     </footer>
   );
 }

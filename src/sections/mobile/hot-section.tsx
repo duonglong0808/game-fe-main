@@ -46,10 +46,11 @@ const HotButton = ({ name, icon, img, bg, width, height }: HotButtonProps) => {
       const accessToken = localStorage.getItem('access_token');
       const refreshToken = localStorage.getItem('refresh_token');
 
-      window.open(
-        `${process.env.URL_GAME}?access_token=${accessToken}&&refresh_token=${refreshToken}`,
-        '_blank'
-      );
+      window.location.href = `${process.env.URL_GAME}?access_token=${accessToken}&&refresh_token=${refreshToken}`;
+      // window.open(
+      //   `${process.env.URL_GAME}?access_token=${accessToken}&&refresh_token=${refreshToken}`,
+      //   '_blank'
+      // );
     }
   };
 

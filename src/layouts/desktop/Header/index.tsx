@@ -401,14 +401,15 @@ export function HeaderHome(): JSX.Element {
                                 {point.slug ? (
                                   <span className={cx('point__item--value')}>
                                     {dataGamePoints
-                                      .find((game) => game.gameSlug == point.slug)
+                                      ?.find((game) => game.gameSlug == point.slug)
                                       ?.points.toLocaleString('vi-VN') || 0}
                                   </span>
                                 ) : (
                                   <></>
                                 )}
                                 {Number(
-                                  dataGamePoints.find((game) => game.gameSlug == point.slug)?.points
+                                  dataGamePoints?.find((game) => game.gameSlug == point.slug)
+                                    ?.points
                                 ) > 0 ? (
                                   <span
                                     className={cx('point__item--move')}

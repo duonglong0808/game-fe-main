@@ -38,7 +38,7 @@ export default function MobileLayout({
           setOpenModalLogin={setOpenModalLogin}
         />
       )}
-      <div className="flex flex-col gap-2 overflow-auto bg-gray-100">{children}</div>
+      <div className="flex flex-1 flex-col gap-2 overflow-auto bg-gray-100">{children}</div>
       {showFooter ? (
         <Footer
           isHome={isHome}

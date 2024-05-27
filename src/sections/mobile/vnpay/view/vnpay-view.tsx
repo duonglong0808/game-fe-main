@@ -114,7 +114,7 @@ export default function VNPayView() {
         <div className="flex items-center text-lg bg-white w-full px-4 py-2 text-red-500">
           <p className="text-red-500 w-[120px]">Thực tế</p>
           <div className="flex-1 flex items-center justify-between text-lg px-2">
-            <p className="font-semibold">{point ? (+point * 100).toLocaleString('vi-VN') : 0}</p>
+            <p className="font-semibold">{point ? (+point * 1000).toLocaleString('vi-VN') : 0}</p>
             <p>VND</p>
           </div>
         </div>

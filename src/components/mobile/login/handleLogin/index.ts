@@ -33,16 +33,18 @@ export const handleLoginAccount = async (
 ) => {
   password = btoa(password);
   const axios = new BaseAxios();
-  const login = await axios.post('/auth/login', {
+  const login = await axios.postV2('/auth/login', {
     account,
     password,
   });
-  console.log('🚀 ~ handleLoginAccount ~ login:', login);
-  if (!login) {
+  if (!login?.data) {
     dispatch(
       setMessageApp({
         titleMessage: 'Tin nhắn',
-        descMessage: 'Tài khoản hoặc mật khẩu sai',
+        descMessage:
+          login?.message == 'user_has_blocked'
+            ? 'Tài khoản đã bị khóa'
+            : 'Tài khoản hoặc mật khẩu sai',
         textClose: '',
         textConfirm: 'Xác nhận',
       })

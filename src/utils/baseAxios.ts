@@ -35,6 +35,18 @@ export class BaseAxios {
     }
   }
 
+  async postV2(url: string, data: any, config?: any) {
+    try {
+      const response = await this.request.post(url, data, config);
+      return response.data;
+    } catch (error: any) {
+      return {
+        data: false,
+        message: error.response.data?.exception?.message,
+      };
+    }
+  }
+
   async patch(url: string, data: any, config?: any) {
     try {
       const response = await this.request.patch(url, data, config);

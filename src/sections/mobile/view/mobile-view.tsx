@@ -13,13 +13,15 @@ export default function MobileView() {
 
   return (
     <MobileLayout isHome>
-      <Carousel />
-      <div className="flex-1 h-full bg-white text-gray-600 flex gap-2 p-2">
-        <div className="flex-[0.2] h-full">
-          <SideLeft tabsRef={tabsRef} activeTab={activeTab} />
-        </div>
-        <div className="flex-[0.8] h-full">
-          <SideRight tabsRef={tabsRef} setActiveTab={setActiveTab} />
+      <div className="overflow-hidden h-full">
+        <Carousel />
+        <div className="h-[75%] bg-white text-gray-600 flex gap-2 p-2">
+          <div className="flex-[0.2] h-full">
+            <SideLeft tabsRef={tabsRef} activeTab={activeTab} />
+          </div>
+          <div className="flex-[0.8] h-full">
+            <SideRight tabsRef={tabsRef} setActiveTab={setActiveTab} />
+          </div>
         </div>
       </div>
     </MobileLayout>

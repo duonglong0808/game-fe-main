@@ -431,8 +431,8 @@ export default function ATMView() {
                 paymentId &&
                 bankUserTransfer &&
                 bankReceiver &&
-                +point > Number(paymentTypeById?.minimum) &&
-                +point < Number(paymentTypeById?.maximum)
+                +point >= Number(paymentTypeById?.minimum) &&
+                +point <= Number(paymentTypeById?.maximum)
               ) {
                 setSubmitDeposit(true);
               }

@@ -157,9 +157,7 @@ const VNPayPage = ({
             <button
               disabled={!paymentId || !(+point >= Number(paymentTypeById?.minimum))}
               onClick={async () => {
-                console.log('🚀 ~ onClick={ ~ paymentId:', paymentId);
                 if (paymentId && +point >= Number(paymentTypeById?.minimum)) {
-                  console.log('🚀 ~ onClick={ ~ showAccountBank:', showAccountBank);
                   if (showAccountBank) {
                     setSubmitDeposit(true);
                   } else {
@@ -186,7 +184,7 @@ const VNPayPage = ({
                           qrCode
                         )}`,
                         'KU Casio -Qr code',
-                        900,
+                        1025,
                         729
                       );
                       // console.log('a', a);
@@ -316,7 +314,7 @@ const VNPayPage = ({
                           qrCode
                         )}`,
                         'KU Casio -Qr code',
-                        900,
+                        1025,
                         729
                       );
                       // console.log('a', a);

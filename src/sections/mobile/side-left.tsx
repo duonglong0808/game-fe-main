@@ -36,18 +36,22 @@ type ButtonProps = {
 const customTheme: CustomFlowbiteTheme['button'] = {
   base: 'h-full',
   inner: {
-    base: 'flex flex-col justify-center items-center gap-1 bg-sky-100 rounded p-1 h-full',
+    base: 'flex flex-col justify-center items-center gap-1 bg-sky-100 rounded p-[2px] h-full',
+  },
+  size: {
+    xs: 'px-1 py-0 text-xs',
   },
 };
 const CustomButton = ({ isActive, icon, name, onClick }: ButtonProps) => {
   return (
     <Button
+      size={'xs'}
       theme={customTheme}
       color={'default'}
-      className={classNames({ 'border border-blue-500': isActive })}
+      className={classNames('', { 'border border-blue-500': isActive })}
       onClick={onClick}>
-      <Image src={icon} alt={name} width={20} height={20} />
-      <span className="font-bold text-center text-xs">{name}</span>
+      <Image src={icon} alt={name} width={20} height={20} className="" />
+      <span className="font-bold text-center text-[11px]">{name}</span>
     </Button>
   );
 };

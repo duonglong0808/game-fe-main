@@ -82,7 +82,7 @@ export default function ShowQrCode(): JSX.Element {
       <div className={cx('h-fit m-auto py-10 px-16 w-[900px] relative')}>
         <div>
           <div className="flex justify-between">
-            <div className="bg-[#fff] rounded-2xl px-4 py-2 mr-10 w-[450px]">
+            <div className="bg-[#fff] rounded-2xl px-4 py-2 lg:mr-10 w-[340px] lg:w-[450px] ">
               <div className={cx('content-header')}>
                 <div className="flex justify-between mb-1 mt-2">
                   <div className="text-sm text-end">
@@ -116,7 +116,7 @@ export default function ShowQrCode(): JSX.Element {
                 </div>
               </div>
 
-              <div className={cx('content-footer')}>
+              <div className={cx('content-footer', 'hidden lg:flex')}>
                 <div className={cx('content-footer__box-icon')}>
                   <Image
                     alt="lightbulb"
@@ -132,10 +132,27 @@ export default function ShowQrCode(): JSX.Element {
                 </div>
               </div>
             </div>
-            <Image alt="Image" src={imagePhone} width={243} height={429} />
+            <Image
+              alt="Image"
+              src={imagePhone}
+              width={243}
+              height={429}
+              className="hidden lg:block"
+            />
           </div>
 
-          <div className={cx('steps', 'flex justify-around')}>
+          <div className={cx('content-footer', 'mt-3 w-[340px] bg-white flex lg:hidden')}>
+            <div className={cx('content-footer__box-icon')}>
+              <Image alt="lightbulb" src={'/member/deposit/lightbulb.png'} width={30} height={50} />
+            </div>
+            <div className={cx('content-footer__text', 'h-full')}>
+              {methodName == 'qr'
+                ? 'Mã QR chỉ cung cấp cho nạp tiền lần này. Vui lòng không chuyển vào tài khoản MoMo.'
+                : 'Mã QR chỉ cung cấp cho nạp tiền lần này, vui lòng không lưu lại sử dụng cho những nạp tiền lần sau.'}
+            </div>
+          </div>
+
+          <div className={cx('steps', 'justify-around hidden lg:flex')}>
             <div
               className={cx(
                 'p-2 text-[#e3464c] mr-8 rounded-lg w-[170px] bg-[#fff] text-center',
@@ -153,7 +170,7 @@ export default function ShowQrCode(): JSX.Element {
             </div>
             <div
               className={cx(
-                'p-2 text-[#214571] mr-8 rounded-lg w-[170px] bg-[#fff] text-center',
+                'p-2 text-[#214571] mr-8 rounded-lg w-[170px] bg-[#fff] text-center ',
                 'steps__item'
               )}
               style={{

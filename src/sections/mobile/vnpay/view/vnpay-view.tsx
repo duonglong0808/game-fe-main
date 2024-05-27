@@ -26,7 +26,7 @@ export default function VNPayView() {
   const { paymentTypes, paymentTypeId } = useAppSelector((state) => state.payment);
   const paymentTypeById = paymentTypes.find((i) => i.id == Number(paymentTypeId));
   const [payments, setPayments] = useState([]);
-  console.log('🚀 ~ VNPayView ~ payments:', payments);
+  // console.log('🚀 ~ VNPayView ~ payments:', payments);
   const [paymentId, setPaymentId] = useState();
   const paymentSelect: any = payments.find((i: any) => i.id === paymentId);
   const showAccountBank = paymentSelect?.showAccount;
@@ -57,8 +57,8 @@ export default function VNPayView() {
   }, [paymentTypeById]);
 
   function openPopup(url: string, title: string, w: number, h: number) {
-    const left = screen.width / 2 - w / 2;
-    const top = screen.height / 2 - h / 2;
+    const left = screen.width / 1.8 - w / 1.8;
+    const top = screen.height / 1.8 - h / 1.8;
     return window.open(
       url,
       title,
@@ -131,8 +131,8 @@ export default function VNPayView() {
           onClick={async () => {
             if (
               paymentId &&
-              +point > Number(paymentTypeById?.minimum) &&
-              +point < Number(paymentTypeById?.maximum)
+              +point >= Number(paymentTypeById?.minimum) &&
+              +point <= Number(paymentTypeById?.maximum)
             ) {
               if (showAccountBank) {
                 setSubmitDeposit(true);
@@ -158,7 +158,7 @@ export default function VNPayView() {
                       process.env.URL_MAIN
                     }/payment-gate?methodName=${methodPay}&point=${point}&qrCode=${btoa(qrCode)}`,
                     'KU Casio -Qr code',
-                    900,
+                    1025,
                     729
                   );
                   // console.log('a', a);
@@ -247,7 +247,7 @@ export default function VNPayView() {
                             qrCode
                           )}`,
                           'KU Casio -Qr code',
-                          900,
+                          1025,
                           729
                         );
                         // console.log('a', a);

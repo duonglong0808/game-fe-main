@@ -210,7 +210,7 @@ export default function TransferTabs() {
           </div>
 
           {openSelectPoint ? (
-            <div className="fixed top-0 left-0 right-0 bottom-0  z-30">
+            <div className="fixed top-0 left-0 right-0 bottom-0  z-30 text-black">
               <div
                 className="absolute left-0 right-0 top-0 h-[160px] bg-[#00000075]"
                 onClick={() => setOpenSelectPoint(false)}></div>
@@ -263,9 +263,9 @@ export default function TransferTabs() {
                         <div
                           onClick={() => setAccountTransfer(game.gameSlug)}
                           key={index}
-                          className="px-3 text-start border-b-[1px] border-[#d7d7d7]">
+                          className="px-3 text-start border-b-[1px] border-[#d7d7d7] text-sm mb-1">
                           <p>{game.gameName}</p>
-                          <p className="text-[#039612]">{game.points}</p>
+                          <p className="text-[#039612] mt-[2px]">{game.points}</p>
                         </div>
                       ))}
                     </div>
@@ -277,9 +277,9 @@ export default function TransferTabs() {
                         <div
                           onClick={() => setAccountReceiver(game.gameSlug)}
                           key={index}
-                          className="px-3 text-start border-b-[1px] border-[#d7d7d7]">
+                          className="px-3 text-start border-b-[1px] border-[#d7d7d7] text-sm mb-1">
                           <p>{game.gameName}</p>
-                          <p className="text-[#039612]">{game.points}</p>
+                          <p className="text-[#039612] mt-[2px]">{game.points}</p>
                         </div>
                       ))}
                     </div>
@@ -343,7 +343,7 @@ export default function TransferTabs() {
             data.map((item, index) => (
               <div
                 key={index}
-                className="border-[1px] border-[#e1e1e3] w-[90%] mx-auto px-2 py-1 rounded-lg bg-white mb-3">
+                className="border-[1px] border-[#e1e1e3] w-[90%] mx-auto px-2 py-1 rounded-lg bg-white mb-3 text-black">
                 <div
                   onClick={() => {
                     if (historyActive.includes(index)) {

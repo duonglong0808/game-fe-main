@@ -63,7 +63,7 @@ export default function TransactionTabs() {
       )} */}
       <div className="flex items-center border-[1px] border-[#ddd]">
         <div className={cx('top-2 right-12')}>
-          <div className={cx('option-wrapper', 'relative')}>
+          <div className={cx('option-wrapper', 'relative text-black')}>
             Chọn
             <div className={cx('option-list')}>
               <label
@@ -101,7 +101,7 @@ export default function TransactionTabs() {
           onClick={() => setStatusTransaction(3)}
           className={cx('mx-2 flex-1 font-semibold text-[14px] border-b-2 py-2 ', {
             'border-b-4 border-[#4a80a3] text-[#4a80a3] z-10': statusTransaction == 3,
-            'border-[transparent]': statusTransaction != 3,
+            'border-[transparent] text-black': statusTransaction != 3,
           })}>
           Chưa hoàn thành
         </button>
@@ -109,7 +109,7 @@ export default function TransactionTabs() {
           onClick={() => setStatusTransaction(1)}
           className={cx('mx-2 flex-1 font-semibold text-[14px] border-b-2 py-2 ', {
             'border-b-4 border-[#4a80a3] text-[#4a80a3] z-10': statusTransaction == 1,
-            'border-[transparent]': statusTransaction != 1,
+            'border-[transparent] text-black': statusTransaction != 1,
           })}>
           Đã hoàn thành
         </button>

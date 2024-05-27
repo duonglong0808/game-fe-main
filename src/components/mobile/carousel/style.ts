@@ -3,7 +3,7 @@ import { CustomFlowbiteTheme } from 'flowbite-react';
 export const configCarousel: CustomFlowbiteTheme = {
   carousel: {
     root: {
-      base: 'relative h-[166px] w-full ',
+      base: 'relative h-full w-full ',
       // leftControl: 'hidden',
       // rightControl: 'hidden',
     },

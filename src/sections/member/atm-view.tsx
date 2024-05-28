@@ -81,7 +81,7 @@ const AtmPage = ({
         if (bankUser.data) {
           const { data } = bankUser.data;
           setBankUser(data);
-          setBankUserTransfer(data[0].id);
+          setBankUserTransfer(data[0]?.id);
           setRefetchBank(false);
         }
       }
@@ -154,8 +154,8 @@ const AtmPage = ({
                 <option value="">Chọn ngân hàng muốn nạp</option>
                 {paymentBank.map((bank: any, index) => {
                   const nameBankShort = dataBankStatics.find(
-                    (item) => (item.bin = bank.binBank)
-                  )?.shortName;
+                    (item) => item.bin == bank.binBank
+                  )?.short_name;
 
                   return (
                     <option key={index} value={bank.id}>
@@ -196,7 +196,7 @@ const AtmPage = ({
         </div>
         <div className="flex-1 flex flex-col py-2 gap-4 ">
           <div className="flex w-full items-center justify-between">
-            {bankUser?.length &&
+            {bankUser?.length ? (
               bankUser?.map((bank: any, index) => (
                 <ButtonBank
                   active={bank.id == bankUserTransfer}
@@ -205,7 +205,10 @@ const AtmPage = ({
                   binBank={bank.binBank}
                   lastNumber={bank.accountNumber?.slice(-4)}
                 />
-              ))}
+              ))
+            ) : (
+              <></>
+            )}
             {Array.from({ length: 4 - bankUser.length }, (_, index) => index + 1).map(
               (i, index) => (
                 <ButtonAdd key={index} onCLick={() => setOpenAddBank(true)} />

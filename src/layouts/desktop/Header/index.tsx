@@ -584,7 +584,11 @@ export function HeaderHome(): JSX.Element {
               <span className={cx('header-top--icon-letter')}></span>
               <span
                 className={cx('header-top-logout')}
-                onClick={() => dispatch(logOutUser())}></span>
+                onClick={() => {
+                  localStorage.removeItem('refresh_token');
+                  localStorage.removeItem('access_token');
+                  dispatch(logOutUser());
+                }}></span>
             </div>
           ) : (
             <div className={cx('header-top__right', 'flex')}>

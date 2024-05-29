@@ -280,7 +280,7 @@ export default function ATMView() {
                 <option value="">Chọn ngân hàng muốn nạp</option>
                 {paymentBank.map((bank: any, index) => {
                   const nameBankShort = dataBankStatics.find(
-                    (item) => (item.bin = bank.binBank)
+                    (item) => item.bin == bank.binBank
                   )?.shortName;
 
                   return (

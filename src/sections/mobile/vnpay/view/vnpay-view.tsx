@@ -5,7 +5,6 @@ import { ButtonMethod } from '@/components/mobile/button';
 import MobileLayout from '@/layouts/mobile/layout';
 import { useAppSelector } from '@/lib/redux/utilRedux';
 import Image from 'next/image';
-import { useRouter } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
 import { depositPointToMain, getPaymentByType } from '../../utils/api';
 import classNames from 'classnames';
@@ -26,7 +25,6 @@ export default function VNPayView() {
   const { paymentTypes, paymentTypeId } = useAppSelector((state) => state.payment);
   const paymentTypeById = paymentTypes.find((i) => i.id == Number(paymentTypeId));
   const [payments, setPayments] = useState([]);
-  // console.log('🚀 ~ VNPayView ~ payments:', payments);
   const [paymentId, setPaymentId] = useState();
   const paymentSelect: any = payments.find((i: any) => i.id === paymentId);
   const showAccountBank = paymentSelect?.showAccount;
@@ -56,34 +54,8 @@ export default function VNPayView() {
     fetchData();
   }, [paymentTypeById]);
 
-  function openPopup(url: string, title: string, w: number, h: number) {
-    const left = screen.width / 1.8 - w / 1.8;
-    const top = screen.height / 1.8 - h / 1.8;
-
-    const newWindow = window.open(
-      url,
-      title,
-      'toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=no, resizable=no, copyhistory=no, width=' +
-        w +
-        ', height=' +
-        h +
-        ', top=' +
-        top +
-        ', left=' +
-        left +
-        ', noopener, noreferrer'
-    );
-
-    if (!newWindow || newWindow.closed || typeof newWindow.closed === 'undefined') {
-      alert('Popup blocked. Please allow popups for this website.');
-    }
-
-    return newWindow;
-  }
-
   const handleDepositMoney = async () => {
     if (
-      // bankReceiver &&
       paymentId &&
       +point >= Number(paymentTypeById?.minimum) &&
       +point <= Number(paymentTypeById?.maximum)
@@ -105,18 +77,16 @@ export default function VNPayView() {
         console.log('🚀 ~ onClick={ ~ data:', data);
 
         try {
+          const newWindow = window.open('', '_blank');
           const res = await depositPointToMain(data);
           if (res?.data) {
             const qrCode = res.data?.qrCode;
             const encodedQRCode = btoa(qrCode);
             const popupUrl = `${process.env.URL_MAIN}/payment-gate?methodName=${methodPay}&point=${point}&qrCode=${encodedQRCode}`;
 
-            if (linkRef.current) {
-              linkRef.current.href = popupUrl;
-              linkRef.current.click();
+            if (newWindow) {
+              newWindow.location.href = popupUrl;
             }
-
-            // openPopup(popupUrl, 'KU Casio -Qr code', 1025, 729);
             setSubmitDeposit(false);
           }
         } catch (error) {
@@ -128,9 +98,6 @@ export default function VNPayView() {
 
   return (
     <MobileLayout title="Ví điện tử">
-      <a ref={linkRef} href="#" target="_blank" className="hidden">
-        Open Popup
-      </a>
       <div className="flex-1 overflow-auto bg-gray-300 flex flex-col items-center w-full divide-y relative">
         <div className="flex items-center justify-start gap-2 py-2 px-4 bg-white w-full">
           {payments.map((pay: any, index) => (

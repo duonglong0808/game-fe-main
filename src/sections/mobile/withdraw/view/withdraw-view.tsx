@@ -2,7 +2,6 @@
 
 import MobileLayout from '@/layouts/mobile';
 import Image from 'next/image';
-import BankAccordion from '../accordion-bank';
 import { useEffect, useState } from 'react';
 import { addBankUser, getAllBankUser } from '../../utils/api';
 import { useAppDispatch, useAppSelector } from '@/lib/redux/utilRedux';
@@ -276,7 +275,7 @@ export default function WithdrawView() {
             <p className="text-red-500 w-[120px]">Thực tế</p>
             <div className="flex-1 flex items-center justify-between text-lg px-2">
               <p className="font-semibold">
-                {pointWithDraw ? (+pointWithDraw * 100).toLocaleString('vi-VN') : 0}
+                {pointWithDraw ? (+pointWithDraw * 1000).toLocaleString('vi-VN') : 0}
               </p>
               <p>VND</p>
             </div>

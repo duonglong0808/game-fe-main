@@ -13,15 +13,16 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleXmark } from '@fortawesome/free-solid-svg-icons';
 import { ClickNumberBox } from '@/components/mobile/clickNumber';
 import { TypePaymentTranSaction, dataBankStatics } from '@/constant';
+import { useRouter } from 'next/navigation';
 
 const cx = classNamesBin.bind(styles);
 
 export default function VNPayView() {
-  const { titleMessage, descMessage, textClose, textConfirm } = useAppSelector(
-    (state) => state.settingApp
-  );
+  // const { titleMessage, descMessage, textClose, textConfirm } = useAppSelector(
+  //   (state) => state.settingApp
+  // );
 
-  const linkRef = useRef<HTMLAnchorElement>(null);
+  const router = useRouter();
   const { paymentTypes, paymentTypeId } = useAppSelector((state) => state.payment);
   const paymentTypeById = paymentTypes.find((i) => i.id == Number(paymentTypeId));
   const [payments, setPayments] = useState([]);
@@ -63,6 +64,8 @@ export default function VNPayView() {
       if (showAccountBank && !submitDeposit) {
         setSubmitDeposit(true);
       } else {
+        const newWindow = window.open('', '_blank'); // Mở tab tạm thời
+
         const data = {
           paymentId,
           type: TypePaymentTranSaction.deposit,
@@ -77,20 +80,27 @@ export default function VNPayView() {
         console.log('🚀 ~ onClick={ ~ data:', data);
 
         try {
-          const newWindow = window.open('', '_blank');
           const res = await depositPointToMain(data);
           if (res?.data) {
             const qrCode = res.data?.qrCode;
             const encodedQRCode = btoa(qrCode);
-            const popupUrl = `${process.env.URL_MAIN}/payment-gate?methodName=${methodPay}&point=${point}&qrCode=${encodedQRCode}`;
+            const path = `/payment-gate?methodName=${methodPay}&point=${point}&qrCode=${encodedQRCode}`;
+            const popupUrl = `${process.env.URL_MAIN}${path}`;
 
             if (newWindow) {
               newWindow.location.href = popupUrl;
+            } else {
+              // Nếu newWindow không được mở, chuyển hướng trang hiện tại
+              router.push(path);
             }
             setSubmitDeposit(false);
           }
         } catch (error) {
           console.error('Error during deposit:', error);
+          if (newWindow) {
+            alert('Đóng tab do lỗi');
+            newWindow.close(); // Đóng tab tạm thời nếu có lỗi
+          }
         }
       }
     }

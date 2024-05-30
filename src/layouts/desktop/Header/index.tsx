@@ -34,6 +34,7 @@ import {
   handleConfirmMessage,
   handleMovePointToOtherGame,
   moveAllPointToMainPoint,
+  showMessageWarningHome,
   useGamePointHeader,
 } from './ultil/handlHeader';
 import { ShowConfirmMessage } from '@/app/compmnents/ShowMessage';
@@ -269,9 +270,8 @@ export function HeaderHome(): JSX.Element {
   const [pointTransfer, setPointTransfer] = useState('');
   const [openBoxListPoint, setOpenBoxListPoint] = useState(false);
 
-  const { titleMessage, descMessage, textClose, textConfirm } = useAppSelector(
-    (state) => state.settingApp
-  );
+  const { titleMessage, descMessage, textClose, textConfirm, isContentHtml, showIconClosed } =
+    useAppSelector((state) => state.settingApp);
 
   const [openGameOption, setOpenGameOption] = useState(false);
 
@@ -355,6 +355,8 @@ export function HeaderHome(): JSX.Element {
           textConfirm={textConfirm}
           title={titleMessage}
           desc={descMessage}
+          isContentHtml={isContentHtml}
+          showIconClosed={showIconClosed}
           onConfirm={() => handleConfirmMessage(dispatch)}
         />
       )}
@@ -363,6 +365,23 @@ export function HeaderHome(): JSX.Element {
           <div className={cx('header-top__time')}>
             <span>{formatTime(new Date())}</span>
             <i className={cx('header-top__time--icon')}></i>
+            <div className="ml-2 flex">
+              <div className="rounded-full h-fit w-fit">
+                <Image
+                  alt="warn"
+                  src={'/icons/icon_alert.png'}
+                  width={18}
+                  height={18}
+                  className="object-cover"
+                />
+              </div>
+              <p className="text-[#ffde00] text-sm mx-1">Chú ý : </p>
+              <p
+                onClick={() => showMessageWarningHome(dispatch)}
+                className="text-white text-sm hover:underline cursor-pointer">
+                Thông báo đề phòng lộ thông tin
+              </p>
+            </div>
           </div>
           {name || userName ? (
             <div className={cx('header-top__right', 'flex items-center')}>
@@ -806,7 +825,7 @@ export function HeaderHome(): JSX.Element {
                 <div className="flex h-[35px] mb-[25px]">
                   <span className="w-[115px] text-[#ffa800]">KU Casino</span>
                   <span className="text-[#1ba200] font-bold flex items-center flex-1 pl-[10px] border-[1px] border-[#dadada] ">
-                    {dataGamePoints.find((game) => game.gameSlug == 'ku-casino')?.points || 0}
+                    {dataGamePoints?.find((game) => game.gameSlug == 'ku-casino')?.points || 0}
                   </span>
                 </div>
 

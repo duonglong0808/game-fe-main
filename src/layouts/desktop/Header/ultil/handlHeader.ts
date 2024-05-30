@@ -83,3 +83,23 @@ export const moveAllPointToMainPoint = async (
 export const handleConfirmMessage = (dispatch: any) => {
   dispatch(cleanDataMessage({}));
 };
+
+export const showMessageWarningHome = (dispatch: any) => {
+  dispatch(
+    setMessageApp({
+      titleMessage: 'Thông báo đề phòng lộ thông tin',
+      descMessage: `
+      <span>Link chính của trang mạng là 
+      <a class='text-[#FF0000] uppercase font-semibold underline' href='${process.env.URL_MAIN}'>${
+        process.env.URL_MAIN?.split('//')[1]
+      }</a>
+      </span>
+      <span>Nếu Quý khách đã đăng nhập vào các trang web không xác định, vui lòng <strong class='text-[#0000FF]'>ngay lập tức thay đổi mật khẩu tài khoản</strong >, xin cảm ơn!!!</span>
+      `,
+      textClose: '',
+      textConfirm: '',
+      showIconClosed: true,
+      isContentHtml: true,
+    })
+  );
+};

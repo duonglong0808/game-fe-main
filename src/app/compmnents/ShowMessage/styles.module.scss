@@ -21,18 +21,13 @@
   // background-color: white;
   // padding: 20px 0 20px 20px;
   // color: #d1d1d1;
-
-  width: 320px;
   max-width: 100%;
   background-color: white;
-  // padding: 20px 0 20px 20px;
   // color: #d1d1d1;
   // height: fit-content;
 }
 
 .message__body {
-  padding-bottom: 26px;
-  border-bottom: 1px #aaaaaa7a solid;
   margin-bottom: 8px;
   text-align: center;
   // color: #595959;
@@ -57,6 +52,7 @@
   display: flex;
   justify-content: space-between;
   margin: 0 -4px;
+  border-top: 1px #aaaaaa7a solid;
 }
 
 .message__btn--confirm,

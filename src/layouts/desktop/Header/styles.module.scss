@@ -18,6 +18,7 @@
   margin-right: 10px;
   position: relative;
   display: flex;
+  align-items: center;
 
   & span {
     display: block;
@@ -45,7 +46,7 @@
   margin-left: 10px;
   background-image: url(/btn_setFavor.png);
   position: relative;
-  top: 1px;
+  top: -2px;
 
   &:hover {
     background-position: bottom;

@@ -38,6 +38,7 @@ const userSlice = createSlice({
       state.userName = '';
       state.name = '';
       state.userId = '';
+      state.dataGamePoints = [];
     },
     setDataGamePoint(state, action) {
       state.dataGamePoints = action.payload?.data;

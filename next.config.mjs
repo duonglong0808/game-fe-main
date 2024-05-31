@@ -9,7 +9,7 @@ const nextConfig = {
     HOST_KU: 'https://vn.vc3559k.net/api',
   },
   
-  // Production environment
+  // dev environment
   // env: {
   // URL_MAIN: 'https://vk169.net',
   //   API_URL: 'https://api.vk169.net/api',
@@ -17,6 +17,15 @@ const nextConfig = {
   //   API_URL_WSK: 'https://game.wsk.vk169.net',
   //   URL_GAME: 'https://game.vk169.net',
   //   HOST_KU: 'https://vn.vc3559k.net/api',
+  // },
+
+  // Production environment
+  // env: {
+  //   URL_MAIN: 'https://ku3933d.net',
+  //   API_URL: 'https://api.ku3933d.net/api',
+  //   API_URL_DICE: 'https://api-game.ku3933d.net/api',
+  //   API_URL_WSK: 'https://ws.ku3933d.net',
+  //   URL_GAME: 'https://game.ku3933d.net',
   // },
   images: {
     domains: ['storage.googleapis.com', "api.vietqr.io", "vietqr.net"],

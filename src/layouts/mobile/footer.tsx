@@ -15,10 +15,11 @@ export default function Footer({ isHome, openModalLogin, setOpenModalLogin }: Pr
   const [showNavMore, setShowNavMore] = useState(false);
   const { data, isLogin } = useNavData();
   const router = useRouter();
+  const [openGiftCode, setOpenGiftCode] = useState(false);
 
   return (
     <div className="flex items-center justify-evenly z-20 w-full h-[55px] bg-white text-black border-t border-gray-300 text-xs relative">
-      {/* <EnterGiftCode /> */}
+      {openGiftCode ? <EnterGiftCode setOpenGiftCode={setOpenGiftCode} /> : <></>}
 
       {!isHome ? (
         <Link
@@ -34,7 +35,9 @@ export default function Footer({ isHome, openModalLogin, setOpenModalLogin }: Pr
           href={data[1].path || '/'}
           onClick={(e) => {
             e.preventDefault();
-            console.log(data[1]);
+            if (isLogin) {
+              setOpenGiftCode(true);
+            }
           }}
           className="flex flex-col items-center justify-center">
           {data[1].icon}

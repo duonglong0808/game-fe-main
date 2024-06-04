@@ -4,6 +4,7 @@ import { useState } from 'react';
 import classNames from 'classnames';
 import { useNavData } from './config-navigation';
 import { useRouter } from 'next/navigation';
+import { EnterGiftCode } from '@/components/mobile/enterGift';
 
 type Props = {
   isHome?: boolean;
@@ -17,6 +18,8 @@ export default function Footer({ isHome, openModalLogin, setOpenModalLogin }: Pr
 
   return (
     <div className="flex items-center justify-evenly z-20 w-full h-[55px] bg-white text-black border-t border-gray-300 text-xs relative">
+      {/* <EnterGiftCode /> */}
+
       {!isHome ? (
         <Link
           key={data[0].title}
@@ -29,7 +32,10 @@ export default function Footer({ isHome, openModalLogin, setOpenModalLogin }: Pr
         <Link
           key={data[1].title}
           href={data[1].path || '/'}
-          onClick={() => console.log('aaaa')}
+          onClick={(e) => {
+            e.preventDefault();
+            console.log(data[1]);
+          }}
           className="flex flex-col items-center justify-center">
           {data[1].icon}
           {data[1].title}

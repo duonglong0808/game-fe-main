@@ -141,12 +141,12 @@ export default function Header({ title, openModalLogin, setOpenModalLogin, handl
           )}
 
           {isShowInfo && !title && (
-            <Link href={paths.mobile.infor}>
+            <Link href={paths.mobile.infor} onClick={(e) => e.preventDefault()}>
               <Image src="/mobile/icons/inforMailG.svg" alt="logo" width={20} height={20} />
             </Link>
           )}
           {isShowInfo && title && (
-            <Link href={paths.mobile.infor}>
+            <Link href={paths.mobile.infor} onClick={(e) => e.preventDefault()}>
               <Image src="/mobile/icons/inforMailW.svg" alt="logo" width={20} height={20} />
             </Link>
           )}

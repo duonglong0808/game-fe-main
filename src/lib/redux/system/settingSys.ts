@@ -2,6 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 
 interface SettingAppSlice {
   mood: string;
+  isLoading: boolean;
   titleMessage: string;
   descMessage: string;
   showIconClosed: boolean;
@@ -18,9 +19,9 @@ const settingAppSlice = createSlice({
     descMessage: '',
     textConfirm: '',
     textClose: '',
-    // mood: 'light',
     showIconClosed: false,
     isContentHtml: false,
+    isLoading: false,
   } as SettingAppSlice,
   reducers: {
     setMoodApp: (state, action) => {
@@ -57,9 +58,13 @@ const settingAppSlice = createSlice({
       state.isContentHtml = false;
       state.showIconClosed = false;
     },
+    setLoadingApp(state, action: { payload: { loading: boolean } }) {
+      state.isLoading = action.payload.loading;
+    },
   },
 });
 
-export const { setMoodApp, setMessageApp, cleanDataMessage } = settingAppSlice.actions;
+export const { setMoodApp, setMessageApp, cleanDataMessage, setLoadingApp } =
+  settingAppSlice.actions;
 
 export default settingAppSlice.reducer;

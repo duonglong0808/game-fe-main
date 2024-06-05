@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import Footer from './footer';
 import Header from './header';
+import { LoadingModal } from '@/components/mobile/loading';
 
 type Props = {
   children: React.ReactNode;
@@ -24,6 +25,7 @@ export default function MobileLayout({
 
   return (
     <div className="flex flex-col h-svh overflow-hidden">
+      <LoadingModal />
       {useHandleBack ? (
         <Header
           title={title}

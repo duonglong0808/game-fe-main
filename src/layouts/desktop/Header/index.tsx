@@ -38,6 +38,8 @@ import {
   useGamePointHeader,
 } from './ultil/handlHeader';
 import { ShowConfirmMessage } from '@/app/compmnents/ShowMessage';
+import { EnterGiftCode } from '@/components/mobile/enterGift';
+import { LoadingModal } from '@/components/mobile/loading';
 
 const cx = classNames.bind(styles);
 
@@ -269,6 +271,7 @@ export function HeaderHome(): JSX.Element {
   const [openPopupTrans, setOpenPopupTrans] = useState(false);
   const [pointTransfer, setPointTransfer] = useState('');
   const [openBoxListPoint, setOpenBoxListPoint] = useState(false);
+  const [openEnterGiftCode, setOpenEnterGiftCode] = useState(false);
 
   const { titleMessage, descMessage, textClose, textConfirm, isContentHtml, showIconClosed } =
     useAppSelector((state) => state.settingApp);
@@ -279,14 +282,12 @@ export function HeaderHome(): JSX.Element {
   const currentUser = useAppSelector((state) => state.user);
   const { name, userName } = currentUser;
 
-  const [download, setDownload] = useState<boolean>(true);
   useEffect(() => {
     async function fetchDataUser() {
       if (!name && !userName) getUserInfo(dispatch);
     }
 
     fetchDataUser();
-    setDownload(localStorage.getItem('download') === 'true' ? true : false);
   }, []);
 
   const checkClickOutSide = (event: MouseEvent) => {
@@ -342,13 +343,10 @@ export function HeaderHome(): JSX.Element {
       setOpenGameOption(false);
     }
   };
-  const handleSetDownload = () => {
-    setDownload(!download);
-    localStorage.setItem('download', !download ? 'true' : 'false');
-  };
 
   return (
     <header>
+      <LoadingModal />
       {titleMessage && descMessage && (
         <ShowConfirmMessage
           textClose={textClose}
@@ -360,6 +358,8 @@ export function HeaderHome(): JSX.Element {
           onConfirm={() => handleConfirmMessage(dispatch)}
         />
       )}
+      {openEnterGiftCode ? <EnterGiftCode setOpenGiftCode={setOpenEnterGiftCode} /> : <></>}
+
       <div className={cx('header-top', 'max-lg:hidden')}>
         <div className="container-custom flex justify-between margin-left-right items-center h-full">
           <div className={cx('header-top__time')}>
@@ -729,7 +729,18 @@ export function HeaderHome(): JSX.Element {
             onMouseLeave={handleMouseLeave}>
             <h3>đối kháng</h3>
           </div>
-          <div className={cx('header-bottom__item')}>
+          <div
+            className={cx('header-bottom__item')}
+            onClick={() => {
+              if (userName) setOpenEnterGiftCode(true);
+              else {
+                const boxLogin = document.getElementById(`wrapper-login`);
+                if (boxLogin) {
+                  boxLogin.style.display = 'block';
+                  document.body.style.overflow = 'hidden';
+                }
+              }
+            }}>
             <h3>Ưu đãi</h3>
           </div>
           <div className={cx('header-bottom__item--last', 'flex items-center')}>
@@ -749,49 +760,6 @@ export function HeaderHome(): JSX.Element {
           </div>
         )}
       </div>
-      {/* Mobile */}
-      {/* <div className="max-lg:block hidden p-2 bg-white text-black">
-        <div className={cx('flex items-center justify-between', { hidden: download })}>
-          <div className="flex gap-2 items-center">
-            <button className="w-4 h-4 opacity-45" onClick={handleSetDownload}>
-              X
-            </button>
-            <div className="bg-gray-100 px-1 py-3 rounded-md shadow-md">
-              <Image src="/KU_logo.svg" alt="" width={35} height={35} />
-            </div>
-            <div className="flex flex-col gap-1">
-              <h1 className="font-extrabold text-base leading-none">KU APP</h1>
-              <span className="text-sm">
-                Vui chơi thỏa thích <br /> ngay tức thì, mọi lúc mọi nơi
-              </span>
-            </div>
-          </div>
-          <button className="bg-[#2b91e5] px-2 py-1 text-white rounded min-w-[65px]">Tải về</button>
-        </div>
-        <div className="flex items-center justify-between">
-          <Link href={'/home'}>
-            <Image className="" src="/logo.png" alt="logo" width={100} height={30} />
-          </Link>
-          <div className="flex gap-2">
-            <Link
-              href={'/register'}
-              className="cursor-pointer bg-[#ffa84d] text-white rounded-xl overflow-hidden">
-              <div className="flex items-center justify-between gap-2 px-2 ">
-                <Image src={'/mobileIcon/btn_join.svg'} alt="login" width={18} height={18} />
-                <p className="text-base">Đăng ký</p>
-              </div>
-            </Link>
-            <Link
-              href={'/login'}
-              className="cursor-pointer bg-[#399fda] text-white rounded-xl overflow-hidden">
-              <div className="flex items-center justify-between gap-2 px-2 ">
-                <Image src={'/mobileIcon/btn_login.svg'} alt="login" width={18} height={18} />
-                <p className="text-base">Đăng nhập</p>
-              </div>
-            </Link>
-          </div>
-        </div>
-      </div> */}
       <div className={cx('wrapper-register')} id="wrapper-register">
         <Register />
       </div>

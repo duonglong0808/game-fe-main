@@ -77,6 +77,7 @@
 .marquee-container {
   width: 100%;
   overflow: hidden;
+  color: white;
 }
 
 .marquee {
@@ -133,7 +134,12 @@
     right: -75px;
     top: 0;
     bottom: 0;
-    background: linear-gradient(to right, rgba(204, 51, 51, 1) 0%, rgba(153, 15, 15, 1) 75%, rgba(125, 185, 232, 0) 100%);
+    background: linear-gradient(
+      to right,
+      rgba(204, 51, 51, 1) 0%,
+      rgba(153, 15, 15, 1) 75%,
+      rgba(125, 185, 232, 0) 100%
+    );
   }
 
   & .slider-jackpot__number {

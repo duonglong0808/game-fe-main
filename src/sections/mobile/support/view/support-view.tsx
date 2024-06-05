@@ -10,7 +10,7 @@ export default function SupportView() {
           <button className="bg-blue-500 text-2xl max-sm:text-sm py-4 px-10 rounded-full w-fit">
             Liên hệ ngay
           </button>
-          <Link href={'/'} className="flex items-center gap-4 w-full bg-white rounded-lg p-4">
+          <Link href={'chat'} className="flex items-center gap-4 w-full bg-white rounded-lg p-4">
             <Image src="/mobile/icons/icon_Serv_online.svg" alt="" width={30} height={30} />
             <p className="flex-1 text-lg max-sm:text-sm text-black">Hỗ trợ</p>
             <p className="text-blue-500 max-sm:text-sm">Liên hệ</p>

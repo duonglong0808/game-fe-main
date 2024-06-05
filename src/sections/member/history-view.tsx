@@ -76,7 +76,7 @@ const HistoryView = () => {
           const dataHis = data.map((item: any) => {
             return {
               createdAt: item.createdAt,
-              accountTrans: item.gameTransfer.name,
+              accountTrans: item.gameTransfer?.name,
               pointTrans: item.pointTrans,
               surplus: item.surplus,
               accountReceiver: item.gameReceiver.name,

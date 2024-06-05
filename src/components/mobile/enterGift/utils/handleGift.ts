@@ -1,8 +1,8 @@
-import { cleanDataMessage, setMessageApp } from '@/lib/redux/system/settingSys';
+import { cleanDataMessage, setLoadingApp, setMessageApp } from '@/lib/redux/system/settingSys';
 import { submitGiftCode } from './api';
-import { AppRouterInstance } from 'next/dist/shared/lib/app-router-context.shared-runtime';
 
 export const handleSubmitGiftCode = async (giftCode: string, dispatch: any) => {
+  dispatch(setLoadingApp({ loading: true }));
   const res = await submitGiftCode(giftCode);
   if (res?.data) {
     window.location.reload();
@@ -19,6 +19,7 @@ export const handleSubmitGiftCode = async (giftCode: string, dispatch: any) => {
       })
     );
   }
+  dispatch(setLoadingApp({ loading: false }));
 };
 
 export const handleConfirmMessage = (dispatch: any) => {

@@ -1,5 +1,5 @@
 import { setDataUserLogin } from '@/lib/redux/app/user.slice';
-import { setMessageApp } from '@/lib/redux/system/settingSys';
+import { setLoadingApp, setMessageApp } from '@/lib/redux/system/settingSys';
 import { getCookie, setCookie } from '@/utils';
 import { BaseAxios } from '@/utils/baseAxios';
 import axiosLibrary from 'axios';
@@ -31,6 +31,7 @@ export const handleLoginAccount = async (
   handleCloseRegister: () => void,
   dispatch: any
 ) => {
+  dispatch(setLoadingApp({ loading: true }));
   password = btoa(password);
   const axios = new BaseAxios();
   const login = await axios.postV2('/auth/login', {
@@ -56,6 +57,7 @@ export const handleLoginAccount = async (
     await getUserInfo(dispatch);
     handleCloseRegister();
   }
+  dispatch(setLoadingApp({ loading: false }));
 };
 
 export const getUserInfo = async (dispatch: any) => {

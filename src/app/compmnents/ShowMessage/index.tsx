@@ -62,7 +62,7 @@ export function ShowConfirmMessage({
                 onClick={() => dispatch(cleanDataMessage({}))}
                 alt="close"
                 src={'/icons/icon_close.png'}
-                className="absolute object-contain w-5 top-0 right-1"
+                className="absolute object-contain w-5 top-0 right-1 cursor-pointer"
                 width={30}
                 height={36}
               />

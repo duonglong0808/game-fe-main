@@ -18,7 +18,7 @@ export default function Footer({ isHome, openModalLogin, setOpenModalLogin }: Pr
   const [openGiftCode, setOpenGiftCode] = useState(false);
 
   return (
-    <div className="flex items-center justify-evenly z-20 w-full h-[55px] bg-white text-black border-t border-gray-300 text-xs relative">
+    <div className="flex items-center justify-evenly z-10 w-full h-[55px] bg-white text-black border-t border-gray-300 text-xs relative">
       {openGiftCode ? <EnterGiftCode setOpenGiftCode={setOpenGiftCode} /> : <></>}
 
       {!isHome ? (

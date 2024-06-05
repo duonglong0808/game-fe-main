@@ -42,13 +42,10 @@ function NumberAutoIncrement(): JSX.Element {
       // Lấy số lượng pixel đã cuộn
       const scrolledPixels = window.scrollY;
 
-      // In ra số lượng pixel đã cuộn
-      console.log('Pixels scrolled:', scrolledPixels);
-
       const boxSupportsElement = document.querySelector(`.${cx('box-supports')}`) as HTMLElement;
-      console.log('🚀 ~ handleScroll ~ boxSupportsElement:', boxSupportsElement);
       if (boxSupportsElement) {
-        if (scrolledPixels >= 0 && scrolledPixels <= 105) boxSupportsElement.style.top = `${105 - scrolledPixels}px`;
+        if (scrolledPixels >= 0 && scrolledPixels <= 105)
+          boxSupportsElement.style.top = `${105 - scrolledPixels}px`;
         else boxSupportsElement.style.top = '0px';
       }
     };
@@ -97,8 +94,47 @@ function NumberAutoIncrement(): JSX.Element {
 export function Sliders(): JSX.Element {
   let [indexSlider, setIndexSlider] = useState(0);
 
-  const images = ['/slides/slider1.jpg', '/slides/slider2.jpg', '/slides/slider3.jpg', '/slides/slider4.jpg', '/slides/slider5.jpg', '/slides/slider6.jpg', '/slides/slider7.jpg', '/slides/slider8.jpg', '/slides/slider9.jpg'];
-  const iconSlider = ['/slides/slider1-icon.jpg', '/slides/slider2-icon.jpg', '/slides/slider3-icon.jpg', '/slides/slider4-icon.jpg', '/slides/slider5-icon.jpg', '/slides/slider6-icon.jpg', '/slides/slider7-icon.jpg', '/slides/slider8-icon.jpg', '/slides/slider9-icon.jpg'];
+  const images = [
+    '/slides/slider1.jpg',
+    '/slides/slider2.jpg',
+    '/slides/slider3.jpg',
+    '/slides/slider4.jpg',
+    '/slides/slider5.jpg',
+    '/slides/slider6.jpg',
+    '/slides/slider7.jpg',
+    '/slides/slider8.jpg',
+    '/slides/slider9.jpg',
+  ];
+  const iconSlider = [
+    '/slides/slider1-icon.jpg',
+    '/slides/slider2-icon.jpg',
+    '/slides/slider3-icon.jpg',
+    '/slides/slider4-icon.jpg',
+    '/slides/slider5-icon.jpg',
+    '/slides/slider6-icon.jpg',
+    '/slides/slider7-icon.jpg',
+    '/slides/slider8-icon.jpg',
+    '/slides/slider9-icon.jpg',
+  ];
+
+  const handleOpenNewTab = (path: string) => {
+    console.log('🚀 ~ handleOpenNewTab ~ path:', path);
+    const left = screen.width / 2 - 950 / 2;
+    const top = screen.height / 2 - 750 / 2;
+
+    window.open(
+      `${process.env.URL_MAIN}${path}`,
+      '',
+      'toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=no, resizable=no, copyhistory=no, width=' +
+        500 +
+        ', height=' +
+        750 +
+        ', top=' +
+        top +
+        ', left=' +
+        left
+    );
+  };
 
   useEffect(() => {
     const nextSlider = setTimeout(() => {
@@ -117,12 +153,27 @@ export function Sliders(): JSX.Element {
   return (
     <div className={cx('sliders')}>
       {images.map((image, index) => (
-        <img alt={`Slider-${index}`} key={index} src={image} className={cx('slider-item', { 'slider-active': indexSlider == index })} />
+        <img
+          alt={`Slider-${index}`}
+          key={index}
+          src={image}
+          className={cx('slider-item', { 'slider-active': indexSlider == index })}
+        />
       ))}
 
       <div className={cx('slider-image', 'container-custom flex justify-end items-center')}>
         {iconSlider.map((icon, index) => (
-          <Image onMouseEnter={() => setIndexSlider(index)} className={cx('slider-image__item', 'rounded-lg', { 'slider-image__item--active': indexSlider == index })} alt={`Icon-slider-${index}`} src={icon} key={index} width={40} height={40} />
+          <Image
+            onMouseEnter={() => setIndexSlider(index)}
+            className={cx('slider-image__item', 'rounded-lg', {
+              'slider-image__item--active': indexSlider == index,
+            })}
+            alt={`Icon-slider-${index}`}
+            src={icon}
+            key={index}
+            width={40}
+            height={40}
+          />
         ))}
       </div>
 
@@ -134,7 +185,12 @@ export function Sliders(): JSX.Element {
           </div>
           <div className={cx('marquee-container')}>
             <span className={cx('marquee')}>
-              <strong>Đối tác duy nhất của giải Laliga ở khu vực Châu Á, hội tụ những Dealer phát bài gợi cảm và nổi tiếng đến từ nhiều quốc gia khác nhau, nơi duy nhất ở Châu Á mở cửa tham quan hiện trường thực tế, trang mạng giải trí trực tuyến đỉnh cao, 24h luôn đồng hành cùng quý khách!</strong>
+              <strong>
+                Đối tác duy nhất của giải Laliga ở khu vực Châu Á, hội tụ những Dealer phát bài gợi
+                cảm và nổi tiếng đến từ nhiều quốc gia khác nhau, nơi duy nhất ở Châu Á mở cửa tham
+                quan hiện trường thực tế, trang mạng giải trí trực tuyến đỉnh cao, 24h luôn đồng
+                hành cùng quý khách!
+              </strong>
             </span>
           </div>
           <NumberAutoIncrement />
@@ -142,7 +198,12 @@ export function Sliders(): JSX.Element {
       </div>
 
       <div className={cx('box-supports', 'flex flex-col justify-center items-center')}>
-        <div className={cx('box-supports__item', 'text-center')}>
+        <div
+          onClick={() => {
+            console.log('aaa');
+            handleOpenNewTab(`/mobile/chat`);
+          }}
+          className={cx('box-supports__item', 'text-center')}>
           <div
             style={{
               background: 'url(/icon_indexImg.png) no-repeat  2px -744px',

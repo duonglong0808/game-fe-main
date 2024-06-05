@@ -5,7 +5,6 @@ import classNames from 'classnames';
 import { useState } from 'react';
 import { handleSubmitGiftCode } from './utils/handleGift';
 import { useAppDispatch } from '@/lib/redux/utilRedux';
-import { useRouter } from 'next/navigation';
 
 export function EnterGiftCode({
   setOpenGiftCode,
@@ -16,13 +15,13 @@ export function EnterGiftCode({
   const dispatch = useAppDispatch();
 
   return (
-    <div className="fixed top-0 left-0 right-0 bottom-0 bg-transparent z-30 flex items-center justify-center">
-      <div className="py-4 px-4 bg-white w-[400px] max-w-[90%]">
+    <div className="fixed top-0 left-0 right-0 bottom-0 bg-transparent flex items-center justify-center z-10">
+      <div className="py-4 px-4 bg-white w-[400px] max-w-[90%] rounded-xl">
         <div className="relative">
           <h2 className="text-center text-xl font-medium">Nhập mã ưu đãi</h2>
           <FontAwesomeIcon
             icon={faXmark}
-            className={classNames('absolute top-1 right-2 w-4 h-4')}
+            className={classNames('absolute top-1 right-2 w-4 h-4 cursor-pointer')}
             onClick={() => {
               setOpenGiftCode(false);
             }}
@@ -46,7 +45,7 @@ export function EnterGiftCode({
               handleSubmitGiftCode(giftCode, dispatch);
             }}
             className={classNames(
-              'bg-[#45b5d9] mt-3 text-white w-full py-4',
+              'bg-[#45b5d9] mt-3 text-white w-full py-3',
               'disabled:bg-stone-400 disabled:cursor-not-allowed'
             )}>
             Xác Nhận

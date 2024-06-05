@@ -7,6 +7,7 @@ const nextConfig = {
     URL_GAME: 'http://localhost:3000',
     URL_MAIN: 'http://localhost:3002',
     HOST_KU: 'https://vn.vc3559k.net/api',
+    LINK_CHAT: "https://tawk.to/chat/665fcd249a809f19fb391e9e/1hvj3ilu7"
   },
   
   // dev environment
@@ -17,6 +18,7 @@ const nextConfig = {
   //   API_URL_WSK: 'https://game.wsk.vk169.net',
   //   URL_GAME: 'https://game.vk169.net',
   //   HOST_KU: 'https://vn.vc3559k.net/api',
+  //   LINK_CHAT: "https://tawk.to/chat/665fcd249a809f19fb391e9e/1hvj3ilu7"
   // },
 
   // Production environment
@@ -26,6 +28,7 @@ const nextConfig = {
   //   API_URL_DICE: 'https://api-game.ku3933d.net/api',
   //   API_URL_WSK: 'https://ws.ku3933d.net',
   //   URL_GAME: 'https://game.ku3933d.net',
+  //   LINK_CHAT: "https://tawk.to/chat/665fcd249a809f19fb391e9e/1hvj3ilu7"
   // },
   images: {
     domains: ['storage.googleapis.com', "api.vietqr.io", "vietqr.net"],

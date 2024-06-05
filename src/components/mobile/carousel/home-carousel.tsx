@@ -6,7 +6,7 @@ import { Flowbite } from 'flowbite-react';
 import { configCarousel } from './style';
 export default function HomeCarousel() {
   return (
-    <div className="relative h-[25%] overflow-hidden">
+    <div className="relative h-[25%] overflow-hidden z-0">
       <Flowbite theme={{ theme: configCarousel }}>
         <Carousel>
           {images.map((image) => (

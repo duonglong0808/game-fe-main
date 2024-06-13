@@ -5,6 +5,7 @@ import { useEffect, useRef, useState } from 'react';
 import classNames from 'classnames/bind';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faVolumeLow } from '@fortawesome/free-solid-svg-icons';
+import Link from 'next/link';
 
 function formatNumber(number: number): string {
   number = +number.toFixed(1);
@@ -213,7 +214,7 @@ export function Sliders(): JSX.Element {
           <span className={cx('box-support__item--text', 'text-xs')}>Hỗ trợ</span>
           <div className={cx('box-support__item--bg')}></div>
         </div>
-        <div className={cx('box-supports__item', 'text-center')}>
+        <Link href={'https://t.me/hotrocskh24'} className={cx('box-supports__item', 'text-center')}>
           <div
             style={{
               background: 'url(/icon_indexImg.png) no-repeat  -253px -744px',
@@ -222,7 +223,7 @@ export function Sliders(): JSX.Element {
             }}></div>
           <span className={cx('box-support__item--text', 'text-xs')}>Telegram</span>
           <div className={cx('box-support__item--bg')}></div>
-        </div>
+        </Link>
         <div className={cx('box-supports__item', 'text-center')}>
           <div
             style={{

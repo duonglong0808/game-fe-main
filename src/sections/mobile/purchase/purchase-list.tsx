@@ -1,6 +1,5 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import { PURCHASE } from '@/_mock/_purchase';
 import { usePaymentTypes } from '../utils/handleMember';
 import { paths } from '@/routes/paths';
 import { Status } from '@/constant';

@@ -188,7 +188,7 @@ export default function VNPayView() {
                 Chọn ngân hàng thanh toán
               </div>
 
-              <ul className="flex flex-wrap py-1 mb-[15px] h-full overflow-y-auto border-b-2 border-[#e5e5e5]">
+              <ul className="flex flex-wrap py-1 mb-[15px] h-full overflow-y-auto border-b-2 border-[#e5e5e5] px-4">
                 {dataBankStatics.map((bank, index) => (
                   <li
                     key={index}
@@ -202,9 +202,9 @@ export default function VNPayView() {
                       <Image
                         alt="logo bank"
                         src={bank.logo || ''}
-                        height={50}
+                        height={60}
                         width={140}
-                        className="w-full h-[50px]"
+                        className="w-full h-[60px] object-contain"
                       />
                     </div>
                   </li>

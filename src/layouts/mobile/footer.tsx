@@ -85,14 +85,14 @@ export default function Footer({ isHome, openModalLogin, setOpenModalLogin }: Pr
         <div
           onClick={() => setShowNavMore(false)}
           className="fixed top-0 left-0 right-0 bottom-[55px] w-full h-[calc(100vh - 55px)] bg-[#00000099]">
-          <div className="absolute bottom-0 w-full flex items-center justify-around text-white bg-white text-base py-[10px] border-b border-gray-300 animate-show-up px-2">
+          <div className="absolute bottom-0 w-full gap-2 flex items-center justify-between text-white bg-white text-base py-[10px] border-b border-gray-300 animate-show-up px-2">
             {data[3].items &&
               data[3].items.map((item) => (
                 <Link
                   key={item.title}
                   href={item.path}
                   className={classNames(
-                    'flex items-center justify-between gap-4 px-2 py-[13px] rounded-lg leading-8 m-2 text-sm',
+                    'flex flex-1 items-center gap-4 px-2 py-[13px] rounded-lg leading-8 my-1 text-sm justify-center',
                     item.bg
                   )}>
                   {item.icon}

@@ -112,7 +112,7 @@ export default function ShowQrCode(): JSX.Element {
 
                 <div className={cx('box-qr__content', 'text-[#e3464c] absolute -bottom-10 ')}>
                   Nội dung bắt buộc :
-                  <span className="text-[#2c5d99] text-[16px] ">{` ${userName.toUpperCase()}`}</span>
+                  <span className="text-[#2c5d99] text-[16px] ">{`mua sam ${userName.toUpperCase()}`}</span>
                 </div>
               </div>
 

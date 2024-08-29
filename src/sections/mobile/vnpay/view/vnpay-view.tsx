@@ -195,16 +195,16 @@ export default function VNPayView() {
                     onClick={() => setBankReceiver(String(bank.bin))}
                     className="basis-1/2">
                     <div
-                      className={cx(' m-[5px] cursor-pointer h-[50px] overflow-hidden relative', {
+                      className={cx(' m-[5px] cursor-pointer h-[65px] overflow-hidden relative', {
                         'bank-active': bank.bin == bankReceiver,
                       })}
                       style={{ border: '1px solid #ccc' }}>
                       <Image
                         alt="logo bank"
                         src={bank.logo || ''}
-                        height={60}
+                        height={65}
                         width={140}
-                        className="w-full h-[60px] object-contain"
+                        className="w-full h-[65px] object-contain"
                       />
                     </div>
                   </li>

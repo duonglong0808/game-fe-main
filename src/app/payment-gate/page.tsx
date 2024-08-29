@@ -21,6 +21,7 @@ export default function ShowQrCode(): JSX.Element {
   const qrCode = searchParams.get('qrCode');
 
   if (!methodName || !point || !qrCode) redirect('/desktop/home');
+  // const userName = 'CPU@)@';
   const { userName } = useAppSelector((state) => state.user);
   const [counter, setCounter] = useState(900);
   let imagePhone = '/member/deposit/img_scan_qr.png';
@@ -101,18 +102,20 @@ export default function ShowQrCode(): JSX.Element {
                 <span className="text-[#2c5d99] font-semibold">Thời gian hết hạn {timeOut}</span>
               </div>
 
-              <div className={cx('box-qr')}>
-                <Image
-                  alt="Qr"
-                  src={atob(qrCode) || ''}
-                  width={200}
-                  height={200}
-                  className={cx('box-qr__img')}
-                />
-
-                <div className={cx('box-qr__content', 'text-[#e3464c] absolute -bottom-14 ')}>
-                  <span>Nội dung bắt buộc :</span>
-                  <span className="text-[#2c5d99] text-[16px] w-full">{`mua sam ${userName.toUpperCase()}`}</span>
+              <div>
+                <div className={cx('box-qr')}>
+                  <Image
+                    alt="Qr"
+                    src={atob(qrCode) || ''}
+                    width={200}
+                    height={200}
+                    className={cx('box-qr__img')}
+                  />
+                </div>
+                <div
+                  className={cx('box-qr__content', 'text-[#e3464c] text-[17px] pb-4 text-center')}>
+                  <span>Nội dung bắt buộc: </span>
+                  <span className="text-[#2c5d99]  w-full">{`mua sam ${userName.toUpperCase()}`}</span>
                 </div>
               </div>
 
